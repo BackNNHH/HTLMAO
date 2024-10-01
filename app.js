@@ -89,9 +89,14 @@ app.get('/home', (req, res) => {
 app.post('/add-book', (req, res) => {
   const title = req.body.title;
   const author = req.body.author;
+  const genre = req.body.genre;
+  const description = req.body.description;
+  const cover_image = req.body.cover_image;
+  const available = req.body.available;
 
   // Thêm sách vào database
-  connection.query('INSERT INTO books (title, author) VALUES (?, ?)', [title, author], (err, results) => {
+  connection.query('INSERT INTO books (title, author, genre, description, cover_image, available) VALUES (?, ?, ?, ?, ?, ?)',
+                                      [title, author, genre, description, cover_image, available], (err, results) => {
     if (err) {
       console.error('Lỗi thêm sách:', err);
       res.send('Lỗi xảy ra!');

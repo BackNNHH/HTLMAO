@@ -5,12 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trang chủ</title>
     <link rel="stylesheet" href="/styles.css" />
+    <style>
+      body {
+        font-family: "Times New Roman", "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        /* background-color: black; */
+      }
+      .navbar {
+        background-color: #74aeff;
+        padding: 30px 60px;
+      }
+    </style>
   </head>
   <body>
     <div class="headerUP">
       <a href="#"><b>Trang Chủ</b></a>
       <a href="mana.html"><b>Khám Phá</b></a>
-      <a id="logoutButton">Đăng Xuất</a>
+      <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
       <input type="text" placeholder="Search.." />
     </div>
     <div class="navbar"></div>
@@ -77,75 +90,6 @@
           <h1>Nội dung liên hệ ở đây</h1>
           <p>a</p>
           <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
-          <p>a</p>
         </div>
       </div>
     </div>
@@ -171,28 +115,25 @@
       <label for="author">Tác giả:</label>
       <input type="text" id="author" name="author" required />
       <br />
+      <label for="genre">Thể loại:</label>
+      <input type="text" id="genre" name="genre" required />
+      <br />
+      <label for="description">Sự miêu tả:</label>
+      <input type="text" id="description" name="description" />
+      <br />
+      <label for="available">Số lượng:</label>
+      <input type="text" id="available" name="available" />
+      <br />
       <button type="submit">Thêm</button>
     </form>
     <script>
-      const logoutButton = document.getElementById("logoutButton");
-
-      logoutButton.addEventListener("click", () => {
-        // Gửi yêu cầu logout đến server
-        fetch("/logout", {
-          method: "POST",
-        })
+      document.getElementById("logoutButton").addEventListener("click", () => {
+        fetch("/logout", { method: "POST" })
           .then((response) => {
-            // Xử lý phản hồi từ server
-            if (response.ok) {
-              // Chuyển hướng đến trang đăng nhập
-              window.location.href = "/";
-            } else {
-              // Hiển thị thông báo lỗi
-              alert("Lỗi đăng xuất!");
-            }
+            if (response.ok) window.location.href = "/";
+            else alert("Lỗi đăng xuất!");
           })
           .catch((error) => {
-            // Hiển thị thông báo lỗi
             alert("Lỗi đăng xuất!");
           });
       });
