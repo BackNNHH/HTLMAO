@@ -2,9 +2,12 @@
 
 
 
-## Booksd atabases
+
+## Databases
+### Books 
+
 | Field       | Type         | Null | Key | Default | Extra          |
-|-------------|--------------|------|-----|---------|----------------|
+| ----------- | ------------ | ---- | --- | ------- | -------------- |
 | id          | int          | NO   | PRI | NULL    | auto_increment |
 | title       | varchar(255) | NO   |     | NULL    |                |
 | author      | varchar(255) | NO   |     | NULL    |                |
@@ -13,3 +16,30 @@
 | cover_image | varchar(255) | YES  |     | NULL    |                |
 | available   | tinyint(1)   | YES  |     | 1       |                |
 
+### Users databases
+| id  | username | password    |
+| --- | -------- | ----------- |
+| 1   | admin    | :trollface: |
+
+## Stru
+
+```
+HTLMAO/:
+├─BACKUP/
+│ │...
+├─node_modules/
+│ └─(.gitignore)
+├─Public/
+│ ├─img/
+│ │ └─...
+│ └─styles.css
+├─views/
+| ├─homes.ejs
+| └─login.ejs
+├─.env
+├─.gitignore
+├─app.js
+├─package-lock.json
+├─package.json
+└─README.md
+```
