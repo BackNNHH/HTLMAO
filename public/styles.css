@@ -1,0 +1,96 @@
+.headerUP {
+  border: double rgba(255, 0, 0, 0);
+  background-color: transparent;
+  /* background-color: blueviolet; */
+  backdrop-filter: blur(10px);
+  color: #74aeff;
+  /* text-align: center; */
+  position: sticky;
+  margin: -35px 0px;
+  top: 0;
+  padding: 10px 60px;
+  /* height: 50px; */
+  /* float: left; */
+  /* width: 100%; */
+}
+
+.headerUP a {
+  font-size: 20px;
+  text-shadow: -1px -1.5px 0 black, 1px -1.5px 0 black, -1px 1.5px 0 black,
+    1px 1.5px 0 black;
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  padding: 0 20px;
+}
+.headerUP input[type="text"] {
+  float: right;
+  /* padding: 6px; */
+  /* border: none; */
+  /* margin-top: 8px; */
+  margin-right: 16px;
+  font-size: 17px;
+}
+
+#box1 {
+  /* border: 1px solid; */
+  width: 90px;
+  height: 40px;
+  position: sticky;
+  background-image: url(images/Public\ Test\ Build.png);
+  background-attachment: local;
+  background-repeat: no-repeat;
+  background-size: contain;
+  float: right;
+  margin-right: -8px;
+  top: 0px;
+  right: 0px;
+}
+.article {
+  /* width: 80%; */
+  padding: 20px;
+}
+.thebox {
+  padding: 9px 9px;
+  background: #f7f7f7;
+  /* border-top: 0px solid #fff; */
+  border-bottom: 1px solid #dd3333;
+  transition: all 1s;
+}
+.main-content {
+  display: flex;
+}
+div {
+  display: block;
+  unicode-bidi: isolate;
+}
+.footer {
+  background-color: #022d5a;
+  color: white;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+
+.popup {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+.popup-content {
+  padding: 20px;
+}
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
