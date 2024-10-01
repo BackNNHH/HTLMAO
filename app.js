@@ -6,12 +6,12 @@ const session = require('express-session');
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
+
 app.use(session({
-  secret: 'your_secret_key', // Khóa bí mật cho session
+  secret: 'memaysieubeo', // Khóa bí mật cho session
   resave: false,
   saveUninitialized: false
 }));
-// Cấu hình kết nối MySQL
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -21,9 +21,9 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) {
-    console.error('Kết nối MySQL thất bại:', err);
+    console.error('YOU MySQL get CRINGE:', err);
   } else {
-    console.log('Kết nối MySQL thành công!');
+    console.log('データベースコネクト！');
   }
 });
 // Sử dụng EJS làm template engine
@@ -71,7 +71,6 @@ app.post('/logout', (req, res) => {
 // Trang chủ
 app.get('/home', (req, res) => {
   if (req.session.user) {
-    // Truy vấn dữ liệu sách từ database
     connection.query('SELECT * FROM books', (err, results) => {
       if (err) {
         console.error('Lỗi truy vấn:', err);
@@ -123,5 +122,5 @@ app.post('/delete-book/:id', (req, res) => {
 
 
 app.listen(port, () => {
-  console.log(`Server đang chạy tại http://localhost:${port}`);
+  console.log(`>>>http://localhost:${port}`);
 });

@@ -4,16 +4,22 @@
   /* background-color: blueviolet; */
   backdrop-filter: blur(10px);
   color: #74aeff;
-  /* text-align: center; */
   position: sticky;
   margin: -35px 0px;
   top: 0;
   padding: 10px 60px;
+  z-index: 10;
   /* height: 50px; */
   /* float: left; */
   /* width: 100%; */
 }
-
+.headerUP.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 .headerUP a {
   font-size: 20px;
   text-shadow: -1px -1.5px 0 black, 1px -1.5px 0 black, -1px 1.5px 0 black,
@@ -48,13 +54,27 @@
 .article {
   /* width: 80%; */
   padding: 20px;
+  opacity: 0; /* Ẩn phần tử ban đầu */
+  transform: translateY(20px); /* Di chuyển phần tử lên trên */
+  transition: all 1s ease; /* Thêm hiệu ứng chuyển tiếp */
+}
+
+.article.show {
+  opacity: 1;
+  transform: translateY(0);
+
 }
 .thebox {
   padding: 9px 9px;
   background: #f7f7f7;
   /* border-top: 0px solid #fff; */
   border-bottom: 1px solid #dd3333;
-  transition: all 1s;
+  /* transition: all 1s; */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.thebox:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 .main-content {
   display: flex;

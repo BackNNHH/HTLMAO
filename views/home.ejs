@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trang chủ</title>
+    <title>Hôme</title>
     <link rel="stylesheet" href="/styles.css" />
     <style>
       body {
@@ -11,7 +11,8 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        /* background-color: black; */
+        /* color: #ffffff; */
+        /* background-color: rgb(32, 32, 32); */
       }
       .navbar {
         background-color: #74aeff;
@@ -137,6 +138,9 @@
             alert("Lỗi đăng xuất!");
           });
       });
+      window.onload = function () {
+        document.querySelector(".article").classList.add("show");
+      };
     </script>
   </body>
 </html>

@@ -4,42 +4,139 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng nhập</title>
+    <link rel="icon" type="image/png" href="icon.png" />
     <style>
       body {
-        font-family: sans-serif;
+        font-family: "Times New Roman", sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
       }
       .container {
-        width: 500px;
-        margin: 0 auto;
-        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        width: 350px;
+        transition: box-shadow 0.3s ease;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .container:hover {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+      }
+      @keyframes cbl {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 1280px -720px;
+        }
+      }
+      @keyframes tbl {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -64px 64px;
+        }
+      }
+      .bgtitle::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        animation: cbl 6s linear infinite;
+        background-image: url(img/rbg.png);
+        background-size: 1280px 720px;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        content: "";
+      }
+      img.bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      img.tbg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -2;
+        animation: tbl 6s linear infinite;
+        image-rendering: pixelated;
+        background-image: url(img/bookshelf_0.png);
+        background-size: 64px 64px;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        content: "";
+      }
+      .toggle-button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 8px;
         border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .bg-hidden {
+        display: none;
       }
       h1 {
         text-align: center;
+        margin-bottom: 20px;
+        color: #333;
       }
       label {
         display: block;
         margin-bottom: 5px;
+        color: #555;
       }
       input[type="text"],
       input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
+        width: -webkit-fill-available;
+        padding: 12px;
+        margin-bottom: 15px;
         border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border-color 0.3s ease;
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        outline: none;
+        border-color: #4caf50;
+      }
+      input[type="text"]:hover,
+      input[type="password"]:hover {
+        border-color: #0037ff;
       }
       button {
-        padding: 10px 20px;
+        padding: 12px 25px;
         background-color: #4caf50;
         color: white;
         border: none;
         cursor: pointer;
+        border-radius: 5px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+      button:hover {
+        transform: scale(1.09);
+        background-color: #409444;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Đăng Nhập</h1>
+      <h1>Đăng Nhập ( ͡° ͜ʖ ͡°)</h1>
       <form action="/login" method="POST">
         <label for="username">Tên đăng nhập:</label>
         <input type="text" id="username" name="username" required />
@@ -50,5 +147,17 @@
         <button type="submit">Đăng nhập</button>
       </form>
     </div>
+    <div class="bgtitle"></div>
+    <img src="img/x-n_cg1_bg.png" alt="BG" class="bg bg-hidden" />
+    <img src="" alt="BG" class="tbg" />
+    <button class="toggle-button" onclick="toggleBackground()"></button>
+    <script>
+      function toggleBackground() {
+        const bg = document.querySelector(".bg");
+        const tbg = document.querySelector(".tbg");
+        bg.classList.toggle("bg-hidden");
+        tbg.classList.toggle("bg-hidden");
+      }
+    </script>
   </body>
 </html>
