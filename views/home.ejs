@@ -14,29 +14,24 @@
         /* color: #ffffff; */
         /* background-color: rgb(32, 32, 32); */
       }
-      .navbar {
-        background-color: #74aeff;
-        padding: 30px 60px;
-      }
     </style>
   </head>
   <body>
     <div class="headerUP">
-      <a href="#"><b>Trang Chủ</b></a>
-      <a href="mana.html"><b>Khám Phá</b></a>
-      <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
-      <input type="text" placeholder="Search.." />
+      <p class="hnav"><b>Ứng dụng quản lý thư viện trực tuyến</b></p>
+      <a href="#" class="hnav" id="logoutButton"><b>Đăng Xuất</b></a>
+      <!-- <input type="text" placeholder="Search.." /> -->
     </div>
     <div class="navbar"></div>
     <div class="main-content">
-      <!-- <div class="sidebar">
-          <h2>Danh Mục</h2>
-          <ul>
-            <li><a href="#">Trang 1</a></li>
-            <li><a href="#">Trang 2</a></li>
-            <li><a href="#">Trang 3</a></li>
-          </ul>
-        </div> -->
+      <div class="sidebar">
+        <h2>Danh Mục</h2>
+        <!-- <ul> -->
+        <a target="_top" href="#" class="achive">Trang Chủ</a>
+        <a target="_top" href="/add">Thêm Sách</a>
+        <a target="_top" href="/view">Xem Sách</a>
+        <!-- </ul> -->
+      </div>
       <div class="article">
         <h1>Có gì mới???</h1>
         <div class="thebox">
@@ -74,59 +69,24 @@
             chính nó.
           </p>
         </div>
-        <h1>lmao</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-          aliquid eos sit deleniti quae velit dolorum doloribus ducimus enim,
-          fugit, dicta aperiam eius perferendis minus rem! Maiores consequatur
-          incidunt iste.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-          aliquid eos sit deleniti quae velit dolorum doloribus ducimus enim,
-          fugit, dicta aperiam eius perferendis minus rem! Maiores consequatur
-          incidunt iste.
-        </p>
-        <div id="contact">
-          <h1>Nội dung liên hệ ở đây</h1>
-          <p>a</p>
-          <p>a</p>
+        <div class="thebox">
+          <h1>lmao</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
+            aliquid eos sit deleniti quae velit dolorum doloribus ducimus enim,
+            fugit, dicta aperiam eius perferendis minus rem! Maiores consequatur
+            incidunt iste.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
+            aliquid eos sit deleniti quae velit dolorum doloribus ducimus enim,
+            fugit, dicta aperiam eius perferendis minus rem! Maiores consequatur
+            incidunt iste.
+          </p>
         </div>
       </div>
     </div>
 
-    <h1>Trang chủ</h1>
-    <h2>Danh sách sách</h2>
-    <ul>
-      <% books.forEach(book => { %>
-      <li>
-        <%= book.title %> - <%= book.author %>
-        <form action="/delete-book/<%= book.id %>" method="POST">
-          <button type="submit">Xóa</button>
-        </form>
-      </li>
-      <% }); %>
-    </ul>
-
-    <h2>Thêm sách</h2>
-    <form action="/add-book" method="POST">
-      <label for="title">Tiêu đề:</label>
-      <input type="text" id="title" name="title" required />
-      <br />
-      <label for="author">Tác giả:</label>
-      <input type="text" id="author" name="author" required />
-      <br />
-      <label for="genre">Thể loại:</label>
-      <input type="text" id="genre" name="genre" required />
-      <br />
-      <label for="description">Sự miêu tả:</label>
-      <input type="text" id="description" name="description" />
-      <br />
-      <label for="available">Số lượng:</label>
-      <input type="text" id="available" name="available" />
-      <br />
-      <button type="submit">Thêm</button>
-    </form>
     <script>
       document.getElementById("logoutButton").addEventListener("click", () => {
         fetch("/logout", { method: "POST" })

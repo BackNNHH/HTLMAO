@@ -37,6 +37,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.render('login');
 });
+app.get('/view', (req, res) => {
+  if (req.session.user) {
+    connection.query('SELECT * FROM books', (err, results) => {
+      if (err) {
+        console.error('Lỗi truy vấn:', err);
+        res.send('Lỗi xảy ra!');
+      } else {
+        res.render('view', { books: results });
+      }
+    });
+  } else {
+    res.redirect('/');
+  }
+});
+app.get('/add', (req, res) => {
+  res.render('add');
+});
 
 // Xử lý đăng nhập
 app.post('/login', (req, res) => {
@@ -83,8 +100,18 @@ app.get('/home', (req, res) => {
     res.redirect('/');
   }
 });
-
-// Xử lý thêm sách
+app.post('/search', (req, res) => {
+  const searchTerm = req.body.searchTerm;
+  const query = `SELECT * FROM books WHERE title LIKE '%${searchTerm}%'`;
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Lỗi truy vấn:', err);
+      res.send('Lỗi xảy ra!');
+    } else {
+      res.render('home', { books: results });
+    }
+  });
+});
 app.post('/add-book', (req, res) => {
   const title = req.body.title;
   const author = req.body.author;
@@ -92,20 +119,17 @@ app.post('/add-book', (req, res) => {
   const description = req.body.description;
   const cover_image = req.body.cover_image;
   const available = req.body.available;
-
-  // Thêm sách vào database
   connection.query('INSERT INTO books (title, author, genre, description, cover_image, available) VALUES (?, ?, ?, ?, ?, ?)',
-                                      [title, author, genre, description, cover_image, available], (err, results) => {
-    if (err) {
-      console.error('Lỗi thêm sách:', err);
-      res.send('Lỗi xảy ra!');
-    } else {
-      res.redirect('/home');
-    }
-  });
+    [title, author, genre, description, cover_image, available], (err, results) => {
+      if (err) {
+        console.error('Lỗi thêm sách:', err);
+        res.send('Lỗi xảy ra!');
+      } else {
+        res.redirect('/home');
+      }
+    });
 });
 
-// Xử lý xóa sách
 app.post('/delete-book/:id', (req, res) => {
   const bookId = req.params.id;
   connection.query('DELETE FROM books WHERE id = ?', [bookId], (err, results) => {

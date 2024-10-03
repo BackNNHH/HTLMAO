@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdD</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      body {
+        font-family: "Times New Roman", "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        /* color: #ffffff; */
+        /* background-color: rgb(32, 32, 32); */
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border-color 0.3s;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="headerUP">
+      <p class="hnav"><b>Ứng dụng quản lý thư viện trực tuyến</b></p>
+      <a href="#" class="hnav" id="logoutButton"><b>Đăng Xuất</b></a>
+      <!-- <input type="text" placeholder="Search.." /> -->
+    </div>
+    <div class="navbar"></div>
+    <div class="main-content">
+      <div class="sidebar">
+        <h2>Danh Mục</h2>
+        <!-- <ul> -->
+        <a target="_top" href="/home">Trang Chủ</a>
+        <a target="_top" href="#" class="achive">Thêm Sách</a>
+        <a target="_top" href="/view">Xem Sách</a>
+        <!-- </ul> -->
+      </div>
+      <div class="article">
+        <h2>Thêm sách</h2>
+        <form action="/add-book" method="POST">
+          <label for="title">Tiêu đề:</label>
+          <input type="text" id="title" name="title" required />
+          <label for="author">Tác giả:</label>
+          <input type="text" id="author" name="author" required />
+          <label for="genre">Thể loại:</label>
+          <input type="text" id="genre" name="genre" required />
+          <label for="description">Sự miêu tả:</label>
+          <input type="text" id="description" name="description" />
+          <label for="available">Số lượng:</label>
+          <input type="text" id="available" name="available" />
+          <button type="submit">Thêm</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("logoutButton").addEventListener("click", () => {
+        fetch("/logout", { method: "POST" })
+          .then((response) => {
+            if (response.ok) window.location.href = "/";
+            else alert("Lỗi đăng xuất!");
+          })
+          .catch((error) => {
+            alert("Lỗi đăng xuất!");
+          });
+      });
+      window.onload = function () {
+        document.querySelector(".article").classList.add("show");
+      };
+    </script>
+  </body>
+</html>
