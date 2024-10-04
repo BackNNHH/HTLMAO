@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vn">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,8 +11,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        /* color: #ffffff; */
-        /* background-color: rgb(32, 32, 32); */
+        background-color: #e3f2fd;
       }
       h2 {
         text-align: center;
@@ -26,7 +25,7 @@
       select,
       textarea {
         width: 100%;
-        padding: 10px;
+        padding: 10px 0px;
         margin-bottom: 15px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -51,23 +50,30 @@
       button:hover {
         background-color: #218838;
       }
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px 40px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
     </style>
   </head>
   <body>
-    <div class="headerUP">
-      <p class="hnav"><b>Ứng dụng quản lý thư viện trực tuyến</b></p>
-      <a href="#" class="hnav" id="logoutButton"><b>Đăng Xuất</b></a>
-      <!-- <input type="text" placeholder="Search.." /> -->
+    <div class="header">
+      <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
+      <nav>
+        <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
+      </nav>
     </div>
-    <div class="navbar"></div>
     <div class="main-content">
       <div class="sidebar">
         <h2>Danh Mục</h2>
-        <!-- <ul> -->
         <a target="_top" href="/home">Trang Chủ</a>
         <a target="_top" href="#" class="achive">Thêm Sách</a>
         <a target="_top" href="/view">Xem Sách</a>
-        <!-- </ul> -->
       </div>
       <div class="article">
         <h2>Thêm sách</h2>
