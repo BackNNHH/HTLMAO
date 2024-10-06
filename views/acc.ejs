@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>viEw</title>
+    <title>aCc</title>
     <link rel="stylesheet" href="/styles.css" />
     <style>
       body {
@@ -31,50 +31,41 @@
       <div class="sidebar">
         <h2>Danh Mục</h2>
         <a target="_top" href="/home">Trang Chủ</a>
-        <a target="_top" href="#" class="achive">Xem Sách</a>
+        <a target="_top" href="/view">Xem Sách</a>
         <a target="_top" href="/add">Thêm Sách</a>
-        <a target="_top" href="/acc">Quản lý tài khoản</a>
+        <a target="_top" href="#" class="achive">Quản lý tài khoản</a>
+        <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
       </div>
       <div class="article">
-        <form method="POST" action="/search">
+        <form method="POST" action="/scrU">
           <input
             type="text"
-            name="searchTerm"
-            placeholder="Tìm kiếm theo tên sách"
+            name="searchU"
+            placeholder="Tìm kiếm tên người dùng"
           />
           <button type="submit">Tìm kiếm</button>
         </form>
-        <h1>Danh sách sách</h1>
+        <h1>Danh tài khoản người dùng</h1>
         <table id="bookTable">
           <thead>
             <tr>
-              <th>Tiêu Đề</th>
-              <th>Tác Giả</th>
-              <th>Thể Loại</th>
-              <th>Sự miêu tả</th>
-              <th>Bìa</th>
-              <th class="sl">Số lượng</th>
-              <th class="sl">NSFW BUTTON</th>
+              <th>ID</th>
+              <th>users</th>
+              <th>pass</th>
+              <th>role</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <% books.forEach(book => { %>
+            <% users.forEach(_ => { %>
             <tr>
-              <td><%= book.title %></td>
-              <td><%= book.author %></td>
-              <td><%= book.genre %></td>
-              <td><%= book.description %></td>
+              <td><%= _.id %></td>
+              <td><%= _.username %></td>
+              <td><%= _.password %></td>
+              <td><%= _.role %></td>
               <td>
-                <!-- <%= book.cover_image %></td> -->
-                <img
-                  src="img/bookic/<%= book.cover_image %>.jpg"
-                  alt="<%= book.cover_image %>"
-                />
-              </td>
-              <td><%= book.available %></td>
-              <td>
-                <form action="/delete-book/<%= book.id %>" method="POST">
-                  <button type="submit">Xóa</button>
+                <form action="/delete-user/<%= _.id %>" method="POST">
+                  <button type="submit">Delete</button>
                 </form>
               </td>
             </tr>

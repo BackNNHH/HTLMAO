@@ -49,7 +49,6 @@
   transform: translateY(0);
 }
 
-
 .sidebar {
   height: 100%;
   width: 250px;
@@ -128,11 +127,25 @@ th {
   color: white;
 }
 
-table .sl{
+table .sl {
   width: 10px;
 }
 
-
+#bgVideo {
+  transform: translateX(-50%) translateY(-50%);
+  filter: blur(10px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
 .popup {
   display: none;
   position: fixed;
@@ -140,17 +153,32 @@ table .sl{
   top: 50%;
   transform: translate(-50%, -50%);
   width: 300px;
+  padding: 10px;
+  border-radius: 10px;
+  border: dashed;
+  border-color: #10ff7a;
   background-color: #fff;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
-.popup-content {
-  padding: 20px;
+.popup-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff69b4;
+  margin-bottom: 20px;
 }
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 20px;
+.popup-content {
+  text-align: center;
+}
+.popup-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
+  margin-top: 20px;
 }

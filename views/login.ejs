@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng nhập</title>
     <link rel="icon" type="image/png" href="icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <style>
       body {
@@ -19,14 +20,19 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         padding: 30px;
         width: 350px;
-        transition: box-shadow 0.3s ease;
+        transition: all 1s ease;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
       }
+      .container.dk {
+        /* background-color: #e3ffe3; */
+        border: outset;
+        box-shadow: 0 2px 5px rgb(0 255 41);
+      }
       .container:hover {
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 5px 10px rgba(110, 170, 255, 0.5);
       }
       @keyframes cbl {
         0% {
@@ -48,7 +54,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        z-index: -1;
+        z-index: -2;
         animation: cbl 6s linear infinite;
         background-image: url(img/rbg.png);
         background-size: 1280px 720px;
@@ -61,7 +67,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: -2;
+        z-index: -3;
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -70,7 +76,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        z-index: -2;
+        z-index: -3;
         animation: tbl 6s linear infinite;
         image-rendering: pixelated;
         background-image: url(img/bookshelf_0.png);
@@ -78,7 +84,6 @@
         width: 100%;
         height: 100%;
         pointer-events: none;
-        content: "";
       }
       .toggle-button {
         position: absolute;
@@ -122,6 +127,8 @@
       }
       button {
         padding: 12px 25px;
+        font-family: "Times New Roman", sans-serif;
+        font-size: medium;
         background-color: #4caf50;
         color: white;
         border: none;
@@ -132,9 +139,15 @@
         margin: 0 auto;
         width: fit-content;
       }
+      button.dk {
+        background-color: #4c60af;
+      }
       button:hover {
-        transform: scale(1.09);
+        transform: scale(1.1);
         background-color: #409444;
+      }
+      button:hover.dk {
+        background-color: #414094;
       }
       .register-link {
         text-align: center;
@@ -155,22 +168,6 @@
       .show {
         display: block;
       }
-      .popup {
-        display: none; /* Ẩn popup mặc định */
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        z-index: 1000; /* Đảm bảo popup ở trên các phần tử khác */
-      }
-
-      .popup-content {
-        text-align: center;
-      }
     </style>
   </head>
   <body>
@@ -188,7 +185,7 @@
         </form>
         <div class="register-link">
           Chưa có tài khoản?,
-          <a href="#" onclick="toggleForms()">Đăng ký ngay!</a>
+          <a href="#" onclick="toggleForms()">ĐĂNG KÝ ngay!</a>
         </div>
       </div>
 
@@ -203,37 +200,37 @@
           <br />
           <label for="role">Vai trò:</label>
           <select id="role" name="role">
-            <option value="normal">Normal</option>
-            <option value="manager">Manager</option>
+            <option value="norm">Normal</option>
+            <option value="mana">Manager</option>
           </select>
           <br />
-          <button type="submit">Đăng ký</button>
+          <button type="submit" class="dk">Đăng ký</button>
         </form>
         <div class="register-link">
           Đã có tài khoản?,
-          <a href="#" onclick="toggleForms()">Đăng Nhập ngay!</a>
-        </div>
-        <div id="registration-popup" class="popup" style="display: none">
-          <div class="popup-content">
-            <span class="close-popup" onclick="closePopup()">×</span>
-            <p id="registration-message"></p>
-          </div>
+          <a href="#" onclick="toggleForms()">ĐĂNG NHẬP ngay!</a>
         </div>
       </div>
     </div>
-
+    <div id="registration-popup" class="popup" style="display: none">
+      <h2 class="popup-title">🚨 Thông báo 🚨</h2>
+      <div class="popup-content">
+        <p> </p>
+        <p id="registration-message">🚨</p>
+        <button class="popup-button" onclick="closePopup()">Yes sir</button>
+      </div>
+    </div><video id="bgVideo" style="z-index: -1;" playsinline="" muted="muted" loop="loop" autoplay="autoplay"><source src="https://nxm-clw-cdn.dn.nexoncdn.co.kr/bluearchive/img/events/2024/04/live_1dk292g/bg_video_jp.mp4" type="video/mp4"></video>
     <div class="bgtitle"></div>
     <img src="img/x-n_cg1_bg.png" alt="BG" class="bg bg-hidden" />
     <img src="" alt="Ứng dụng quản lý thư viện trực tuyến" class="tbg" />
     <button class="toggle-button" onclick="toggleBackground()"></button>
     <script>
       function toggleBackground() {
-        const bg = document.querySelector(".bg");
-        const tbg = document.querySelector(".tbg");
-        bg.classList.toggle("bg-hidden");
-        tbg.classList.toggle("bg-hidden");
+        document.querySelector(".bg").classList.toggle("bg-hidden");
+        document.querySelector(".tbg").classList.toggle("bg-hidden");
       }
       function toggleForms() {
+        document.querySelector(".container").classList.toggle("dk");
         document.querySelector(".login-form").classList.toggle("show");
         document.querySelector(".register-form").classList.toggle("show");
       }
@@ -253,15 +250,15 @@
           body: JSON.stringify({ username, password, role }),
         })
           .then((response) => {
-            if (response.status === 201) {
-              $("#registration-message").text("Đăng ký thành công!");
+            // if (response.status === 201) {
+            // $("#registration-message").text("Đăng ký thành công!");
+            // $("#registration-popup").show();
+            // } else {
+            response.json().then((data) => {
+              $("#registration-message").text(data.message);
               $("#registration-popup").show();
-            } else {
-              response.json().then((data) => {
-                $("#registration-message").text(data.message);
-                $("#registration-popup").show();
-              });
-            }
+            });
+            // }
           })
           .catch((error) => {
             console.error("Lỗi khi đăng ký:", error);
