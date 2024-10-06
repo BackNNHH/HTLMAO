@@ -11,6 +11,11 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        background-color: #e3f2fd;
+      }
+      .article img {
+        height: 100%;
+        width: 100px;
       }
     </style>
   </head>
@@ -27,8 +32,8 @@
         <h2>Danh Mục</h2>
         <!-- <ul> -->
         <a target="_top" href="/home">Trang Chủ</a>
-        <a target="_top" href="/add">Thêm Sách</a>
         <a target="_top" href="#" class="achive">Xem Sách</a>
+        <a target="_top" href="/add">Thêm Sách</a>
         <!-- </ul> -->
       </div>
       <div class="article">
@@ -48,9 +53,9 @@
               <th>Tác Giả</th>
               <th>Thể Loại</th>
               <th>Sự miêu tả</th>
-              <th>trungquoc</th>
-              <th>Số lượng</th>
-              <th>NSFW BUTTON</th>
+              <th>Bìa</th>
+              <th class="sl">Số lượng</th>
+              <th class="sl">NSFW BUTTON</th>
             </tr>
           </thead>
           <tbody>
@@ -60,7 +65,13 @@
               <td><%= book.author %></td>
               <td><%= book.genre %></td>
               <td><%= book.description %></td>
-              <td><%= book.cover_image %></td>
+              <td>
+                <!-- <%= book.cover_image %></td> -->
+                <img
+                  src="img/bookic/<%= book.cover_image %>.jpg"
+                  alt="<%= book.cover_image %>"
+                />
+              </td>
               <td><%= book.available %></td>
               <td>
                 <form action="/delete-book/<%= book.id %>" method="POST">

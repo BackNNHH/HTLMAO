@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng nhập</title>
     <link rel="icon" type="image/png" href="icon.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <style>
       body {
         font-family: "Times New Roman", sans-serif;
@@ -127,26 +128,100 @@
         cursor: pointer;
         border-radius: 5px;
         transition: transform 0.3s ease, background-color 0.3s ease;
+        display: block;
+        margin: 0 auto;
+        width: fit-content;
       }
       button:hover {
         transform: scale(1.09);
         background-color: #409444;
       }
+      .register-link {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+      .register-link a {
+        color: #0037ff;
+        text-decoration: none;
+      }
+      .register-link a:hover {
+        text-decoration: underline;
+      }
+      .login-form,
+      .register-form {
+        display: none;
+      }
+      .show {
+        display: block;
+      }
+      .popup {
+        display: none; /* Ẩn popup mặc định */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        z-index: 1000; /* Đảm bảo popup ở trên các phần tử khác */
+      }
+
+      .popup-content {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Đăng Nhập ( ͡° ͜ʖ ͡°)</h1>
-      <form action="/login" method="POST">
-        <label for="username">Tên đăng nhập:</label>
-        <input type="text" id="username" name="username" required />
-        <br />
-        <label for="password">Mật khẩu:</label>
-        <input type="password" id="password" name="password" required />
-        <br />
-        <button type="submit">Đăng nhập</button>
-      </form>
+      <div class="login-form show">
+        <h1>Đăng Nhập ¯\_(ツ)_/¯</h1>
+        <form action="/login" method="POST">
+          <label for="username">Tên đăng nhập:</label>
+          <input type="text" id="username" name="username" required />
+          <br />
+          <label for="password">Mật khẩu:</label>
+          <input type="password" id="password" name="password" required />
+          <br />
+          <button type="submit">Đăng nhập</button>
+        </form>
+        <div class="register-link">
+          Chưa có tài khoản?,
+          <a href="#" onclick="toggleForms()">Đăng ký ngay!</a>
+        </div>
+      </div>
+
+      <div class="register-form">
+        <h1>Đăng Ký ( ͡° ͜ʖ ͡°)</h1>
+        <form id="registerForm" action="/register" method="POST">
+          <label for="username">Tên đăng nhập:</label>
+          <input type="text" id="username" name="username" required />
+          <br />
+          <label for="password">Mật khẩu:</label>
+          <input type="password" id="password" name="password" required />
+          <br />
+          <label for="role">Vai trò:</label>
+          <select id="role" name="role">
+            <option value="normal">Normal</option>
+            <option value="manager">Manager</option>
+          </select>
+          <br />
+          <button type="submit">Đăng ký</button>
+        </form>
+        <div class="register-link">
+          Đã có tài khoản?,
+          <a href="#" onclick="toggleForms()">Đăng Nhập ngay!</a>
+        </div>
+        <div id="registration-popup" class="popup" style="display: none">
+          <div class="popup-content">
+            <span class="close-popup" onclick="closePopup()">×</span>
+            <p id="registration-message"></p>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="bgtitle"></div>
     <img src="img/x-n_cg1_bg.png" alt="BG" class="bg bg-hidden" />
     <img src="" alt="Ứng dụng quản lý thư viện trực tuyến" class="tbg" />
@@ -157,6 +232,47 @@
         const tbg = document.querySelector(".tbg");
         bg.classList.toggle("bg-hidden");
         tbg.classList.toggle("bg-hidden");
+      }
+      function toggleForms() {
+        document.querySelector(".login-form").classList.toggle("show");
+        document.querySelector(".register-form").classList.toggle("show");
+      }
+      //=--------------------------------------------------------ADD
+
+      const formB = document.getElementById("registerForm");
+      formB.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = formB.querySelector("#username").value;
+        const password = formB.querySelector("#password").value;
+        const role = formB.querySelector("#role").value;
+        fetch("/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password, role }),
+        })
+          .then((response) => {
+            if (response.status === 201) {
+              $("#registration-message").text("Đăng ký thành công!");
+              $("#registration-popup").show();
+            } else {
+              response.json().then((data) => {
+                $("#registration-message").text(data.message);
+                $("#registration-popup").show();
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Lỗi khi đăng ký:", error);
+            $("#registration-message").text(
+              "Lỗi máy chủ. Vui lòng thử lại sau."
+            );
+            $("#registration-popup").show();
+          });
+      });
+      function closePopup() {
+        $("#registration-popup").hide();
       }
     </script>
   </body>

@@ -31,8 +31,8 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // Cấu hình body-parser để xử lý dữ liệu từ form
-app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(bodyParser.urlencoded({ extended: true }));;
+app.use(bodyParser.json()); 
 // Trang đăng nhập
 app.get('/', (req, res) => {
   res.render('login');
@@ -57,8 +57,9 @@ app.get('/add', (req, res) => {
 
 // Xử lý đăng nhập
 app.post('/login', (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  // const username = req.body.username;
+  // const password = req.body.password;
+  const { username, password } = req.body;
   connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
     if (err) {
       console.error('Lỗi truy vấn:', err);
@@ -66,13 +67,48 @@ app.post('/login', (req, res) => {
     } else {
       if (results.length > 0) {
         req.session.user = results[0]; // Lưu thông tin người dùng vào session
-        res.redirect('/home'); // Chuyển hướng đến trang chủ
+        res.redirect('/home');
       } else {
         res.send('Tên người dùng hoặc mật khẩu không chính xác!');
       }
     }
   });
 });
+
+app.post('/register', (req, res) => {
+  const { username, password, role } = req.body;
+  const user = req.session.user;
+  console.log(req.body);
+
+  connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('DEAD FROM CRINGE');
+      return;
+    }
+    if (results.length > 0) {
+      res.status(409).send('Tên người dùng đã tồn tại');
+      return;
+    }
+    if (role === 'manager' && (user.role !== 'admin' && user.role !== 'manager')) {
+      res.status(403).send('Bạn không có quyền tạo tài khoản manager.');
+      return;
+    }
+
+    connection.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, password, role], (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Lỗi máy chủ');
+        return;
+      }
+      // Thay vì gửi dữ liệu JSON, gửi status 201 và thông báo
+      // res.status(201).send('Đăng ký thành công!');
+      res.status(201).json({ success: true, message: 'Đăng ký thành công!' });
+    });
+  });
+});
+
+
 // Xử lý đăng xuất
 app.post('/logout', (req, res) => {
   req.session.destroy((err) => {
@@ -125,7 +161,7 @@ app.post('/add-book', (req, res) => {
         console.error('Lỗi thêm sách:', err);
         res.send('Lỗi xảy ra!');
       } else {
-        res.redirect('/home');
+        res.redirect('/add');
       }
     });
 });
@@ -137,7 +173,7 @@ app.post('/delete-book/:id', (req, res) => {
       console.error('Lỗi xóa sách:', err);
       res.send('Lỗi xảy ra!');
     } else {
-      res.redirect('/home');
+      res.redirect('/view');
     }
   });
 });
