@@ -16,9 +16,9 @@
 
 ### Users databases
 
-| id  | username | password    |
-| --- | -------- | ----------- |
-| 1   | admin    | :trollface: |
+| id  | username | password    | role   |
+| --- | -------- | ----------- | ------ |
+| 1   | admin    | :trollface: | ăc min |
 
 ## Stru
 
@@ -34,8 +34,11 @@ HTLMAO/:
 │ ├─icon.png
 │ └─styles.css
 ├─views/
+| ├─acc.ejs
+| ├─add.ejs
 | ├─homes.ejs
-| └─login.ejs
+| ├─login.ejs
+| └─view.ejs
 ├─.env
 ├─.gitignore
 ├─app.js

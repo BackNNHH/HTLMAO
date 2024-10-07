@@ -41,7 +41,8 @@ app.get('/', (req, res) => {
 
 
 app.get('/acc', (req, res) => {
-	if (req.session.user) {
+	const u = req.session.user;
+	if (u) {
 		connection.query('SELECT * FROM users', (e, r) => {
 			if (e) {
 				console.error('Lỗi truy vấn:', e);
@@ -51,7 +52,7 @@ app.get('/acc', (req, res) => {
 					...user,
 					password: ' ͡° ͜ʖ ͡°'
 				}));
-				res.render('acc', { users });
+				res.render('acc', { users, typechr: u.role });
 			}
 		});
 	} else {
@@ -157,18 +158,20 @@ app.post('/delete-user/:id', (req, res) => {
 	connection.query('SELECT role FROM users WHERE id = ?', [userId], (err, results) => {
 		if (err) {
 			console.error(err);
-			return res.status(500).json({ message: 'Lỗi server' });
+			res.status(500).json({ message: 'Lỗi server :(' });
+			return;
 		} else {
 			if (results[0].role === 'aDmIn') {
-				return res.status(403).json('You cannot delete an admin user');
+				res.status(403).json({ message: 'Mày không thể xoá được bố mày!' });
+				return;
 			} else {
 				connection.query('DELETE FROM users WHERE id = ?', [userId], (err, results) => {
 					if (err) {
 						console.error(err);
-						res.status(500).json('Error deleting user');
+						res.status(500).json({ message: 'Error deleting user' });
 						console.log(500);
 					} else {
-						res.send('User deleted successfully');
+						res.send({ message: 'Đã xóa người dùng thành công' });
 					}
 				});
 			}
@@ -187,7 +190,7 @@ app.post('/login', (req, res) => {
 		} else {
 			if (results.length > 0) {
 				req.session.user = results[0]; // Lưu thông tin người dùng vào session
-				console.log(req.session.user);
+				console.log("welcome..." + req.session.user.username);
 				res.redirect('/home');
 			} else {
 				res.send('Tên người dùng hoặc mật khẩu không chính xác!');

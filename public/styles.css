@@ -21,6 +21,11 @@
 .header nav {
   display: flex;
   gap: 15px;
+  padding-right: 20px;
+}
+.header nav form {
+  font-size: 20px;
+  padding: 8px 15px;
 }
 .header nav a {
   color: rgb(255, 191, 191);
@@ -112,9 +117,10 @@ div {
 }
 
 table {
-  width: 100%;
+  width: 95%;
   border-collapse: collapse;
   margin-top: 20px;
+  margin: 0 auto;
 }
 th,
 td {

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>aCc</title>
     <link rel="stylesheet" href="/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <style>
       body {
         font-family: "Times New Roman", "Arial", sans-serif;
@@ -17,15 +18,115 @@
         height: 100%;
         width: 100px;
       }
+      .container {
+        display: none;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        width: 350px;
+        opacity: 0;
+        transition: all 0.3s ease;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 100%);
+      }
+      .container:hover {
+        box-shadow: 0 5px 10px rgba(110, 170, 255, 0.5);
+      }
+      .toggle-button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+      }
+      .container input[type="text"],
+      input[type="password"] {
+        width: -webkit-fill-available;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border-color 0.3s ease;
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        outline: none;
+        border-color: #4caf50;
+      }
+      input[type="text"]:hover,
+      input[type="password"]:hover {
+        border-color: #0037ff;
+      }
+      .container button {
+        padding: 12px 25px;
+        font-family: "Times New Roman", sans-serif;
+        font-size: medium;
+        background-color: #4c60af;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        display: inline-block;
+        margin: 10px 34px;
+        width: 105px;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: double;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+      button.r {
+        background-color: #af4c4c;
+      }
+      button:hover {
+        transform: scale(1.1);
+        background-color: #414094;
+      }
+      button:hover.r {
+        transform: scale(1.1);
+        background-color: #944040;
+      }
+      .showc {
+        display: block;
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
     </style>
   </head>
   <body>
     <div class="header">
       <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
       <nav>
-        <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
+        <form method="POST" action="/scrU">
+          <input
+            type="text"
+            name="searchU"
+            placeholder="Tìm kiếm tên người dùng"
+          />
+          <button type="submit">Tìm kiếm</button>
+        </form>
+        <button type="button" onclick="toggleForms()">Đăng ký...</button>
+        <!-- <a href="#" id="logoutButton"><b>Đăng Xuất</b></a> -->
       </nav>
-      <!-- <input type="text" placeholder="Search.." /> -->
     </div>
     <div class="main-content">
       <div class="sidebar">
@@ -37,23 +138,15 @@
         <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
       </div>
       <div class="article">
-        <form method="POST" action="/scrU">
-          <input
-            type="text"
-            name="searchU"
-            placeholder="Tìm kiếm tên người dùng"
-          />
-          <button type="submit">Tìm kiếm</button>
-        </form>
         <h1>Danh tài khoản người dùng</h1>
         <table id="bookTable">
           <thead>
             <tr>
-              <th>ID</th>
+              <th class="sl">ID</th>
               <th>users</th>
               <th>pass</th>
               <th>role</th>
-              <th>Action</th>
+              <th class="sl">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -64,8 +157,8 @@
               <td><%= _.password %></td>
               <td><%= _.role %></td>
               <td>
-                <form action="/delete-user/<%= _.id %>" method="POST">
-                  <button type="submit">Delete</button>
+                <form id="de" action="/delete-user/" method="POST">
+                  <button type="submit" data-id="<%= _.id %>">Delete</button>
                 </form>
               </td>
             </tr>
@@ -74,7 +167,35 @@
         </table>
       </div>
     </div>
-
+    <div class="container">
+      <div class="register-form">
+        <h1>Đăng Ký ( ͡° ͜ʖ ͡°)</h1>
+        <form id="registerForm" action="/register" method="POST">
+          <label for="username">Tên đăng nhập:</label>
+          <input type="text" id="username" name="username" required />
+          <br />
+          <label for="password">Mật khẩu:</label>
+          <input type="password" id="password" name="password" required />
+          <br />
+          <label for="role">Vai trò:</label>
+          <select id="role" name="role">
+            <option value="norm">Normal</option>
+            <option value="mana">Manager</option>
+          </select>
+          <br />
+          <button type="submit">Đăng ký</button>
+          <button type="button" class="r" onclick="toggleForms()">Hủy</button>
+        </form>
+      </div>
+    </div>
+    <div id="registration-popup" class="popup" style="display: none">
+      <h2 class="popup-title">🚨 Thông báo 🚨</h2>
+      <div class="popup-content">
+        <p></p>
+        <p id="registration-message">🚨</p>
+        <button class="popup-button" onclick="closePopup()">Yes sir</button>
+      </div>
+    </div>
     <script>
       document.getElementById("logoutButton").addEventListener("click", () => {
         fetch("/logout", { method: "POST" })
@@ -89,6 +210,67 @@
       window.onload = function () {
         document.querySelector(".article").classList.add("show");
       };
+      function toggleForms() {
+        document.querySelector(".container").classList.toggle("showc");
+      }
+      function saygex(r) {
+        r.json().then((data) => {
+          $("#registration-message").text(data.message);
+          $("#registration-popup").show();
+        });
+      }
+      //=--------------------------------------------------------ADD
+      const deleteForms = document.querySelectorAll("form#de");
+      deleteForms.forEach((form) => {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const userId = event.target.querySelector('button[type="submit"]')
+            .dataset.id;
+          fetch(`/delete-user/${userId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((r) => {
+              saygex(r);
+            })
+            .catch((e) => {
+              console.error("Lỗi khi đăng ký:", error);
+              $("#registration-message").text(
+                "Lỗi máy chủ. Vui lòng thử lại sau."
+              );
+              $("#registration-popup").show();
+            });
+        });
+      });
+      const formB = document.getElementById("registerForm");
+      formB.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = formB.querySelector("#username").value;
+        const password = formB.querySelector("#password").value;
+        const role = formB.querySelector("#role").value;
+        fetch("/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password, role }),
+        })
+          .then((r) => {
+            saygex(r);
+          })
+          .catch((error) => {
+            console.error("Lỗi khi đăng ký:", error);
+            $("#registration-message").text(
+              "Lỗi máy chủ. Vui lòng thử lại sau."
+            );
+            $("#registration-popup").show();
+          });
+      });
+      function closePopup() {
+        $("#registration-popup").hide();
+      }
     </script>
   </body>
 </html>
