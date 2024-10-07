@@ -146,7 +146,9 @@
               <th>users</th>
               <th>pass</th>
               <th>role</th>
-              <th class="sl">Action</th>
+              <% if (typechr) { %>
+                <th class="sl">Action</th>
+              <% } %>
             </tr>
           </thead>
           <tbody>
@@ -156,11 +158,14 @@
               <td><%= _.username %></td>
               <td><%= _.password %></td>
               <td><%= _.role %></td>
+
+              <% if (typechr) { %>
               <td>
                 <form id="de" action="/delete-user/" method="POST">
                   <button type="submit" data-id="<%= _.id %>">Delete</button>
                 </form>
               </td>
+              <% } %>
             </tr>
             <% }); %>
           </tbody>

@@ -41,7 +41,6 @@ app.get('/', (req, res) => {
 
 
 app.get('/acc', (req, res) => {
-	const u = req.session.user;
 	if (u) {
 		connection.query('SELECT * FROM users', (e, r) => {
 			if (e) {
@@ -52,7 +51,7 @@ app.get('/acc', (req, res) => {
 					...user,
 					password: ' ͡° ͜ʖ ͡°'
 				}));
-				res.render('acc', { users, typechr: u.role });
+				res.render('acc', { users, typechr: req.session.user.role === 'aDmIn' ? true : false });
 			}
 		});
 	} else {
@@ -86,7 +85,7 @@ app.get('/view', (req, res) => {
 				console.error('Lỗi truy vấn:', err);
 				res.send('Lỗi xảy ra!');
 			} else {
-				res.render('view', { books: results });
+				res.render('view', { books: results, typechr: req.session.user.role === 'aDmIn' ? true : false });
 			}
 		});
 	} else {

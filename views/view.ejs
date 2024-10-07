@@ -75,6 +75,7 @@
                 <!-- <%= book.cover_image %></td> -->
                 <img
                   src="img/bookic/<%= book.cover_image %>.jpg"
+                  onerror="this.src='img/bookic/empty.jpg'"
                   alt="<%= book.cover_image %>"
                 />
               </td>
