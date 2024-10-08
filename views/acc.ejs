@@ -35,15 +35,6 @@
       .container:hover {
         box-shadow: 0 5px 10px rgba(110, 170, 255, 0.5);
       }
-      .toggle-button {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        padding: 8px 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        cursor: pointer;
-      }
       h1 {
         text-align: center;
         margin-bottom: 20px;
@@ -133,7 +124,7 @@
         <h2>Danh Mục</h2>
         <a target="_top" href="/home">Trang Chủ</a>
         <a target="_top" href="/view">Xem Sách</a>
-        <a target="_top" href="/add">Thêm Sách</a>
+        <!-- <a target="_top" href="/add">Thêm Sách</a> -->
         <a target="_top" href="#" class="achive">Quản lý tài khoản</a>
         <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
       </div>
@@ -147,7 +138,7 @@
               <th>pass</th>
               <th>role</th>
               <% if (typechr) { %>
-                <th class="sl">Action</th>
+              <th class="sl">Action</th>
               <% } %>
             </tr>
           </thead>
@@ -162,7 +153,7 @@
               <% if (typechr) { %>
               <td>
                 <form id="de" action="/delete-user/" method="POST">
-                  <button type="submit" data-id="<%= _.id %>">Delete</button>
+                  <button type="submit" class="r" data-id="<%= _.id %>">Delete</button>
                 </form>
               </td>
               <% } %>
@@ -193,12 +184,16 @@
         </form>
       </div>
     </div>
-    <div id="registration-popup" class="popup" style="display: none">
-      <h2 class="popup-title">🚨 Thông báo 🚨</h2>
-      <div class="popup-content">
-        <p></p>
-        <p id="registration-message">🚨</p>
-        <button class="popup-button" onclick="closePopup()">Yes sir</button>
+    <div id="registration-popup" class="popup-BG" style="display: none">
+      <div class="popup">
+        <h2 class="popup-title">🚨 Thông báo 🚨</h2>
+        <div class="popup-content">
+          <p></p>
+          <p id="registration-message">🚨</p>
+          <button class="popup-button" href="/acc" onclick="closePopup()">
+            Yes sir
+          </button>
+        </div>
       </div>
     </div>
     <script>
@@ -231,22 +226,24 @@
           event.preventDefault();
           const userId = event.target.querySelector('button[type="submit"]')
             .dataset.id;
-          fetch(`/delete-user/${userId}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then((r) => {
-              saygex(r);
+          if (confirm("Bạn có chắc chắn muốn xóa người dùng này?")) {
+            fetch(`/delete-user/${userId}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
             })
-            .catch((e) => {
-              console.error("Lỗi khi đăng ký:", error);
-              $("#registration-message").text(
-                "Lỗi máy chủ. Vui lòng thử lại sau."
-              );
-              $("#registration-popup").show();
-            });
+              .then((r) => {
+                saygex(r);
+              })
+              .catch((e) => {
+                console.error("Lỗi khi xóa:", error);
+                $("#registration-message").text(
+                  "Lỗi máy chủ. Vui lòng thử lại sau."
+                );
+                $("#registration-popup").show();
+              });
+          }
         });
       });
       const formB = document.getElementById("registerForm");

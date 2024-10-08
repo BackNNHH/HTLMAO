@@ -1,5 +1,8 @@
+const fs = require('fs');
 const express = require('express');
 const mysql = require('mysql2');
+const multer = require('multer');
+const path = require('path');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -26,6 +29,8 @@ connection.connect((err) => {
 		console.log('データベースコネクト！');
 	}
 });
+
+
 // Sử dụng EJS làm template engine
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -41,12 +46,13 @@ app.get('/', (req, res) => {
 
 
 app.get('/acc', (req, res) => {
-	if (u) {
+	if (req.session.user) {
 		connection.query('SELECT * FROM users', (e, r) => {
 			if (e) {
 				console.error('Lỗi truy vấn:', e);
 				res.send('Lỗi xảy ra!');
 			} else {
+				console.log(">>acc");
 				const users = r.map(user => ({
 					...user,
 					password: ' ͡° ͜ʖ ͡°'
@@ -58,11 +64,16 @@ app.get('/acc', (req, res) => {
 		res.redirect('/');
 	}
 });
-app.get('/add', (req, res) => {
-	if (req.session.user) res.render('add');
-	else res.redirect('/');
+// app.get('/add', (req, res) => {
+// 	if (req.session.user) {
+// 		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
+// 			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
 
-});
+// 		console.log(images);
+// 		res.render('add', { images: images });
+// 	}
+// 	else res.redirect('/');
+// });
 //login bottom text
 app.get('/home', (req, res) => {
 	if (req.session.user) {
@@ -71,6 +82,7 @@ app.get('/home', (req, res) => {
 				console.error('Lỗi truy vấn:', err);
 				res.send('Lỗi xảy ra!');
 			} else {
+				console.log(">>home");
 				res.render('home', { books: results });
 			}
 		});
@@ -80,12 +92,15 @@ app.get('/home', (req, res) => {
 });
 app.get('/view', (req, res) => {
 	if (req.session.user) {
+		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
+			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
 		connection.query('SELECT * FROM books', (err, results) => {
 			if (err) {
 				console.error('Lỗi truy vấn:', err);
 				res.send('Lỗi xảy ra!');
 			} else {
-				res.render('view', { books: results, typechr: req.session.user.role === 'aDmIn' ? true : false });
+				console.log(">>view");
+				res.render('view', { books: results, typechr: req.session.user.role === 'aDmIn' ? true : false, images: images });
 			}
 		});
 	} else {
@@ -94,8 +109,22 @@ app.get('/view', (req, res) => {
 });
 
 
-
-
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, path.join(__dirname, 'public', 'img', 'bookic'));
+	},
+	filename: (req, file, cb) => {
+		const originalName = file.originalname;
+		const dotIndex = originalName.lastIndexOf('.')
+		const newName = originalName.substring(0, dotIndex).replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + (dotIndex !== -1 ? originalName.substring(dotIndex) : '');
+		// const newName = originalName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+		// const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+		// cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+		// cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		cb(null, newName);
+	}
+});
+const upload = multer({ storage: storage });
 
 app.post('/search', (req, res) => {
 	const searchTerm = req.body.searchTerm;
@@ -109,20 +138,18 @@ app.post('/search', (req, res) => {
 		}
 	});
 });
-app.post('/add-book', (req, res) => {
-	const title = req.body.title;
-	const author = req.body.author;
-	const genre = req.body.genre;
-	const description = req.body.description;
-	const cover_image = req.body.cover_image;
-	const available = req.body.available;
-	connection.query('INSERT INTO books (title, author, genre, description, cover_image, available) VALUES (?, ?, ?, ?, ?, ?)',
-		[title, author, genre, description, cover_image, available], (err, results) => {
+app.post('/add-book', upload.single('image-upload'), (req, res) => {
+	const { title, author, genre, available } = req.body;
+	const cover_image = req.file ? req.file.filename : req.body['image-source'] == 'web' ? req.body['image-web'] : null;
+	console.log(cover_image);
+	console.log(req.body);
+	connection.query('INSERT INTO books (title, author, genre, cover_image, available) VALUES (?, ?, ?, ?, ?)',
+		[title, author, genre, cover_image, available], (err, results) => {
 			if (err) {
 				console.error('Lỗi thêm sách:', err);
 				res.send('Lỗi xảy ra!');
 			} else {
-				res.redirect('/add');
+				res.redirect('view');
 			}
 		});
 });
@@ -229,6 +256,7 @@ app.post('/register', (req, res) => {
 				return;
 			}
 			res.status(201).json({ success: true, message: 'Đăng ký thành công!' });
+			if (req.originalUrl === '/acc') res.render('acc', { users, typechr: req.session.user.role === 'aDmIn' ? true : false });
 			console.log(201);
 		});
 	});
