@@ -64,16 +64,16 @@ app.get('/acc', (req, res) => {
 		res.redirect('/');
 	}
 });
-// app.get('/add', (req, res) => {
-// 	if (req.session.user) {
-// 		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
-// 			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
+app.get('/add', (req, res) => {
+	if (req.session.user) {
+		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
+			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
 
-// 		console.log(images);
-// 		res.render('add', { images: images });
-// 	}
-// 	else res.redirect('/');
-// });
+		console.log(images);
+		res.render('add', { images: images });
+	}
+	else res.redirect('/');
+});
 //login bottom text
 app.get('/home', (req, res) => {
 	if (req.session.user) {
@@ -128,13 +128,15 @@ const upload = multer({ storage: storage });
 
 app.post('/search', (req, res) => {
 	const searchTerm = req.body.searchTerm;
+	const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
+		.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
 	const query = `SELECT * FROM books WHERE title LIKE '%${searchTerm}%'`;
 	connection.query(query, (err, results) => {
 		if (err) {
 			console.error('Lỗi truy vấn:', err);
 			res.send('Lỗi xảy ra!');
 		} else {
-			res.render('view', { books: results });
+			res.render('view', { books: results, images: images });
 		}
 	});
 });
@@ -153,6 +155,20 @@ app.post('/add-book', upload.single('image-upload'), (req, res) => {
 			}
 		});
 });
+
+
+
+app.post('/add-SAYGEX', (req, res) => {
+	const { MaSV, HoSv, TenSv, Phai, NgaySinh, NoiSinh, MaKhoa, HocBong } = req.body;
+	const newName = NgaySinh.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+	console.log(
+`INSERT INTO SinhVien (MaSV, HoSV, TenSV, Phai, NgaySinh, NoiSinh, MaKhoa, HocBong)
+VALUES ('${MaSV}', '${HoSv}', '${TenSv}', ${Phai}, '${newName}', '${NoiSinh}', '${MaKhoa}', ${HocBong});`);
+
+});
+
+
+
 
 app.post('/delete-book/:id', (req, res) => {
 	const bookId = req.params.id;

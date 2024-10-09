@@ -61,6 +61,11 @@
         border-color: #007bff;
         outline: none;
       }
+      .container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
       .floating-button {
         position: fixed;
         bottom: 20px;
@@ -127,10 +132,10 @@
     <div class="main-content">
       <div class="sidebar">
         <h2>Danh Mục</h2>
-        <a target="_top" href="/home">Trang Chủ</a>
-        <a target="_top" href="#" class="achive">Xem Sách</a>
+        <a target="_top" href="/home">🏠 Trang Chủ</a>
+        <a target="_top" href="#" class="achive">📖 Xem Sách</a>
         <!-- <a target="_top" href="/add">Thêm Sách</a> -->
-        <a target="_top" href="/acc">Quản lý tài khoản</a>
+        <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
       </div>
       <div class="article">
         <h1>Danh sách sách</h1>
@@ -140,7 +145,7 @@
               <th>Tiêu Đề</th>
               <th>Tác Giả</th>
               <th>Thể Loại</th>
-              <th>Bìa</th>
+              <th class="sl">Bìa</th>
               <th class="sl">Số lượng</th>
               <th class="sl">NSFW BUTTON</th>
             </tr>
@@ -170,11 +175,10 @@
           </tbody>
         </table>
       </div>
-
       <div id="registration-popup" class="popup-BG">
         <div class="container">
           <div class="register-form">
-            <h2>Thêm sách</h2>
+            <h1>Thêm sách</h1>
             <form
               action="/add-book"
               method="POST"
@@ -184,28 +188,22 @@
                 <div class="form-column">
                   <label for="title">Tiêu đề:</label>
                   <input type="text" id="title" name="title" required />
-
                   <label for="author">Tác giả:</label>
                   <input type="text" id="author" name="author" required />
-
                   <label for="genre">Thể loại:</label>
                   <input type="text" id="genre" name="genre" required />
-
                   <label for="available">Số lượng:</label>
                   <input type="number" id="available" name="available" />
                 </div>
-
                 <div class="form-column">
                   <label for="cover_image">Ảnh...:</label>
                   <select name="image-source" id="image-source">
                     <option value="upload">Tải lên</option>
                     <option value="web">Dùng ảnh có sẵn</option>
                   </select>
-
                   <div id="image-upload" style="display: block">
                     <input type="file" name="image-upload" accept="image/*" />
                   </div>
-
                   <div id="image-web" style="display: none">
                     <select name="image-web" id="imageweb">
                       <% images.forEach(image => { %>
@@ -213,7 +211,6 @@
                       <% }); %>
                     </select>
                   </div>
-
                   <div id="preview-image">
                     <img
                       src=""
@@ -224,7 +221,6 @@
                   </div>
                 </div>
               </div>
-
               <button type="submit">Thêm</button>
               <button type="button" class="r" onclick="toggleForms()">
                 Hủy

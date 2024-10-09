@@ -14,32 +14,43 @@
         background-color: #e3f2fd;
         /* background-color: rgb(32, 32, 32); */
       }
+      h1.t {
+        margin-left: 20px;
+        color: #333;
+      }
     </style>
   </head>
   <body>
     <div class="header">
       <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
       <nav>
+        <form method="POST" action="/search">
+          <input
+            type="text"
+            name="searchTerm"
+            placeholder="Tìm kiếm theo tên sách"
+          />
+          <button type="submit">Tìm kiếm</button>
+        </form>
         <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
       </nav>
     </div>
     <div class="main-content">
       <div class="sidebar">
         <h2>Danh Mục</h2>
-        <a target="_top" href="#" class="achive">Trang Chủ</a>
-        <a target="_top" href="/view">Xem Sách</a>
+        <a target="_top" href="#" class="achive">🏠 Trang Chủ</a>
+        <a target="_top" href="/view">📖 Xem Sách</a>
         <!-- <a target="_top" href="/add">Thêm Sách</a> -->
-        <a target="_top" href="/acc">Quản lý tài khoản</a>
+        <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
       </div>
       <div class="article">
-        <h1> Có gì mới???</h1>
+        <h1 class="t">Có gì mới???</h1>
         <div class="thebox">
-          <h2>*Saygex</h2>
-          <p>Khoảng khắc vui vẻ của sẽ được thể hiện ở đây!</p>
+          <h2>Hương rừng Cà Mau</h2>
           <p>
-            Saygex là ứng dụng hàng đầu giúp bạn kết nối và giao tiếp một cách
-            dễ dàng. Với giao diện thân thiện và tính năng nổi bật, Saygex chắc
-            chắn sẽ làm hài lòng bạn..
+            Hương rừng Cà Mau là tên tập truyện ngắn nổi tiếng nhất của nhà văn
+            Sơn Nam, được xuất bản lần đầu vào năm 1962.[1] Nội dung lấy bối
+            cảnh từ cuộc sống của người dân vùng U Minh vào khoảng 1930–1940.
           </p>
         </div>
         <div class="thebox">
