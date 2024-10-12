@@ -47,7 +47,10 @@ app.get('/', (req, res) => {
 
 app.get('/acc', (req, res) => {
 	if (req.session.user) {
-		connection.query('SELECT * FROM users', (e, r) => {
+		const query = req.session.user.role != 'aDmIn'
+			? `SELECT * FROM users WHERE id = ${req.session.user.id}`
+			: `SELECT * FROM users`;
+		connection.query(query, (e, r) => {
 			if (e) {
 				console.error('Lỗi truy vấn:', e);
 				res.send('Lỗi xảy ra!');
@@ -91,16 +94,43 @@ app.get('/home', (req, res) => {
 	}
 });
 app.get('/view', (req, res) => {
-	if (req.session.user) {
+	const rsu = req.session.user
+	if (rsu) {
 		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
 			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
-		connection.query('SELECT * FROM books', (err, results) => {
-			if (err) {
-				console.error('Lỗi truy vấn:', err);
+		connection.query('SELECT * FROM books', (e, r) => {
+			if (e) {
+				console.error('Lỗi truy vấn:', e);
 				res.send('Lỗi xảy ra!');
 			} else {
 				console.log(">>view");
-				res.render('view', { books: results, typechr: req.session.user.role === 'aDmIn' ? true : false, images: images });
+				res.render('view', { books: r, typechr: rsu.role === 'aDmIn' ? true : false, manachr: rsu.role === 'mana' || rsu.role === 'aDmIn' ? true : false, images: images });
+			}
+		});
+	} else {
+		res.redirect('/');
+	}
+});
+
+app.post('/edit/:id', (req, res) => {
+	const rsu = req.session.user
+	const AxuId = req.params.id;
+	if (rsu) {
+		if (!(rsu.role === 'mana' || rsu.role === 'aDmIn')) {
+			res.status(403).json({ message: 'Bạn không có quyền chỉnh sửa.' });
+			console.log(403);
+			return;
+		}
+		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
+			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
+		connection.query('SELECT * FROM books WHERE id = ?', [AxuId], (e, r) => {
+			if (e) {
+				console.error('Lỗi truy vấn:', e);
+				res.send('Lỗi xảy ra!');
+			} else {
+				console.log(">>EDIT");
+				console.log(r);
+				res.render('EDIT', { book: r, AxuId, images: images });
 			}
 		});
 	} else {
@@ -156,16 +186,20 @@ app.post('/add-book', upload.single('image-upload'), (req, res) => {
 		});
 });
 
-
-
-app.post('/add-SAYGEX', (req, res) => {
-	const { MaSV, HoSv, TenSv, Phai, NgaySinh, NoiSinh, MaKhoa, HocBong } = req.body;
-	const newName = NgaySinh.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-	console.log(
-`INSERT INTO SinhVien (MaSV, HoSV, TenSV, Phai, NgaySinh, NoiSinh, MaKhoa, HocBong)
-VALUES ('${MaSV}', '${HoSv}', '${TenSv}', ${Phai}, '${newName}', '${NoiSinh}', '${MaKhoa}', ${HocBong});`);
-
+app.post('/edit-book/:id', upload.single('image-upload'), (req, res) => {
+	const bookId = req.params.id;
+	const { title, author, genre, available } = req.body;
+	const cover_image = req.file ? req.file.filename : req.body.old_cover_image;
+	connection.query('UPDATE books SET title = ?, author = ?, genre = ?, available = ?, cover_image = ? WHERE id = ?', [title, author, genre, available, cover_image, bookId], (e, results) => {
+		if (e) {
+			console.error('Lỗi cập nhật database:', e);
+			res.status(500).send('Lỗi server');
+			return;
+		}
+		res.redirect(view);
+	});
 });
+
 
 
 
@@ -208,12 +242,14 @@ app.post('/delete-user/:id', (req, res) => {
 				return;
 			} else {
 				connection.query('DELETE FROM users WHERE id = ?', [userId], (err, results) => {
+
 					if (err) {
 						console.error(err);
 						res.status(500).json({ message: 'Error deleting user' });
 						console.log(500);
 					} else {
 						res.send({ message: 'Đã xóa người dùng thành công' });
+						if (req.session.user.id == userId) req.session.destroy();
 					}
 				});
 			}
@@ -235,7 +271,7 @@ app.post('/login', (req, res) => {
 				console.log("welcome..." + req.session.user.username);
 				res.redirect('/home');
 			} else {
-				res.send('Tên người dùng hoặc mật khẩu không chính xác!');
+				res.status(409).json({ message: 'Tên người dùng hoặc mật khẩu không chính xác!' });
 			}
 		}
 	});

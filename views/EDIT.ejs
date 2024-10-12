@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EdIt</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    body {
+      font-family: "Times New Roman", "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #e3f2fd;
+    }
+
+    .article img {
+      height: 100%;
+      width: 100px;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 80%;
+      transition: all 0.3s ease;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .container:hover {
+      box-shadow: 0 5px 10px rgba(110, 170, 255, 0.5);
+    }
+
+    .container button {
+      padding: 12px 25px;
+      font-family: "Times New Roman", sans-serif;
+      font-size: medium;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      display: inline-block;
+      margin: 10px 4.8%;
+      width: 40%;
+    }
+
+    .container input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 0px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: border-color 0.3s;
+    }
+
+    .container input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .container h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .floating-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #4caf50;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: double;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      background-color: #218838;
+    }
+
+    button.r {
+      background-color: #af4c4c;
+    }
+
+    button:hover.r {
+      transform: scale(1.1);
+      background-color: #944040;
+    }
+
+    .showc {
+      display: block;
+    }
+
+    .form-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-column {
+      flex: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
+    <nav>
+      <form method="POST" action="/search">
+        <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên sách" />
+        <button type="submit">Tìm kiếm</button>
+      </form>
+      <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
+    </nav>
+  </div>
+  <div class="main-content">
+    <div class="sidebar">
+      <h2>Danh Mục</h2>
+      <a target="_top" href="/home">🏠 Trang Chủ</a>
+      <a target="_top" href="/view">📖 Xem Sách</a>
+      <a target="_top" href="#" class="achive">✏️ Sửa sách</a>
+      <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
+    </div>
+    <div class="article">
+      <h1>Sửa sách</h1>
+      <form action="/edit-book" method="POST" enctype="multipart/form-data">
+        <div class="form-container">
+          <div class="form-column">
+            <label for="title">Tiêu đề:</label>
+            <input type="text" id="title" name="title" value="<%= book.title %>" required />
+            <label for="author">Tác giả:</label>
+            <input type="text" id="author" name="author" value="<%= book.author %>" required />
+            <label for="genre">Thể loại:</label>
+            <input type="text" id="genre" name="genre" value="<%= book.genre %>" required />
+            <label for="available">Số lượng:</label>
+            <input type="number" id="available" name="available" value="<%= book.available %>" />
+          </div>
+          <div class="form-column">
+            <label for="cover_image">Ảnh...:</label>
+            <select name="image-source" id="image-source">
+              <option value="web">Dùng ảnh có sẵn</option>
+              <option value="upload">Tải lên</option>
+            </select>
+            <div id="image-upload" style="display: block">
+              <input type="file" name="image-upload" accept="image/*" />
+            </div>
+            <div id="image-web" style="display: none">
+              <select name="image-web" id="imageweb" value="<%= book.cover_image %>">
+                <% images.forEach(image=> { %> <option value="<%= image %>">
+                    <%= image %>
+                  </option>
+                  <% }); %>
+              </select>
+            </div>
+            <div id="preview-image">
+              <img src="" id="preview-image-src" alt="Xem trước ảnh" style="max-width: 200px" />
+            </div>
+          </div>
+        </div>
+        <button type="submit">Thêm</button>
+        <button type="button" class="r" href="/view"> Hủy </button>
+      </form>
+    </div>
+  </div>
+  <script src="/scrIco.js"></script>
+
+  <script>
+    console.log(JSON.parse("<%= JSON.stringify(book) %>"));
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      fetch("/logout", { method: "POST" })
+        .then((response) => {
+          if (response.ok) window.location.href = "/";
+          else alert("Lỗi đăng xuất!");
+        })
+        .catch((error) => {
+          alert("Lỗi đăng xuất!");
+        });
+    });
+    window.onload = function () {
+      document.querySelector(".article").classList.add("show");
+    };
+  </script>
+</body>
+
+</html>
