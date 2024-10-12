@@ -15,6 +15,10 @@
       background-color: #e3f2fd;
     }
 
+    h1.t {
+      margin-left: 20px;
+    }
+
     .article img {
       height: 100%;
       width: 100px;
@@ -92,6 +96,10 @@
       cursor: pointer;
     }
 
+    .floating-button.dow {
+      right: 80px;
+    }
+
     button {
       background-color: #4caf50;
       color: white;
@@ -101,7 +109,8 @@
       transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
-    button:hover {
+    button:hover,
+    img.floating-button.dow:hover {
       transform: scale(1.1);
       background-color: #218838;
     }
@@ -150,7 +159,7 @@
       <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
     </div>
     <div class="article">
-      <h1>Danh sách sách</h1>
+      <h1 class="t">Danh sách sách</h1>
       <table id="bookTable">
         <thead>
           <tr>
@@ -245,36 +254,40 @@
               </div>
             </div>
             <button type="submit">Thêm</button>
-            <button type="button" class="r" onclick="toggleForms('.f-add')">
-              Hủy
-            </button>
+            <button type="button" class="r" onclick="toggleForms('.f-add')">Hủy</button>
           </form>
         </div>
       </div>
     </div>
   </div>
-  <button id="openPopup" class="floating-button" onclick="toggleForms()">+</button>
+  <% if (manachr) { %>
+    <button id="openPopup" class="floating-button" title="Thêm Sách..." onclick="toggleForms()">+</button>
+    <a href="/download">
+      <img src="img/excel.png" class="floating-button dow" title="Tải bảng này về..."a lt="DOWNLOAD">
+    </a>
+    <% } %>
 
-  <script src="/scrIco.js"></script>
-  <script>
-    document.getElementById("logoutButton").addEventListener("click", () => {
-      fetch("/logout", { method: "POST" })
-        .then((response) => {
-          if (response.ok) window.location.href = "/";
-          else alert("Lỗi đăng xuất!");
-        })
-        .catch((error) => {
-          alert("Lỗi đăng xuất!");
+
+      <script src="/scrIco.js"></script>
+      <script>
+        document.getElementById("logoutButton").addEventListener("click", () => {
+          fetch("/logout", { method: "POST" })
+            .then((response) => {
+              if (response.ok) window.location.href = "/";
+              else alert("Lỗi đăng xuất!");
+            })
+            .catch((error) => {
+              alert("Lỗi đăng xuất!");
+            });
         });
-    });
-    window.onload = function () {
-      document.querySelector(".article").classList.add("show");
-    };
+        window.onload = function () {
+          document.querySelector(".article").classList.add("show");
+        };
 
-    function toggleForms() {
-      document.querySelector(".popup-BG").classList.toggle("showc");
-    }
-  </script>
+        function toggleForms() {
+          document.querySelector(".popup-BG").classList.toggle("showc");
+        }
+      </script>
 </body>
 
 </html>

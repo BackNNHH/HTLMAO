@@ -1,6 +1,7 @@
 const fs = require('fs');
 const express = require('express');
 const mysql = require('mysql2');
+const xlsx = require('xlsx');
 const multer = require('multer');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -200,10 +201,6 @@ app.post('/edit-book/:id', upload.single('image-upload'), (req, res) => {
 	});
 });
 
-
-
-
-
 app.post('/delete-book/:id', (req, res) => {
 	const bookId = req.params.id;
 	connection.query('DELETE FROM books WHERE id = ?', [bookId], (err, results) => {
@@ -256,7 +253,18 @@ app.post('/delete-user/:id', (req, res) => {
 		}
 	});
 });
-
+app.get('/download', (req, res) => {
+  connection.query('SELECT id, title AS Name,genre, available AS Quatity FROM books', (e, r) => {
+    if (e) throw e;
+    const worksheet = xlsx.utils.json_to_sheet(r);
+    const workbook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=data.xlsx');
+    res.send(excelBuffer);
+  });
+});
 
 // Xử lý đăng nhập
 app.post('/login', (req, res) => {
@@ -280,8 +288,8 @@ app.post('/login', (req, res) => {
 app.post('/register', (req, res) => {
 	const { username, password, role } = req.body;
 	const ur = req.session.user?.role || undefined;
-	console.log(req.body);
-	console.log(req.session.user);
+	// console.log(req.body);
+	// console.log(req.session.user);
 
 	connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
 		if (err) {
@@ -326,5 +334,5 @@ app.post('/logout', (req, res) => {
 
 
 app.listen(port, () => {
-	console.log(`>>>http://localhost:${port}`);
+	console.log(`>>>http://localhost:${port} \n>>LAN:http://192.168.1.32:${port}`);
 });

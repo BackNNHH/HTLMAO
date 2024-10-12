@@ -9,13 +9,15 @@
     "file-upload": "^0.0.0",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.3",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "xlsx": "^0.18.5"
   },
   "name": "htlmao",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "host": "node app.js --host 192.168.1.32"
   },
   "keywords": [],
   "author": "",

@@ -155,24 +155,12 @@
         <tbody>
           <% users.forEach(_=> { %>
             <tr>
-              <td>
-                <%= _.id %>
-              </td>
-              <td>
-                <%= _.username %>
-              </td>
-              <td>
-                <%= _.password %>
-              </td>
-              <td>
-                <%= _.role %>
-              </td>
-
-              <td>
+              <td><%= _.id %></td>
+              <td><%= _.username %></td>
+              <td><%= _.password %></td>
+              <td><%= _.role %></td><td>
                 <form id="de" action="/delete-user/" method="POST">
-                  <button type="submit" class="r" data-id="<%= _.id %>">
-                    Delete
-                  </button>
+                  <button type="submit" class="r" data-id="<%= _.id %>">Delete</button>
                 </form>
               </td>
             </tr>
@@ -208,29 +196,14 @@
       <div class="popup-content">
         <p></p>
         <p id="registration-message">🚨</p>
-        <button class="popup-button" href="/acc" onclick="closePopup()">
-          Yes sir
-        </button>
+        <button class="popup-button" href="/acc" onclick="closePopup()">Yes sir</button>
       </div>
     </div>
   </div>
+  <script src="/scrIco.js"></script>
   <script>
-    document.getElementById("logoutButton").addEventListener("click", () => {
-      fetch("/logout", { method: "POST" })
-        .then((response) => {
-          if (response.ok) window.location.href = "/";
-          else alert("Lỗi đăng xuất!");
-        })
-        .catch((e) => {
-          alert("Lỗi đăng xuất!");
-        });
-    });
-    window.onload = function () {
-      document.querySelector(".article").classList.add("show");
-    };
-    function toggleForms() {
-      document.querySelector(".container").classList.toggle("showc");
-    }
+    window.onload = function () { document.querySelector(".article").classList.add("show"); };
+    function toggleForms() { document.querySelector(".container").classList.toggle("showc"); }
     function showpanelpopup(r) {
       r.json().then((data) => {
         $("#registration-message").text(data.message);
@@ -279,4 +252,5 @@
     function closePopup() { $("#registration-popup").hide(); }
   </script>
 </body>
+
 </html>

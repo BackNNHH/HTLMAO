@@ -1,116 +1,126 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hôme</title>
-    <link rel="stylesheet" href="/styles.css" />
-    <style>
-      body {
-        font-family: "Times New Roman", "Arial", sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        background-color: #e3f2fd;
-        /* background-color: rgb(32, 32, 32); */
-      }
-      h1.t {
-        margin-left: 20px;
-        color: #333;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="header">
-      <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
-      <nav>
-        <form method="POST" action="/search">
-          <input
-            type="text"
-            name="searchTerm"
-            placeholder="Tìm kiếm theo tên sách"
-          />
-          <button type="submit">Tìm kiếm</button>
-        </form>
-        <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
-      </nav>
-    </div>
-    <div class="main-content">
-      <div class="sidebar">
-        <h2>Danh Mục</h2>
-        <a target="_top" href="#" class="achive">🏠 Trang Chủ</a>
-        <a target="_top" href="/view">📖 Xem Sách</a>
-        <!-- <a target="_top" href="/add">Thêm Sách</a> -->
-        <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
-      </div>
-      <div class="article">
-        <h1 class="t">Có gì mới???</h1>
-        <div class="thebox">
-          <h2>Hương rừng Cà Mau</h2>
-          <p>
-            Hương rừng Cà Mau là tên tập truyện ngắn nổi tiếng nhất của nhà văn
-            Sơn Nam, được xuất bản lần đầu vào năm 1962.[1] Nội dung lấy bối
-            cảnh từ cuộc sống của người dân vùng U Minh vào khoảng 1930–1940.
-          </p>
-        </div>
-        <div class="thebox">
-          <h2>Hoàng tử bé</h2>
-          <p>
-            Hoàng tử bé (tên tiếng Pháp: Le Petit Prince, phát âm: [lə p(ə)ti
-            pʁɛ̃s]), được xuất bản năm 1943, là tiểu thuyết nổi tiếng nhất của
-            nhà văn và phi công Pháp Antoine de Saint-Exupéry. Ông đã thuê ngôi
-            biệt thự The Bevin House ở Asharoken, Long Island, New York trong
-            khi viết tác phẩm này. Cuốn tiểu thuyết cũng bao gồm nhiều bức tranh
-            do chính Saint-Exupéry vẽ. Tác phẩm đã được dịch sang hơn 250 ngôn
-            ngữ (bao gồm cả tiếng địa phương) và cho đến nay đã bán được hơn 200
-            triệu bản khắp thế giới, trở thành một trong những sách bán chạy
-            nhất của mọi thời đại, được phát triển thành một sê ri truyện tranh
-            39 chương bởi Élyum Studio, và một phiên bản graphic novel bìa cứng
-            chuyển thể bởi danh họa tài năng Joann Sfar. Truyện còn được dùng
-            như tài liệu cho những người muốn làm quen với ngoại ngữ.
-          </p>
-        </div>
-        <div class="thebox">
-          <h2>Số hoàn thiện</h2>
-          <p>
-            Số hoàn hảo (hay còn gọi là số hoàn chỉnh, số hoàn thiện hoặc số
-            hoàn thành) là một số nguyên dương mà tổng các ước nguyên dương thực
-            sự của nó (các số nguyên dương bị nó chia hết ngoại trừ nó) bằng
-            chính nó.
-          </p>
-        </div>
-        <div class="thebox">
-          <h1>lmao</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-            aliquid eos sit deleniti quae velit dolorum doloribus ducimus enim,
-            fugit, dicta aperiam eius perferendis minus rem! Maiores consequatur
-            incidunt iste.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-            aliquid eos sit deleniti quae velit dolorum doloribus ducimus enim,
-            fugit, dicta aperiam eius perferendis minus rem! Maiores consequatur
-            incidunt iste.
-          </p>
-        </div>
-      </div>
-    </div>
 
-    <script>
-      document.getElementById("logoutButton").addEventListener("click", () => {
-        fetch("/logout", { method: "POST" })
-          .then((response) => {
-            if (response.ok) window.location.href = "/";
-            else alert("Lỗi đăng xuất!");
-          })
-          .catch((error) => {
-            alert("Lỗi đăng xuất!");
-          });
-      });
-      window.onload = function () {
-        document.querySelector(".article").classList.add("show");
-      };
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hôme</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    body {
+      font-family: "Times New Roman", "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #e3f2fd;
+      /* background-color: rgb(32, 32, 32); */
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: double;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    h1.t {
+      margin-left: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
+    <nav>
+      <form method="POST" action="/search">
+        <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên sách" />
+        <button type="submit">Tìm kiếm</button>
+      </form>
+      <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
+    </nav>
+  </div>
+  <div class="main-content">
+    <div class="sidebar">
+      <h2>Danh Mục</h2>
+      <a target="_top" href="#" class="achive">🏠 Trang Chủ</a>
+      <a target="_top" href="/view">📖 Xem Sách</a>
+      <!-- <a target="_top" href="/add">Thêm Sách</a> -->
+      <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
+    </div>
+    <div class="article">
+      <h1 class="t">Có gì mới???</h1>
+      <div class="thebox">
+        <h2>Hương rừng Cà Mau</h2>
+        <p>
+          Hương rừng Cà Mau là tên tập truyện ngắn nổi tiếng nhất của nhà văn
+          Sơn Nam, được xuất bản lần đầu vào năm 1962.[1] Nội dung lấy bối
+          cảnh từ cuộc sống của người dân vùng U Minh vào khoảng 1930–1940.
+        </p>
+      </div>
+      <div class="thebox">
+        <h2>Hoàng tử bé</h2>
+        <p>
+          Hoàng tử bé (tên tiếng Pháp: Le Petit Prince, phát âm: [lə p(ə)ti
+          pʁɛ̃s]), được xuất bản năm 1943, là tiểu thuyết nổi tiếng nhất của
+          nhà văn và phi công Pháp Antoine de Saint-Exupéry. Ông đã thuê ngôi
+          biệt thự The Bevin House ở Asharoken, Long Island, New York trong
+          khi viết tác phẩm này. Cuốn tiểu thuyết cũng bao gồm nhiều bức tranh
+          do chính Saint-Exupéry vẽ. Tác phẩm đã được dịch sang hơn 250 ngôn
+          ngữ (bao gồm cả tiếng địa phương) và cho đến nay đã bán được hơn 200
+          triệu bản khắp thế giới, trở thành một trong những sách bán chạy
+          nhất của mọi thời đại, được phát triển thành một sê ri truyện tranh
+          39 chương bởi Élyum Studio, và một phiên bản graphic novel bìa cứng
+          chuyển thể bởi danh họa tài năng Joann Sfar. Truyện còn được dùng
+          như tài liệu cho những người muốn làm quen với ngoại ngữ.
+        </p>
+      </div>
+      <div class="thebox">
+        <h2>Số hoàn thiện</h2>
+        <p>
+          Số hoàn hảo (hay còn gọi là số hoàn chỉnh, số hoàn thiện hoặc số
+          hoàn thành) là một số nguyên dương mà tổng các ước nguyên dương thực
+          sự của nó (các số nguyên dương bị nó chia hết ngoại trừ nó) bằng
+          chính nó.
+        </p>
+      </div>
+      <div class="thebox">
+        <h2>The Count of Monte Cristo</h1>
+        <p>
+          The Count of Monte Cristo (French: Le Comte de Monte-Cristo) is an adventure novel written by French author
+          Alexandre Dumas (père) completed in 1844. It is one of the author's most popular works, along with The Three
+          Musketeers. Like many of his novels, it was expanded from plot outlines suggested by his collaborating
+          ghostwriter Auguste Maquet.[1]
+        </p>
+        <p>
+          The story takes place in France, Italy, and islands in the Mediterranean during the historical events of
+          1815–1839: the era of the Bourbon Restoration through the reign of Louis-Philippe of France. It begins on the
+          day that Napoleon left his first island of exile, Elba, beginning the Hundred Days period of his return to
+          power. The historical setting is a fundamental element of the book, an adventure story centrally concerned
+          with themes of hope, justice, vengeance, mercy, and forgiveness.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/scrIco.js"></script>
+  <script>
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      fetch("/logout", { method: "POST" })
+        .then((response) => {
+          if (response.ok) window.location.href = "/";
+          else alert("Lỗi đăng xuất!");
+        })
+        .catch((error) => {
+          alert("Lỗi đăng xuất!");
+        });
+    });
+    window.onload = function () {
+      document.querySelector(".article").classList.add("show");
+    };
+  </script>
+</body>
+
 </html>

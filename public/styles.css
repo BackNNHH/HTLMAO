@@ -73,14 +73,17 @@
   padding: 10px 15px;
   text-decoration: none;
   font-size: 18px;
-  /* color: rgb(255, 255, 255); */
-  transition: background-color 0.3s;
+  color: #000;
+  transition: background-color 0.5s;
   display: block;
 }
 .sidebar a:hover {
+  font-size: 19px;
   background-color: #ff91e7;
 }
 .sidebar a.achive {
+  font-size: 20px;
+  font-weight: bold;
   background-color: #31d658;
 }
 
@@ -96,7 +99,7 @@
 }
 .thebox:hover {
   transform: scale(1.01);
-  background: #f7f7f7;
+  background: #eedfdf;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 

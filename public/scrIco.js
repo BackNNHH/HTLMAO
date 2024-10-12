@@ -1,3 +1,12 @@
+
+document.getElementById("logoutButton").addEventListener("click", () => {
+  fetch("/logout", { method: "POST" })
+    .then((response) => {
+      if (response.ok) window.location.href = "/";
+      else alert("Lỗi đăng xuất!");
+    })
+    .catch((e) => { alert("Lỗi đăng xuất!"); });
+});
 const imageSourceSelect = document.getElementById("image-source");
 const imageUpload = document.getElementById("image-upload");
 const imageWeb = document.getElementById("image-web");
@@ -12,14 +21,10 @@ imageSourceSelect.addEventListener("change", () => {
     imageUpload.style.display = "block";
     iu(document.querySelector('input[name="image-upload"]'));
   } else if (selectedValue === "web") {
+    imagePreview.src = `../img/bookic/${imageWebSelect.value}`
     imageWeb.style.display = "block";
   }
 });
-document
-  .querySelector('input[name="image-upload"]')
-  .addEventListener("change", function (event) {
-    iu(event.target);
-  });
 function iu(t) {
   const file = t.files[0];
   if (file) {
@@ -34,7 +39,9 @@ function iu(t) {
     imagePreview.style.display = "none";
   }
 }
+document.querySelector('input[name="image-upload"]').addEventListener("change", function (event) {
+  iu(event.target);
+});
 imageWebSelect.addEventListener("change", () => {
-  console.log(imageWebSelect);
-  imagePreview.src = `img/bookic/${imageWebSelect.value}`;
+  imagePreview.src = `../img/bookic/${imageWebSelect.value}`;
 });

@@ -1,5 +1,7 @@
 # Ứng dụng quản lý thư viện trực tuyến
 
+
+
 ## Databases
 
 ### desc Books
@@ -19,23 +21,26 @@
 | id  | username | password    | role   |
 | --- | -------- | ----------- | ------ |
 | 1   | admin    | :trollface: | ăc min |
+| ... | ...      | :trollface: | mana   |
+| ... | ...      | :trollface: | norm   |
 
 ## Stru
 
 ```
 HTLMAO/:
 ├─BACKUP/
-│ │...
+│ └─...
 ├─node_modules/
 │ └─(.gitignore)
 ├─Public/
 │ ├─img/
 │ │ └─...
 │ ├─icon.png
+│ ├─scrIco.js
 │ └─styles.css
 ├─views/
 | ├─acc.ejs
-| ├─add.ejs
+| ├─EDIT.ejs
 | ├─homes.ejs
 | ├─login.ejs
 | └─view.ejs
