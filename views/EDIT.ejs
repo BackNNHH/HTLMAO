@@ -127,7 +127,7 @@
 
       <div class="container">
         <h1>Sửa sách</h1>
-        <form action="/edit-book" method="POST" enctype="multipart/form-data">
+        <form action="/edit-book/<%= book[0].id %>" method="POST" enctype="multipart/form-data">
           <div class="form-container">
             <div class="form-column">
               <label for="title">Tiêu đề:</label>
@@ -147,7 +147,7 @@
                 <option value="upload">Tải lên</option>
               </select>
               <!-- <div  id="image-current" style="display: block"></div> -->
-              <div id="image-web" style="display: block">
+              <div id="image-web" style="display: none">
                 <select name="image-web" id="imageweb">
                   <% images.forEach(img=> { %>
                     <option value="<%= img %>">
@@ -164,7 +164,7 @@
               </div>
             </div>
           </div>
-          <button type="submit">Thêm</button>
+          <button type="submit">Lưu</button>
           <button type="button" class="r" onclick="window.location.href='/view'">Hủy</button>
         </form>
       </div>
@@ -177,13 +177,15 @@
     window.onload = function () {
       document.querySelector(".article").classList.add("show");
     };
-    const defaultse = document.querySelector(".image-web")
+    const defaultse = document.querySelector(".image-web");
+
+
     function showValue() {
       defaultse.value = '<%= book[0].cover_image %>';
     }
-    setTimeout(showValue, 3000);
-    console.log(imageWeb.value);
-    // imagePreview.src = `../img/bookic/${imageWebSelect.value}`
+    // setTimeout(showValue, 3000);
+    // console.log(imageSourceSelect.value);
+    imagePreview.src = `../img/bookic/${imageSourceSelect.value}`
   </script>
 </body>
 

@@ -24,6 +24,7 @@ imageSourceSelect.addEventListener("change", () => {
     imagePreview.src = `../img/bookic/${imageWebSelect.value}`
     imageWeb.style.display = "block";
   }
+  else imagePreview.src = `../img/bookic/${imageSourceSelect.value}`
 });
 function iu(t) {
   const file = t.files[0];

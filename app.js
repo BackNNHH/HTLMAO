@@ -145,7 +145,6 @@ app.post('/edit/:id', (req, res) => {
 			} else {
 				console.log(">>EDIT");
 				console.log(r);
-				console.log(images);
 				res.render('EDIT', { book: r, AxuId, images: images });
 			}
 		});
@@ -201,7 +200,9 @@ app.post('/edit-book/:id', upload.single('image-upload'), (req, res) => {
 			res.status(500).send('Lỗi server');
 			return;
 		}
-		res.redirect(view);
+		console.log(req.body);
+		console.log(cover_image);
+		res.redirect('/view');
 	});
 });
 
