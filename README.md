@@ -1,7 +1,5 @@
 # Ứng dụng quản lý thư viện trực tuyến
 
-
-
 ## Databases
 
 ### desc Books
@@ -50,4 +48,32 @@ HTLMAO/:
 ├─package-lock.json
 ├─package.json
 └─README.md
+```
+
+## MySQL 8.4 Command Line Client
+
+`CREATE DATABASE web_login;`
+
+`use web_login`
+
+```
+CREATE TABLE books (
+  id INT AUTO_INCREMENT
+  PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  genre VARCHAR(255) NOT NULL,
+  description TEXT,
+  cover_image VARCHAR(255) DEFAULT 'empty',
+  available TINYINT(1) DEFAULT 1
+);
+```
+
+```
+CREATE TABLE users (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(255) DEFAULT 'normal'
+);
 ```

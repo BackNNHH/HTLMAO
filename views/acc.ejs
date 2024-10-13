@@ -217,7 +217,7 @@
         e.preventDefault();
         const userId = e.target.querySelector('button[type="submit"]')
           .dataset.id;
-        if (confirm("Bạn có chắc chắn muốn xóa người dùng này?")) {
+        if (confirm(`Bạn có chắc chắn muốn xóa người dùng(${e.target.closest('tr').querySelector('td:nth-child(2)').textContent}) này?`)) {
           fetch(`/delete-user/${userId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

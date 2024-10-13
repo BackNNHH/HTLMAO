@@ -23,14 +23,13 @@ const connection = mysql.createConnection({
 	database: process.env.DB_NAME
 });
 
-connection.connect((err) => {
-	if (err) {
-		console.error('YOU MySQL get CRINGE:', err);
-	} else {
-		console.log('データベースコネクト！');
+connection.connect((e) => {
+	if (e) console.error('YOUr MySQL get CRINGE: ', e);
+	else {
+		// console.log('データベースコネクト！');
+		console.log(`⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣤⣤⣤⣤⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣶⣿⣶⣄⡀⢀⣠⣶⣿⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⣠⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⠀⠀⠀\n⠀⠀⠀⠀⠀⣿⣶⣤⣄⣉⣉⠙⠛⠛⠛⠛⠛⠛⠋⣉⣉⣠⣤⣶⣿⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂⠀⠀\n⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⢺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀\n⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠉⢛⣿⣿⣿⣿⣿⣿⣶⣄⠀\n⠀⠀⠀⠀⠀⣄⡉⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠟⠛⢉⣠⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣁⠀⠻⣿⡿⠛⠁⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⡇\n⠀⠀⠀⠀⠀⣿⣿⣿⣶⣶⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣶⣶⣿⣿⣿⠀⠀⠙⠿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠈⠀⣀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠀\n⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⢺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⠀⠀⠀\n⠀⠀⠀⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀\n⠀⠀⠀⠀⠀⣶⣤⣈⡉⠛⠛⠻⠿⠿⠿⠿⠿⠿⠟⠛⠛⢉⣁⣤⣶⠀⠀⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀\n⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣷⣶⣶⣶⣶⣶⣶⣶⣶⣾⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠿⣿⠿⠋⠁⠈⠙⠿⣿⠿⠃⠀⠀⠀⠀⠀⠀⠀⠀\n⠀⠀⠀⠀⠀⠙⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⠋⠀\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠛⠛⠛⠛⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀`);
 	}
 });
-
 
 // Sử dụng EJS làm template engine
 app.set('view engine', 'ejs');
@@ -44,8 +43,9 @@ app.get('/', (req, res) => {
 	res.render('login');
 });
 
-
-
+//////////////////////////////////
+// code...
+//////////////////////////////////////////////////////////////
 app.get('/acc', (req, res) => {
 	if (req.session.user) {
 		const query = req.session.user.role != 'aDmIn'
@@ -57,10 +57,7 @@ app.get('/acc', (req, res) => {
 				res.send('Lỗi xảy ra!');
 			} else {
 				console.log(">>acc");
-				const users = r.map(user => ({
-					...user,
-					password: ' ͡° ͜ʖ ͡°'
-				}));
+				const users = r.map(user => ({ ...user, password: ' ͡° ͜ʖ ͡°' }));
 				res.render('acc', { users, typechr: req.session.user.role === 'aDmIn' ? true : false });
 			}
 		});
@@ -68,11 +65,11 @@ app.get('/acc', (req, res) => {
 		res.redirect('/');
 	}
 });
+
 app.get('/add', (req, res) => {
 	if (req.session.user) {
 		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
 			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
-
 		console.log(images);
 		res.render('add', { images: images });
 	}
@@ -81,9 +78,9 @@ app.get('/add', (req, res) => {
 //login bottom text
 app.get('/home', (req, res) => {
 	if (req.session.user) {
-		connection.query('SELECT * FROM books', (err, results) => {
-			if (err) {
-				console.error('Lỗi truy vấn:', err);
+		connection.query('SELECT * FROM books', (e, results) => {
+			if (e) {
+				console.error('Lỗi truy vấn:', e);
 				res.send('Lỗi xảy ra!');
 			} else {
 				console.log(">>home");
@@ -113,6 +110,23 @@ app.get('/view', (req, res) => {
 	}
 });
 
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, path.join(__dirname, 'public', 'img', 'bookic'));
+	},
+	filename: (req, file, cb) => {
+		const originalName = file.originalname;
+		const dotIndex = originalName.lastIndexOf('.')
+		const newName = originalName.substring(0, dotIndex).replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + (dotIndex !== -1 ? originalName.substring(dotIndex) : '');
+		// const newName = originalName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+		// const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+		// cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+		// cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+		cb(null, newName);
+	}
+});
+const upload = multer({ storage: storage });
+
 app.post('/edit/:id', (req, res) => {
 	const rsu = req.session.user
 	const AxuId = req.params.id;
@@ -131,6 +145,7 @@ app.post('/edit/:id', (req, res) => {
 			} else {
 				console.log(">>EDIT");
 				console.log(r);
+				console.log(images);
 				res.render('EDIT', { book: r, AxuId, images: images });
 			}
 		});
@@ -139,47 +154,36 @@ app.post('/edit/:id', (req, res) => {
 	}
 });
 
-
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, path.join(__dirname, 'public', 'img', 'bookic'));
-	},
-	filename: (req, file, cb) => {
-		const originalName = file.originalname;
-		const dotIndex = originalName.lastIndexOf('.')
-		const newName = originalName.substring(0, dotIndex).replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + (dotIndex !== -1 ? originalName.substring(dotIndex) : '');
-		// const newName = originalName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-		// const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-		// cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-		// cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-		cb(null, newName);
+app.post('/search', (req, res) => {
+	const rsu = req.session.user;
+	const searchTerm = req.body.searchTerm;
+	if (rsu) {
+		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
+			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
+		const query = `SELECT * FROM books WHERE title LIKE '%${searchTerm}%'`;
+		connection.query(query, (e, results) => {
+			if (e) {
+				console.error('Lỗi truy vấn:', e);
+				res.send('Lỗi xảy ra!');
+			} else {
+				console.log(">>view(sear)");
+				res.render('view', { books: results, typechr: rsu.role === 'aDmIn' ? true : false, manachr: rsu.role === 'mana' || rsu.role === 'aDmIn' ? true : false, images: images });
+			}
+		});
+	} else {
+		res.redirect('/');
 	}
 });
-const upload = multer({ storage: storage });
 
-app.post('/search', (req, res) => {
-	const searchTerm = req.body.searchTerm;
-	const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
-		.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
-	const query = `SELECT * FROM books WHERE title LIKE '%${searchTerm}%'`;
-	connection.query(query, (err, results) => {
-		if (err) {
-			console.error('Lỗi truy vấn:', err);
-			res.send('Lỗi xảy ra!');
-		} else {
-			res.render('view', { books: results, images: images });
-		}
-	});
-});
 app.post('/add-book', upload.single('image-upload'), (req, res) => {
 	const { title, author, genre, available } = req.body;
-	const cover_image = req.file ? req.file.filename : req.body['image-source'] == 'web' ? req.body['image-web'] : null;
+	const cover_image = req.file ? req.file.filename : req.body['image-source'] == 'web' ? req.body['image-web'] : 'empty.jpg';
 	console.log(cover_image);
 	console.log(req.body);
 	connection.query('INSERT INTO books (title, author, genre, cover_image, available) VALUES (?, ?, ?, ?, ?)',
-		[title, author, genre, cover_image, available], (err, results) => {
-			if (err) {
-				console.error('Lỗi thêm sách:', err);
+		[title, author, genre, cover_image, available], (e, results) => {
+			if (e) {
+				console.error('Lỗi thêm sách:', e);
 				res.send('Lỗi xảy ra!');
 			} else {
 				res.redirect('view');
@@ -190,7 +194,7 @@ app.post('/add-book', upload.single('image-upload'), (req, res) => {
 app.post('/edit-book/:id', upload.single('image-upload'), (req, res) => {
 	const bookId = req.params.id;
 	const { title, author, genre, available } = req.body;
-	const cover_image = req.file ? req.file.filename : req.body.old_cover_image;
+	const cover_image = req.file ? req.file.filename : req.body['image-source'] == 'web' ? req.body['image-web'] : req.body['image-source'];
 	connection.query('UPDATE books SET title = ?, author = ?, genre = ?, available = ?, cover_image = ? WHERE id = ?', [title, author, genre, available, cover_image, bookId], (e, results) => {
 		if (e) {
 			console.error('Lỗi cập nhật database:', e);
@@ -203,9 +207,9 @@ app.post('/edit-book/:id', upload.single('image-upload'), (req, res) => {
 
 app.post('/delete-book/:id', (req, res) => {
 	const bookId = req.params.id;
-	connection.query('DELETE FROM books WHERE id = ?', [bookId], (err, results) => {
-		if (err) {
-			console.error('Lỗi xóa sách:', err);
+	connection.query('DELETE FROM books WHERE id = ?', [bookId], (e, results) => {
+		if (e) {
+			console.error('Lỗi xóa sách:', e);
 			res.send('Lỗi xảy ra!');
 		} else {
 			res.redirect('/view');
@@ -228,20 +232,19 @@ app.post('/scrU', (req, res) => {
 app.post('/delete-user/:id', (req, res) => {
 	const userId = req.params.id;
 	console.log(userId);
-	connection.query('SELECT role FROM users WHERE id = ?', [userId], (err, results) => {
-		if (err) {
-			console.error(err);
+	connection.query('SELECT role FROM users WHERE id = ?', [userId], (e, results) => {
+		if (e) {
+			console.error(e);
 			res.status(500).json({ message: 'Lỗi server :(' });
 			return;
 		} else {
 			if (results[0].role === 'aDmIn') {
-				res.status(403).json({ message: 'Mày không thể xoá được bố mày!' });
+				res.status(403).json({ message: 'you CAN NOT DELETE ADMIN!' });
 				return;
 			} else {
-				connection.query('DELETE FROM users WHERE id = ?', [userId], (err, results) => {
-
-					if (err) {
-						console.error(err);
+				connection.query('DELETE FROM users WHERE id = ?', [userId], (e, results) => {
+					if (e) {
+						console.error(e);
 						res.status(500).json({ message: 'Error deleting user' });
 						console.log(500);
 					} else {
@@ -254,28 +257,28 @@ app.post('/delete-user/:id', (req, res) => {
 	});
 });
 app.get('/download', (req, res) => {
-  connection.query('SELECT id, title AS Name,genre, available AS Quatity FROM books', (e, r) => {
-    if (e) throw e;
-    const worksheet = xlsx.utils.json_to_sheet(r);
-    const workbook = xlsx.utils.book_new();
-    xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-    const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'buffer' });
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', 'attachment; filename=data.xlsx');
-    res.send(excelBuffer);
-  });
+	connection.query('SELECT id, title AS Name, genre, available AS Quatity FROM books', (e, r) => {
+		if (e) throw e;
+		const worksheet = xlsx.utils.json_to_sheet(r);
+		const workbook = xlsx.utils.book_new();
+		xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+		const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		res.setHeader('Content-Disposition', 'attachment; filename=data.xlsx');
+		res.send(excelBuffer);
+	});
 });
 
 // Xử lý đăng nhập
 app.post('/login', (req, res) => {
 	const { username, password } = req.body;
-	connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
-		if (err) {
-			console.error('Lỗi truy vấn:', err);
+	connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (e, results) => {
+		if (e) {
+			console.error('Lỗi truy vấn:', e);
 			res.send('Lỗi xảy ra!');
 		} else {
 			if (results.length > 0) {
-				req.session.user = results[0]; // Lưu thông tin người dùng vào session
+				req.session.user = results[0];
 				console.log("welcome..." + req.session.user.username);
 				res.redirect('/home');
 			} else {
@@ -291,9 +294,9 @@ app.post('/register', (req, res) => {
 	// console.log(req.body);
 	// console.log(req.session.user);
 
-	connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
-		if (err) {
-			console.error(err);
+	connection.query('SELECT * FROM users WHERE username = ?', [username], (e, results) => {
+		if (e) {
+			console.error(e);
 			res.status(500).json({ message: 'DEAD FROM CRINGE' });
 			console.log(500);
 			return;
@@ -309,9 +312,9 @@ app.post('/register', (req, res) => {
 			return;
 		}
 
-		connection.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, password, role], (err, result) => {
-			if (err) {
-				console.error(err);
+		connection.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, password, role], (e, result) => {
+			if (e) {
+				console.error(e);
 				res.status(500).json('Lỗi máy chủ');
 				return;
 			}
@@ -322,9 +325,9 @@ app.post('/register', (req, res) => {
 	});
 });
 app.post('/logout', (req, res) => {
-	req.session.destroy((err) => {
-		if (err) {
-			console.error('Lỗi đăng xuất:', err);
+	req.session.destroy((e) => {
+		if (e) {
+			console.error('Lỗi đăng xuất:', e);
 			res.send('Lỗi xảy ra!');
 		} else {
 			res.redirect('/');
@@ -332,7 +335,4 @@ app.post('/logout', (req, res) => {
 	});
 });
 
-
-app.listen(port, () => {
-	console.log(`>>>http://localhost:${port} \n>>LAN:http://192.168.1.32:${port}`);
-});
+app.listen(port, () => { console.log(`⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣ ‧₊˚✧⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣\n>>>>>> http://localhost:${port} \n>>LAN: http://192.168.1.32:${port} (HOST ONLY!)\n⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣ ‧₊˚✧⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣`); });

@@ -36,7 +36,7 @@ function iu(t) {
     reader.readAsDataURL(file);
   } else {
     imagePreview.src = "#";
-    imagePreview.style.display = "none";
+    // imagePreview.style.display = "none";
   }
 }
 document.querySelector('input[name="image-upload"]').addEventListener("change", function (event) {

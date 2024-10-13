@@ -27,7 +27,7 @@
       top: 50%;
     }
 
-    .container button{
+    .container button {
       padding: 12px 25px;
       font-family: "Times New Roman", sans-serif;
       font-size: medium;
@@ -84,7 +84,7 @@
       background-color: #af4c4c;
     }
 
-    button:hover.r{
+    button:hover.r {
       transform: scale(1.1);
       background-color: #944040;
     }
@@ -131,30 +131,33 @@
           <div class="form-container">
             <div class="form-column">
               <label for="title">Tiêu đề:</label>
-              <input type="text" id="title" name="title" value="<%= book.title %>" required />
+              <input type="text" id="title" name="title" value="<%= book[0].title %>" required />
               <label for="author">Tác giả:</label>
-              <input type="text" id="author" name="author" value="<%= book.author %>" required />
+              <input type="text" id="author" name="author" value="<%= book[0].author %>" required />
               <label for="genre">Thể loại:</label>
-              <input type="text" id="genre" name="genre" value="<%= book.genre %>" required />
+              <input type="text" id="genre" name="genre" value="<%= book[0].genre %>" required />
               <label for="available">Số lượng:</label>
-              <input type="number" id="available" name="available" value="<%= book.available %>" />
+              <input type="number" id="available" name="available" value="<%= book[0].available %>" />
             </div>
             <div class="form-column">
               <label for="cover_image">Ảnh...:</label>
               <select name="image-source" id="image-source">
+                <option value="<%= book[0].cover_image %>">Current</option>
                 <option value="web">Dùng ảnh có sẵn</option>
                 <option value="upload">Tải lên</option>
               </select>
-              <div id="image-upload" style="display: none">
-                <input type="file" name="image-upload" accept="image/*" />
-              </div>
+              <!-- <div  id="image-current" style="display: block"></div> -->
               <div id="image-web" style="display: block">
-                <select name="image-web" id="imageweb" value="<%= book.cover_image %>">
-                  <% images.forEach(image=> { %> <option value="<%= image %>">
-                      <%= image %>
+                <select name="image-web" id="imageweb">
+                  <% images.forEach(img=> { %>
+                    <option value="<%= img %>">
+                      <%= img %>
                     </option>
                     <% }); %>
                 </select>
+              </div>
+              <div id="image-upload" style="display: none">
+                <input type="file" name="image-upload" accept="image/*" />
               </div>
               <div id="preview-image">
                 <img src="" id="preview-image-src" alt="Xem trước ảnh" style="max-width: 200px" />
@@ -162,8 +165,7 @@
             </div>
           </div>
           <button type="submit">Thêm</button>
-          <button type="button"id="view" class="r">Hủy</button>
-          <a  class="r" href="/view">Hủy</a>
+          <button type="button" class="r" onclick="window.location.href='/view'">Hủy</button>
         </form>
       </div>
     </div>
@@ -171,16 +173,17 @@
   <script src="/scrIco.js"></script>
   <script>
     // console.log(JSON.parse("<%= JSON.stringify(book) %>"));
-    // console.log("<%= JSON.stringify(book) %>");
-    document.getElementById("view").addEventListener("click", () => {
-      fetch("/view", { method: "POST" }).then((response) => {
-      if (response.ok) window.location.href = "/";
-      else alert("Lỗi đăng xuất!");
-    })
-    });
+    console.log("<%= book[0].cover_image %>");
     window.onload = function () {
       document.querySelector(".article").classList.add("show");
     };
+    const defaultse = document.querySelector(".image-web")
+    function showValue() {
+      defaultse.value = '<%= book[0].cover_image %>';
+    }
+    setTimeout(showValue, 3000);
+    console.log(imageWeb.value);
+    // imagePreview.src = `../img/bookic/${imageWebSelect.value}`
   </script>
 </body>
 
