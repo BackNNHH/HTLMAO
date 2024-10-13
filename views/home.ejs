@@ -15,6 +15,7 @@
       background-color: #e3f2fd;
       /* background-color: rgb(32, 32, 32); */
     }
+
     button {
       background-color: #4caf50;
       color: white;
@@ -34,6 +35,8 @@
 <body>
   <div class="header">
     <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
+    <button id="sico" class="smbutt adroi" style="display: none;"onclick="toggleSIDE()"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+    </button>
     <nav>
       <form method="POST" action="/search">
         <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên sách" />
@@ -89,20 +92,21 @@
       <div class="thebox">
         <h2>The Count of Monte Cristo</h1>
           <!-- <blockquote> -->
-        <p>
-          The Count of Monte Cristo (French: Le Comte de Monte-Cristo) is an adventure novel written by French author
-          Alexandre Dumas (père) completed in 1844. It is one of the author's most popular works, along with The Three
-          Musketeers. Like many of his novels, it was expanded from plot outlines suggested by his collaborating
-          ghostwriter Auguste Maquet.[1]
-        </p>
-        <p>
-          The story takes place in France, Italy, and islands in the Mediterranean during the historical events of
-          1815–1839: the era of the Bourbon Restoration through the reign of Louis-Philippe of France. It begins on the
-          day that Napoleon left his first island of exile, Elba, beginning the Hundred Days period of his return to
-          power. The historical setting is a fundamental element of the book, an adventure story centrally concerned
-          with themes of hope, justice, vengeance, mercy, and forgiveness.
-        <!-- </blockquote> -->
-        </p>
+          <p>
+            The Count of Monte Cristo (French: Le Comte de Monte-Cristo) is an adventure novel written by French author
+            Alexandre Dumas (père) completed in 1844. It is one of the author's most popular works, along with The Three
+            Musketeers. Like many of his novels, it was expanded from plot outlines suggested by his collaborating
+            ghostwriter Auguste Maquet.[1]
+          </p>
+          <p>
+            The story takes place in France, Italy, and islands in the Mediterranean during the historical events of
+            1815–1839: the era of the Bourbon Restoration through the reign of Louis-Philippe of France. It begins on
+            the
+            day that Napoleon left his first island of exile, Elba, beginning the Hundred Days period of his return to
+            power. The historical setting is a fundamental element of the book, an adventure story centrally concerned
+            with themes of hope, justice, vengeance, mercy, and forgiveness.
+            <!-- </blockquote> -->
+          </p>
       </div>
     </div>
   </div>

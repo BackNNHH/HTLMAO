@@ -7,6 +7,13 @@ document.getElementById("logoutButton").addEventListener("click", () => {
     })
     .catch((e) => { alert("Lỗi đăng xuất!"); });
 });
+
+function toggleSIDE() {
+  document.querySelector(".sidebar").classList.toggle("cc");
+  document.querySelector(".article").classList.toggle("cc");
+};
+
+
 const imageSourceSelect = document.getElementById("image-source");
 const imageUpload = document.getElementById("image-upload");
 const imageWeb = document.getElementById("image-web");

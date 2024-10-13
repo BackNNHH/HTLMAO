@@ -21,6 +21,7 @@
       width: 100px;
     }
 
+
     .container {
       display: none;
       background-color: #fff;
@@ -110,11 +111,19 @@
       transform: scale(1.1);
       background-color: #944040;
     }
-
     .showc {
       display: block;
       opacity: 1;
       transform: translate(-50%, -50%);
+    }
+    @media (max-width: 767px) {
+      .container {
+        width: 80%;
+      }
+      .container button {
+        padding: 12px 20px;
+        margin: 10px 18px;
+      }
     }
   </style>
 </head>
@@ -122,6 +131,9 @@
 <body>
   <div class="header">
     <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
+    <button id="sico" class="smbutt adroi" style="display: none;" onclick="toggleSIDE()"><span
+        class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+    </button>
     <nav>
       <form method="POST" action="/scrU">
         <input type="text" name="searchU" placeholder="Tìm kiếm tên người dùng" />
@@ -155,10 +167,19 @@
         <tbody>
           <% users.forEach(_=> { %>
             <tr>
-              <td><%= _.id %></td>
-              <td><%= _.username %></td>
-              <td><%= _.password %></td>
-              <td><%= _.role %></td><td>
+              <td>
+                <%= _.id %>
+              </td>
+              <td>
+                <%= _.username %>
+              </td>
+              <td>
+                <%= _.password %>
+              </td>
+              <td>
+                <%= _.role %>
+              </td>
+              <td>
                 <form id="de" action="/delete-user/" method="POST">
                   <button type="submit" class="r" data-id="<%= _.id %>">Delete</button>
                 </form>
