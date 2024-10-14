@@ -1,6 +1,6 @@
 .header {
   background-image: linear-gradient(120deg, #1a9bd4, #03df50);
-  /* background-color: #0d9cfd; */
+  background-color: #0d9cfd;
   box-shadow: 0 1px 10px rgba(13 156 253);
   backdrop-filter: blur(10px);
   color: white;
