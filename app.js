@@ -43,13 +43,17 @@ app.get('/', (req, res) => {
 	res.render('login');
 });
 
+function istypechr(u) {
+	return u.role === 'mana' || u.role === 'aDmIn';
+}
 //////////////////////////////////
 // code...
 //////////////////////////////////////////////////////////////
 app.get('/acc', (req, res) => {
-	if (req.session.user) {
-		const query = req.session.user.role != 'aDmIn'
-			? `SELECT * FROM users WHERE id = ${req.session.user.id}`
+	const rsu = req.session.user
+	if (rsu) {
+		const query = rsu.role != 'aDmIn'
+			? `SELECT * FROM users WHERE id = ${rsu.id}`
 			: `SELECT * FROM users`;
 		connection.query(query, (e, r) => {
 			if (e) {
@@ -58,7 +62,7 @@ app.get('/acc', (req, res) => {
 			} else {
 				console.log(">>acc");
 				const users = r.map(user => ({ ...user, password: ' ͡° ͜ʖ ͡°' }));
-				res.render('acc', { users, typechr: req.session.user.role === 'aDmIn' ? true : false });
+				res.render('acc', { users, typechr: (rsu.role === 'aDmIn' ? true : false), manachr: istypechr(rsu) });
 			}
 		});
 	} else {
@@ -66,25 +70,60 @@ app.get('/acc', (req, res) => {
 	}
 });
 
+app.get('/borrow', (req, res) => {
+	const rsu = req.session.user
+	if (rsu) {
+		if(!istypechr(rsu)) res.redirect('/view');
+		connection.query('SELECT * FROM borrow', (e, r) => {
+			if (e) {
+				console.error('Lỗi truy vấn:', e);
+				res.send('Lỗi xảy ra!');
+			} else {
+				console.log(">>Borrow");
+				res.render('borrow', { chr: r, manachr: istypechr(rsu) });
+			}
+		});
+	} else {
+		res.redirect('/');
+	}
+});
+app.get('/borrowhis', (req, res) => {
+	const rsu = req.session.user
+	if (rsu) {
+		connection.query('SELECT * FROM borrowhis', (e, r) => {
+			if (e) {
+				console.error('Lỗi truy vấn:', e);
+				res.send('Lỗi xảy ra!');
+			} else {
+				console.log(">>BorrowHis");
+				res.render('borrowhis', { chr: r, manachr: istypechr(rsu) });
+			}
+		});
+	} else {
+		res.redirect('/');
+	}
+});
 app.get('/add', (req, res) => {
-	if (req.session.user) {
+	const rsu = req.session.user
+	if (rsu) {
 		const images = fs.readdirSync(path.join(__dirname, 'public', 'img', 'bookic'))
 			.filter(file => file.endsWith('.jpg') || file.endsWith('.png'));
 		console.log(images);
-		res.render('add', { images: images });
+		res.render('add', { images: images, manachr: istypechr(rsu) });
 	}
 	else res.redirect('/');
 });
 //login bottom text
 app.get('/home', (req, res) => {
-	if (req.session.user) {
+	const rsu = req.session.user
+	if (rsu) {
 		connection.query('SELECT * FROM books', (e, results) => {
 			if (e) {
 				console.error('Lỗi truy vấn:', e);
 				res.send('Lỗi xảy ra!');
 			} else {
 				console.log(">>home");
-				res.render('home', { books: results });
+				res.render('home', { books: results, manachr: istypechr(rsu) });
 			}
 		});
 	} else {
@@ -102,7 +141,7 @@ app.get('/view', (req, res) => {
 				res.send('Lỗi xảy ra!');
 			} else {
 				console.log(">>view");
-				res.render('view', { books: r, typechr: rsu.role === 'aDmIn' ? true : false, manachr: rsu.role === 'mana' || rsu.role === 'aDmIn' ? true : false, images: images });
+				res.render('view', { books: r, images: images, manachr: istypechr(rsu) });
 			}
 		});
 	} else {
@@ -145,7 +184,7 @@ app.post('/edit/:id', (req, res) => {
 			} else {
 				console.log(">>EDIT");
 				console.log(r);
-				res.render('EDIT', { book: r, AxuId, images: images });
+				res.render('EDIT', { book: r, AxuId, images: images, manachr: istypechr(rsu) });
 			}
 		});
 	} else {
@@ -166,7 +205,7 @@ app.post('/search', (req, res) => {
 				res.send('Lỗi xảy ra!');
 			} else {
 				console.log(">>view(sear)");
-				res.render('view', { books: results, typechr: rsu.role === 'aDmIn' ? true : false, manachr: rsu.role === 'mana' || rsu.role === 'aDmIn' ? true : false, images: images });
+				res.render('view', { books: results, manachr: istypechr(rsu), images: images });
 			}
 		});
 	} else {
@@ -175,12 +214,12 @@ app.post('/search', (req, res) => {
 });
 
 app.post('/add-book', upload.single('image-upload'), (req, res) => {
-	const { title, author, genre, available } = req.body;
+	const { title, author, genre, location, available } = req.body;
 	const cover_image = req.file ? req.file.filename : req.body['image-source'] == 'web' ? req.body['image-web'] : 'empty.jpg';
 	console.log(cover_image);
 	console.log(req.body);
-	connection.query('INSERT INTO books (title, author, genre, cover_image, available) VALUES (?, ?, ?, ?, ?)',
-		[title, author, genre, cover_image, available], (e, results) => {
+	connection.query('INSERT INTO books (title, author, genre, location, cover_image, available) VALUES (?, ?, ?, ?, ?, ?)',
+		[title, author, genre, location, cover_image, available], (e, results) => {
 			if (e) {
 				console.error('Lỗi thêm sách:', e);
 				res.send('Lỗi xảy ra!');
@@ -189,12 +228,53 @@ app.post('/add-book', upload.single('image-upload'), (req, res) => {
 			}
 		});
 });
+app.post('/add-chr', (req, res) => {
+	const { nameS, MS, nameB, dayM, dayT } = req.body;
+	console.log(req.body);
+	const dayTr = dayT ? dayT : null;
+	connection.beginTransaction(e => {
+		if (e) {
+			console.error('Lỗi 1:', e);
+			res.send('Lỗi xảy ra!');
+		}
+		connection.query('INSERT INTO borrow (nameS, MS, nameB, dayM, dayT) VALUES (?, ?, ?, ?, ?)',
+			[nameS, MS, nameB, dayM, dayTr], (e, results) => {
+				if (e) {
+					connection.rollback(() => {
+						console.error('Lỗi 21:', e);
+						res.send('Lỗi xảy ra!');
+					});
+					return;
+				}
+				connection.query('INSERT INTO borrowhis (nameS, MS, nameB, dayM, dayT) VALUES (?, ?, ?, ?, ?)',
+					[nameS, MS, nameB, dayM, dayTr], (e, results) => {
+						if (e) {
+							connection.rollback(() => {
+								console.error('Lỗi 22:', e);
+								res.send('Lỗi xảy ra!');
+							});
+							return;
+						}
+						connection.commit(e => {
+							if (e) {
+								connection.rollback(() => {
+									console.error('Lỗi e:', e);
+									res.send('Lỗi xảy ra!');
+								});
+								return;
+							}
+							res.redirect('borrow');
+						});
+					});
+			});
+	});
+});
 
 app.post('/edit-book/:id', upload.single('image-upload'), (req, res) => {
 	const bookId = req.params.id;
-	const { title, author, genre, available } = req.body;
+	const { title, author, genre, location, available } = req.body;
 	const cover_image = req.file ? req.file.filename : req.body['image-source'] == 'web' ? req.body['image-web'] : req.body['image-source'];
-	connection.query('UPDATE books SET title = ?, author = ?, genre = ?, available = ?, cover_image = ? WHERE id = ?', [title, author, genre, available, cover_image, bookId], (e, results) => {
+	connection.query('UPDATE books SET title = ?, author = ?, genre = ?, location = ?, available = ?, cover_image = ? WHERE id = ?', [title, author, genre, location, available, cover_image, bookId], (e, results) => {
 		if (e) {
 			console.error('Lỗi cập nhật database:', e);
 			res.status(500).send('Lỗi server');
@@ -232,30 +312,34 @@ app.post('/scrU', (req, res) => {
 });
 app.post('/delete-user/:id', (req, res) => {
 	const userId = req.params.id;
+	const rsu = req.session.user
 	console.log(userId);
-	connection.query('SELECT role FROM users WHERE id = ?', [userId], (e, results) => {
-		if (e) {
-			console.error(e);
-			res.status(500).json({ message: 'Lỗi server :(' });
-			return;
-		} else {
-			if (results[0].role === 'aDmIn') {
-				res.status(403).json({ message: 'you CAN NOT DELETE ADMIN!' });
+	if (rsu) {
+		connection.query('SELECT role FROM users WHERE id = ?', [userId], (e, results) => {
+			if (e) {
+				console.error(e);
+				res.status(500).json({ message: 'Lỗi server :(' });
 				return;
 			} else {
-				connection.query('DELETE FROM users WHERE id = ?', [userId], (e, results) => {
-					if (e) {
-						console.error(e);
-						res.status(500).json({ message: 'Error deleting user' });
-						console.log(500);
-					} else {
-						res.send({ message: 'Đã xóa người dùng thành công' });
-						if (req.session.user.id == userId) req.session.destroy();
-					}
-				});
+				if (results[0].role === 'aDmIn') {
+					res.status(403).json({ message: 'you CAN NOT DELETE ADMIN!' });
+					return;
+				} else {
+					connection.query('DELETE FROM users WHERE id = ?', [userId], (e, results) => {
+						if (e) {
+							console.error(e);
+							res.status(500).json({ message: 'Error deleting user' });
+							console.log(500);
+						} else {
+							res.send({ message: 'Đã xóa người dùng thành công' });
+							if (rsu.id == userId) req.session.destroy();
+						}
+					});
+				}
 			}
-		}
-	});
+		});
+	}
+	else res.redirect('/');
 });
 app.get('/download', (req, res) => {
 	connection.query('SELECT id, title AS Name, genre, available AS Quatity FROM books', (e, r) => {
@@ -265,7 +349,19 @@ app.get('/download', (req, res) => {
 		xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 		const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'buffer' });
 		res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		res.setHeader('Content-Disposition', 'attachment; filename=data.xlsx');
+		res.setHeader('Content-Disposition', 'attachment; filename=DSsach.xlsx');
+		res.send(excelBuffer);
+	});
+});
+app.get('/downBor', (req, res) => {
+	connection.query("SELECT id, nameS AS 'Tên Người Mượn', MS AS Mã, dayM AS 'Ngày Mượn', dayT AS 'Ngày Trả' FROM borrow", (e, r) => {
+		if (e) throw e;
+		const worksheet = xlsx.utils.json_to_sheet(r);
+		const workbook = xlsx.utils.book_new();
+		xlsx.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+		const excelBuffer = xlsx.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		res.setHeader('Content-Disposition', 'attachment; filename=DSmuon.xlsx');
 		res.send(excelBuffer);
 	});
 });

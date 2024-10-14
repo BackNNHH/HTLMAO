@@ -257,6 +257,9 @@
         <label for="password">Mật khẩu:</label>
         <input type="password" id="password" name="password" required />
         <br />
+        <label for="confirm_password">Xác nhận mật khẩu:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required />
+        <br />
         <label for="role">Vai trò:</label>
         <select id="role" name="role">
           <option value="norm">Normal</option>
@@ -281,7 +284,7 @@
   </div>
 
   <!-- <video id="bgVideo" style="z-index: -1" playsinline="" muted="muted" loop="loop" autoplay="autoplay" > <source src="https://nxm-clw-cdn.dn.nexoncdn.co.kr/bluearchive/img/events/2024/04/live_1dk292g/bg_video_jp.mp4" type="video/mp4" /> </video> -->
-  <div class="bgtitle"></div>
+  <div class="bgtitle bg-hidden"></div>
   <img src="img/x-n_cg1_bg.png" alt="BG" class="bg bg-hidden" />
   <img src="#" alt="Ứng dụng quản lý thư viện trực tuyến" class="tbg" />
   <nav>
@@ -309,11 +312,14 @@
       const username = formB.querySelector("#username").value;
       const password = formB.querySelector("#password").value;
       const role = formB.querySelector("#role").value;
-      fetch("/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, role }),
-      })
+      if (password !== formB.querySelector("#confirm_password").value) {
+        alert('Hai mật khẩu không trùng khớp!');
+      } else {
+        fetch("/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password, role }),
+        })
         .then((response) => {
           // if (response.status === 201) {
           // $("#registration-message").text("Đăng ký thành công!");
@@ -330,6 +336,7 @@
           $("#registration-message").text("Lỗi máy chủ. Vui lòng thử lại sau.");
           $("#registration-popup").show();
         });
+      }
     });
     function closePopup() { $("#registration-popup").hide(); }
   </script>

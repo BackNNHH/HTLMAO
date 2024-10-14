@@ -148,7 +148,9 @@
       <h2>Danh Mục</h2>
       <a target="_top" href="/home">🏠 Trang Chủ</a>
       <a target="_top" href="/view">📖 Xem Sách</a>
-      <!-- <a target="_top" href="/add">Thêm Sách</a> -->
+      <% if (manachr) { %>
+        <a target="_top" href="/borrow">📚 Mượn Sách</a>
+      <% } %>
       <a target="_top" href="#" class="achive">🗣️ Quản lý tài khoản</a>
       <a href="#" id="logoutButton"><b>⚰️ Đăng Xuất</b></a>
     </div>

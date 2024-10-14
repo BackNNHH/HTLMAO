@@ -128,6 +128,9 @@
       <a target="_top" href="/home">🏠 Trang Chủ</a>
       <a target="_top" href="/view">📖 Xem Sách</a>
       <a target="_top" href="#" class="achive">✏️ Sửa sách</a>
+      <% if (manachr) { %>
+        <a target="_top" href="/borrow">📚 Mượn Sách</a>
+      <% } %>
       <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
     </div>
     <div class="article">
@@ -143,6 +146,8 @@
               <input type="text" id="author" name="author" value="<%= book[0].author %>" required />
               <label for="genre">Thể loại:</label>
               <input type="text" id="genre" name="genre" value="<%= book[0].genre %>" required />
+              <label for="location">Vị trí:</label>
+              <input type="text" id="location" name="location" value="<%= book[0].location %>" />
               <label for="available">Số lượng:</label>
               <input type="number" id="available" name="available" value="<%= book[0].available %>" />
             </div>

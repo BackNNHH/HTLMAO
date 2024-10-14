@@ -35,7 +35,8 @@
 <body>
   <div class="header">
     <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
-    <button id="sico" class="smbutt adroi" style="display: none;"onclick="toggleSIDE()"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+    <button id="sico" class="smbutt adroi" style="display: none;" onclick="toggleSIDE()"><span
+        class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
     </button>
     <nav>
       <form method="POST" action="/search">
@@ -50,8 +51,10 @@
       <h2>Danh Mục</h2>
       <a target="_top" href="#" class="achive">🏠 Trang Chủ</a>
       <a target="_top" href="/view">📖 Xem Sách</a>
-      <!-- <a target="_top" href="/add">Thêm Sách</a> -->
-      <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
+      <% if (manachr) { %>
+        <a target="_top" href="/borrow">📚 Mượn Sách</a>
+        <% } %>
+          <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
     </div>
     <div class="article">
       <h1 class="t">Có gì mới???</h1>
