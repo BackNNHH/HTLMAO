@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bOrRoWHistory</title>
+  <title>EdIt</title>
   <link rel="stylesheet" href="/styles.css" />
   <style>
     body {
@@ -15,30 +15,16 @@
       background-color: #e3f2fd;
     }
 
-    h1.t {
-      margin-left: 20px;
-    }
-
     .article img {
       height: 100%;
       width: 100px;
     }
 
     .container {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 30px;
-      width: 80%;
       transition: all 0.3s ease;
       position: absolute;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .container:hover {
-      box-shadow: 0 5px 10px rgba(110, 170, 255, 0.5);
     }
 
     .container button {
@@ -79,26 +65,6 @@
       color: #333;
     }
 
-    .floating-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #4caf50;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      text-align: center;
-      line-height: 50px;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .floating-button.dow {
-      right: 80px;
-    }
 
     button {
       background-color: #4caf50;
@@ -109,8 +75,7 @@
       transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
-    button:hover,
-    img.floating-button.dow:hover {
+    button:hover {
       transform: scale(1.1);
       background-color: #218838;
     }
@@ -136,6 +101,12 @@
     .form-column {
       flex: 1;
     }
+
+    @media (max-width: 767px) {
+      .container {
+        padding: 0;
+      }
+    }
   </style>
 </head>
 
@@ -160,72 +131,40 @@
       <a target="_top" href="/view">📖 Xem Sách</a>
       <% if (manachr) { %>
         <a target="_top" href="/borrow">📚 Mượn Sách</a>
-        <a target="_top" href="#" class="achive">🕒Lịch Sử Mượn Sách</a>
+        <a target="_top" href="#" class="achive">✏️ Sửa muợn</a>
+        <a target="_top" href="/borrowhis">🕒Lịch Sử Mượn Sách</a>
         <% } %>
           <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
     </div>
     <div class="article">
-      <h1 class="t">Danh sách lịch sử mượn sách</h1>
-      <table id="bookTable">
-        <thead>
-          <tr>
-            <th>Tên</th>
-            <th>Mã Số</th>
-            <th>Tên Sách</th>
-            <th>Ngày mượn</th>
-            <th>Ngày trả</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% chr.forEach(chraux=> { %>
-            <tr>
-              <td>
-                <%= chraux.nameS %>
-              </td>
-              <td>
-                <%= chraux.MS %>
-              </td>
-              <td>
-                <%= chraux.nameB %>
-              </td>
-              <td>
-                <%= new Date(chraux.dayM).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
-                  year: 'numeric' }) %>
-              </td>
-              <td>
-                <% if (chraux.dayT) { %>
-                  <%= new Date(chraux.dayT).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
-                    , year: 'numeric' }) %>
-                    <% } else { %>
-                      Chưa Trả
-                      <% } %>
-              </td>
-            </tr>
-            <% }); %>
-        </tbody>
-      </table>
+      <div class="container">
+        <h1>Sửa người mượn sách</h1>
+        <form action="/update-chr/<%= chraux.id %>" method="POST">
+          <div class="form-container">
+            <div class="form-column">
+              <label for="nameS">Tên:</label>
+              <input type="text" id="nameS" name="nameS" value="<%= chraux.nameS %>" required />
+              <label for="MS">Mã Số:</label>
+              <input type="text" id="MS" name="MS" value="<%=chraux.MS %>" required />
+              <label for="nameB">Tên Sách:</label>
+              <input type="text" id="nameB" name="nameB" value="<%=chraux.nameB %>" required />
+              <label for="dayM">Ngày mượn:</label>
+              <input type="date" id="dayM" name="dayM" value="<%=chraux.DayM %>" required />
+              <label for="dayT">Ngày trả:</label>
+              <input type="date" id="dayT" name="dayT" value="<%=chraux.DayT %>" />
+            </div>
+          </div>
+          <button type="submit">Thêm</button>
+          <button type="button" class="r" onclick="window.location.href='/borrow'">Hủy</button>
+        </form>
+      </div>
     </div>
   </div>
-  <a href="/downBor">
-    <img src="img/excel.png" class="floating-button dow" title="Tải bảng KIA về..." a lt="DOWNLOAD">
-  </a>
-
   <script src="/scrIco.js"></script>
   <script>
-    document.getElementById("logoutButton").addEventListener("click", () => {
-      fetch("/logout", { method: "POST" })
-        .then((response) => {
-          if (response.ok) window.location.href = "/";
-          else alert("Lỗi đăng xuất!");
-        })
-        .catch((error) => {
-          alert("Lỗi đăng xuất!");
-        });
-    });
     window.onload = function () {
       document.querySelector(".article").classList.add("show");
     };
-
   </script>
 </body>
 

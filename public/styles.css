@@ -180,7 +180,7 @@ tr:nth-child(even) {
   background-color: #333;
   margin: 3px 0;
 }
-@media (max-width: 444px) { /*767*/
+@media (max-width: 767px) { /*767*/
    
   .header {
     padding: 10px 0px;

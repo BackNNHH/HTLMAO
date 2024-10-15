@@ -137,24 +137,24 @@
 
       <div class="container">
         <h1>Sửa sách</h1>
-        <form action="/edit-book/<%= book[0].id %>" method="POST" enctype="multipart/form-data">
+        <form action="/update-book/<%= book.id %>" method="POST" enctype="multipart/form-data">
           <div class="form-container">
             <div class="form-column">
               <label for="title">Tiêu đề:</label>
-              <input type="text" id="title" name="title" value="<%= book[0].title %>" required />
+              <input type="text" id="title" name="title" value="<%= book.title %>" required />
               <label for="author">Tác giả:</label>
-              <input type="text" id="author" name="author" value="<%= book[0].author %>" required />
+              <input type="text" id="author" name="author" value="<%= book.author %>" required />
               <label for="genre">Thể loại:</label>
-              <input type="text" id="genre" name="genre" value="<%= book[0].genre %>" required />
+              <input type="text" id="genre" name="genre" value="<%= book.genre %>" required />
               <label for="location">Vị trí:</label>
-              <input type="text" id="location" name="location" value="<%= book[0].location %>" />
+              <input type="text" id="location" name="location" value="<%= book.location %>" />
               <label for="available">Số lượng:</label>
-              <input type="number" id="available" name="available" value="<%= book[0].available %>" />
+              <input type="number" id="available" name="available" value="<%= book.available %>" />
             </div>
             <div class="form-column">
               <label for="cover_image">Ảnh...:</label>
               <select name="image-source" id="image-source">
-                <option value="<%= book[0].cover_image %>">Current</option>
+                <option value="<%= book.cover_image %>">Current</option>
                 <option value="web">Dùng ảnh có sẵn</option>
                 <option value="upload">Tải lên</option>
               </select>
@@ -185,7 +185,7 @@
   <script src="/scrIco.js"></script>
   <script>
     // console.log(JSON.parse("<%= JSON.stringify(book) %>"));
-    console.log("<%= book[0].cover_image %>");
+    console.log("<%= book.cover_image %>");
     window.onload = function () {
       document.querySelector(".article").classList.add("show");
     };
@@ -193,7 +193,7 @@
 
 
     function showValue() {
-      defaultse.value = '<%= book[0].cover_image %>';
+      defaultse.value = '<%= book.cover_image %>';
     }
     // setTimeout(showValue, 3000);
     // console.log(imageSourceSelect.value);

@@ -1,5 +1,7 @@
 # Ứng dụng quản lý thư viện trực tuyến
 
+Ứng dụng được thiết kế để quản lý sách, người dùng và mượn sách trong một thư viện.
+
 ## Databases
 
 ### desc Books
@@ -16,14 +18,22 @@
 
 ### Users databases
 
-| id  | username | password    | role   |
-| --- | -------- | ----------- | ------ |
-| 1   | admin    | :trollface: | ăc min |
-| ... | ...      | :trollface: | mana   |
-| ... | ...      | :trollface: | norm   |
+| id  | username | password    | role  |
+| --- | -------- | ----------- | ----- |
+| 1   | admin    | :trollface: | aDmIn |
+| ... | ...      | :trollface: | mana  |
+| ... | ...      | :trollface: | norm  |
 
 ## Stru
 
+
+Mô hình MVC: Ứng dụng được xây dựng theo kiến trúc MVC (Model-View-Controller).
+
+Model: Xử lý tương tác với cơ sở dữ liệu (model/db.js, bookModel.js).
+
+View: Hiển thị giao diện người dùng (views/*.ejs).
+
+Controller: Xử lý logic nghiệp vụ và tương tác với model và view (app.js).
 ```
 HTLMAO/:
 ├─BACKUP/
@@ -38,6 +48,8 @@ HTLMAO/:
 │ └─styles.css
 ├─views/
 | ├─acc.ejs
+| ├─borrow.ejs
+| ├─borrowhis.ejs
 | ├─EDIT.ejs
 | ├─homes.ejs
 | ├─login.ejs

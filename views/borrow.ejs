@@ -195,7 +195,12 @@
                   year: 'numeric' }) %>
               </td>
               <td>
-                <%= chraux.dayT %>
+                <% if (chraux.dayT) { %>
+                  <%= new Date(chraux.dayT).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
+                    , year: 'numeric' }) %>
+                    <% } else { %>
+                      Chưa Trả
+                      <% } %>
               </td>
               <% if (manachr) { %>
                 <td>
@@ -232,7 +237,7 @@
                 <label for="dayM">Ngày mượn:</label>
                 <input type="date" id="dayM" name="dayM" required />
                 <label for="dayT">Ngày trả:</label>
-                <input type="date" id="dayT" name="dayT" value="NULL"/>
+                <input type="date" id="dayT" name="dayT" value="NULL" />
               </div>
             </div>
             <button type="submit">Thêm</button>
