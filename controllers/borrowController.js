@@ -1,5 +1,23 @@
 const db = require("../models/db");
 
+const searchBorrow = async (req, res) => {
+  const currentUser = req.session.user;
+  const searchTerm = req.body.searchTerm;
+  if (currentUser) {
+    try {
+      const chr = await db.searchBorrow(searchTerm);
+      res.render("borrow", {
+        chr,
+        manachr: isTypeChar(currentUser),
+      });
+    } catch (e) {
+      console.error("Lỗi tìm kiếm người mượn:", e);
+      res.send("Lỗi xảy ra!");
+    }
+  } else {
+    res.redirect("/");
+  }
+};
 const getBorrow = async (req, res) => {
   const currentUser = req.session.user;
   if (currentUser) {
@@ -124,6 +142,7 @@ const isTypeChar = (user) => {
 };
 
 module.exports = {
+  searchBorrow,
   getBorrow,
   addBorrow,
   getBorrowHis,

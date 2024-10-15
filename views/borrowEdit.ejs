@@ -121,7 +121,7 @@
         <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên sách" />
         <button type="submit">Tìm kiếm</button>
       </form>
-      <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
+      <!-- <a href="#" id="logoutButton"><b>Đăng Xuất</b></a> -->
     </nav>
   </div>
   <div class="main-content">
@@ -154,7 +154,7 @@
               <input type="date" id="dayT" name="dayT" value="<%=chraux.DayT %>" />
             </div>
           </div>
-          <button type="submit">Thêm</button>
+          <button type="submit">Lưu</button>
           <button type="button" class="r" onclick="window.location.href='/borrow'">Hủy</button>
         </form>
       </div>
@@ -162,6 +162,7 @@
   </div>
   <script src="/scrIco.js"></script>
   <script>
+    console.log("<%=chraux.DayM %>")
     window.onload = function () {
       document.querySelector(".article").classList.add("show");
     };

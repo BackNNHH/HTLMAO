@@ -232,7 +232,19 @@ const deleteUser = (userId) => {
 //--------------------------------------------------------
 //BORROW
 //--------------------------------------------------------
-// Hàm lấy danh sách mượn sách
+// Hàm lấy danh sách mượn sách// Hàm tìm kiếm sách
+const searchBorrow = (searchTerm) => {
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM borrow WHERE nameS LIKE '%${searchTerm}%'`, (e, r) => {
+      if (e) {
+        reject(e);
+      } else {
+        resolve(r);
+      }
+    }
+    );
+  });
+};
 const getBorrows = () => {
   return new Promise((resolve, reject) => {
     connection.query("SELECT * FROM borrow", (e, r) => {
@@ -245,9 +257,9 @@ const getBorrows = () => {
   });
 };
 // Hàm lấy thông tin người mượn theo id
-const getBorrowById = (bookId) => {
+const getBorrowById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM borrow WHERE id = ?", [bookId], (e, r) => {
+    connection.query("SELECT * FROM borrow WHERE id = ?", [id], (e, r) => {
       if (e) {
         reject(e);
       } else {
@@ -358,6 +370,7 @@ const getBorrowsForExcel = () => {
 };
 
 module.exports = {
+  searchBorrow,
   getBooks,
   searchBooks,
   addBook,

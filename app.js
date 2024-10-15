@@ -72,7 +72,8 @@ app.post("/delete-user/:id", userController.deleteUser); // Xóa người dùng
 
 // Routes cho mượn sách
 app.get("/borrow", borrowController.getBorrow); // Danh sách mượn
-app.post("/add-chr", borrowController.addBorrow); // Thêm mượn sách
+app.post("/add-chr", borrowController.addBorrow); // Danh sách sách
+app.post("/search-borrow", borrowController.searchBorrow);  // Tìm
 app.post("/edit-chr/:id", borrowController.editBorrow); // Chỉnh sửa người mượn
 app.post("/update-chr/:id", borrowController.updateBorrow); // Cập nhật người mượn
 app.get("/borrowhis", borrowController.getBorrowHis); // Danh sách mượn lịch sử
