@@ -238,13 +238,6 @@
                 <input type="date" id="dayM" name="dayM" required />
                 <label for="dayT">Ngày trả:</label>
                 <input type="date" id="dayT" name="dayT" value="NULL" />
-                <select name="image-web" id="imageweb">
-                  <% BookList.forEach(image=> { %>
-                    <option value="<%= image %>">
-                      <%= image %>
-                    </option>
-                    <% }); %>
-                </select>
               </div>
             </div>
             <button type="submit">Thêm</button>

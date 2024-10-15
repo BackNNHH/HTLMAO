@@ -41,7 +41,7 @@ const addBorrow = async (req, res) => {
   try {
     await db.addBorrow(nameS, MS, nameB, dayM, dayTr);    
     const BookList = await db.getBooksName();
-    res.redirect("/borrow",BookList);
+    res.redirect("/borrow");
   } catch (e) {
     console.error("Lỗi thêm mượn:", e);
     res.send("Lỗi xảy ra!");
@@ -81,8 +81,8 @@ const updateBorrow = async (req, res) => {
   const { nameS, MS, nameB, dayM, dayT } = req.body;
   const dayTr = dayT ? dayT : null;
   try {
-    await db.updateBorrow(nameS, MS, nameB, dayM, dayTr);
-    res.redirect("/view");
+    await db.updateBorrow(nameS, MS, nameB, dayM, dayTr, bookId);
+    res.redirect("/borrow");
   } catch (e) {
     console.error("Lỗi cập người mượn:", e);
     res.status(500).send("Lỗi server");

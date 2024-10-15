@@ -189,6 +189,20 @@ const registerUser = (username, password, role) => {
   });
 };
 
+// Hàm tìm kiếm sách
+const searchUser = (searchTerm) => {
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM borrow WHERE nameS LIKE '%${searchTerm}%'`, (e, r) => {
+      if (e) {
+        reject(e);
+      } else {
+        resolve(r);
+      }
+    }
+    );
+  });
+};
+
 // Hàm lấy thông tin người dùng theo username và password
 const getUserByUsernameAndPassword = (username, password) => {
   return new Promise((resolve, reject) => {
@@ -243,19 +257,7 @@ const deleteUser = (userId) => {
 //--------------------------------------------------------
 //BORROW
 //--------------------------------------------------------
-// Hàm lấy danh sách mượn sách// Hàm tìm kiếm sách
-const searchBorrow = (searchTerm) => {
-  return new Promise((resolve, reject) => {
-    connection.query(`SELECT * FROM borrow WHERE nameS LIKE '%${searchTerm}%'`, (e, r) => {
-      if (e) {
-        reject(e);
-      } else {
-        resolve(r);
-      }
-    }
-    );
-  });
-};
+// Hàm lấy danh sách mượn sách
 const getBorrows = () => {
   return new Promise((resolve, reject) => {
     connection.query("SELECT * FROM borrow", (e, r) => {
@@ -281,7 +283,7 @@ const getBorrowById = (id) => {
 };
 
 // Hàm cập nhật thông tin người mượn
-const updateBorrow = (id, nameS, MS, nameB, dayM, dayT) => {
+const updateBorrow = (nameS, MS, nameB, dayM, dayT,id) => {
   return new Promise((resolve, reject) => {
     connection.beginTransaction((e) => {
       if (e) reject(e);
@@ -366,6 +368,18 @@ const getBorrowHis = () => {
   });
 };
 
+const searchBorrow = (searchTerm) => {
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM borrow WHERE nameS LIKE '%${searchTerm}%'`, (e, r) => {
+      if (e) {
+        reject(e);
+      } else {
+        resolve(r);
+      }
+    }
+    );
+  });
+};
 // Hàm lấy danh sách mượn sách cho export Excel
 const getBorrowsForExcel = () => {
   return new Promise((resolve, reject) => {
@@ -391,6 +405,7 @@ module.exports = {
   deleteBook,
   getBooksForExcel,
 
+  searchUser,
   getUsers,
   checkUsernameExists,
   registerUser,

@@ -6,15 +6,18 @@
 
 ### desc Books
 
+
 | Field       | Type         | Null | Key | Default | Extra          |
 | ----------- | ------------ | ---- | --- | ------- | -------------- |
 | id          | int          | NO   | PRI | NULL    | auto_increment |
 | title       | varchar(255) | NO   |     | NULL    |                |
 | author      | varchar(255) | NO   |     | NULL    |                |
 | genre       | varchar(255) | NO   |     | NULL    |                |
-| description | text         | YES  |     | NULL    |                |
 | cover_image | varchar(255) | YES  |     | empty   |                |
 | available   | tinyint(1)   | YES  |     | 1       |                |
+
+
+
 
 ### Users databases
 
@@ -36,24 +39,34 @@ View: Hiển thị giao diện người dùng (views/*.ejs).
 Controller: Xử lý logic nghiệp vụ và tương tác với model và view (app.js).
 ```
 HTLMAO/:
-├─BACKUP/
+├─CACHE/
 │ └─...
+├─Controller/
+│ ├─bookController.js
+│ ├─borrowController.js
+│ └─userController.js
+├─models/
+│ ├─bookModel.js
+│ └─db.js
 ├─node_modules/
 │ └─(.gitignore)
 ├─Public/
 │ ├─img/
+│ │ ├─bookic/
+│ │ │ └─...
 │ │ └─...
 │ ├─icon.png
 │ ├─scrIco.js
 │ └─styles.css
 ├─views/
-| ├─acc.ejs
-| ├─borrow.ejs
-| ├─borrowhis.ejs
-| ├─EDIT.ejs
-| ├─homes.ejs
-| ├─login.ejs
-| └─view.ejs
+│ ├─acc.ejs
+│ ├─borrow.ejs
+│ ├─borrowEdit.ejs
+│ ├─borrowhis.ejs
+│ ├─EDIT.ejs
+│ ├─home.ejs
+│ ├─login.ejs
+│ └─view.ejs
 ├─.env
 ├─.gitignore
 ├─app.js

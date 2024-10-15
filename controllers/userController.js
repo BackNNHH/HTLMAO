@@ -93,7 +93,24 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ message: "Error deleting user" });
   }
 };
-
+const searchUser = async (req, res) => {
+  const currentUser = req.session.user;
+  const searchTerm = req.body.searchTerm;
+  if (currentUser) {
+    try {
+      const chr = await db.searchBorrow(searchTerm);
+      res.render("borrow", {
+        chr,
+        manachr: isTypeChar(currentUser),
+      });
+    } catch (e) {
+      console.error("Lỗi tìm kiếm người mượn:", e);
+      res.send("Lỗi xảy ra!");
+    }
+  } else {
+    res.redirect("/");
+  }
+};
 const isTypeChar = (user) => {
   return user.role === "mana" || user.role === "aDmIn";
 };
@@ -103,5 +120,6 @@ module.exports = {
   register,
   login,
   logout,
+  searchUser,
   deleteUser,
 };

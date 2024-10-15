@@ -67,6 +67,7 @@ app.post("/delete-book/:id", bookController.deleteBook); // Xóa sách
 app.get("/acc", userController.getAcc); // Danh sách người dùng
 app.post("/register", userController.register); // Đăng ký tài khoản
 app.post("/login", userController.login); // Đăng nhập tài khoản
+app.post("/scrU", userController.searchUser); // Tìm kiếm
 app.post("/logout", userController.logout); // Đăng xuất
 app.post("/delete-user/:id", userController.deleteUser); // Xóa người dùng
 
