@@ -37,6 +37,17 @@ const getBooks = () => {
     });
   });
 };
+const getBooksName = () => {
+  return new Promise((resolve, reject) => {
+    connection.query("SELECT id, title FROM books", (e, r) => {
+      if (e) {
+        reject(e);
+      } else {
+        resolve(r);
+      }
+    });
+  });
+};
 
 // Hàm tìm kiếm sách
 const searchBooks = (searchTerm) => {
@@ -259,7 +270,7 @@ const getBorrows = () => {
 // Hàm lấy thông tin người mượn theo id
 const getBorrowById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM borrow WHERE id = ?", [id], (e, r) => {
+    connection.query("SELECT id, nameS, MS, nameB, DATE_FORMAT(dayM, '%Y-%m-%d')AS dayM, DATE_FORMAT(dayT, '%Y-%m-%d')AS dayT  FROM borrow WHERE id = ?", [id], (e, r) => {
       if (e) {
         reject(e);
       } else {
@@ -372,6 +383,7 @@ const getBorrowsForExcel = () => {
 module.exports = {
   searchBorrow,
   getBooks,
+  getBooksName,
   searchBooks,
   addBook,
   getBookById,

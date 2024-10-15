@@ -23,8 +23,9 @@ const getBorrow = async (req, res) => {
   if (currentUser) {
     if (!isTypeChar(currentUser)) res.redirect("/view");
     try {
-      const borrows = await db.getBorrows();
-      res.render("borrow", { chr: borrows, manachr: isTypeChar(currentUser) });
+      const borrows = await db.getBorrows(); 
+    const BookList = await db.getBooksName();
+      res.render("borrow", { chr: borrows,BookList, manachr: isTypeChar(currentUser) });
     } catch (e) {
       console.error("Lỗi lấy danh sách mượn:", e);
       res.send("Lỗi xảy ra!");
@@ -38,8 +39,9 @@ const addBorrow = async (req, res) => {
   const { nameS, MS, nameB, dayM, dayT } = req.body;
   const dayTr = dayT ? dayT : null;
   try {
-    await db.addBorrow(nameS, MS, nameB, dayM, dayTr);
-    res.redirect("/borrow");
+    await db.addBorrow(nameS, MS, nameB, dayM, dayTr);    
+    const BookList = await db.getBooksName();
+    res.redirect("/borrow",BookList);
   } catch (e) {
     console.error("Lỗi thêm mượn:", e);
     res.send("Lỗi xảy ra!");

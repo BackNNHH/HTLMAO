@@ -117,8 +117,8 @@
         class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
     </button>
     <nav>
-      <form method="POST" action="/search">
-        <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên sách" />
+      <form method="POST" action="/search-borrow">
+        <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên người mượn" />
         <button type="submit">Tìm kiếm</button>
       </form>
       <!-- <a href="#" id="logoutButton"><b>Đăng Xuất</b></a> -->
@@ -149,9 +149,9 @@
               <label for="nameB">Tên Sách:</label>
               <input type="text" id="nameB" name="nameB" value="<%=chraux.nameB %>" required />
               <label for="dayM">Ngày mượn:</label>
-              <input type="date" id="dayM" name="dayM" value="<%=chraux.DayM %>" required />
+              <input type="date" id="dayM" name="dayM" value="<%=chraux.dayM %>" required />
               <label for="dayT">Ngày trả:</label>
-              <input type="date" id="dayT" name="dayT" value="<%=chraux.DayT %>" />
+              <input type="date" id="dayT" name="dayT" value="<%=chraux.dayT %>" />
             </div>
           </div>
           <button type="submit">Lưu</button>
@@ -162,7 +162,7 @@
   </div>
   <script src="/scrIco.js"></script>
   <script>
-    console.log("<%=chraux.DayM %>")
+    console.log("<%=chraux.dayM %>")
     window.onload = function () {
       document.querySelector(".article").classList.add("show");
     };

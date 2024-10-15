@@ -1,12 +1,5 @@
 
-document.getElementById("logoutButton").addEventListener("click", () => {
-  fetch("/logout", { method: "POST" })
-    .then((response) => {
-      if (response.ok) window.location.href = "/";
-      else alert("Lỗi đăng xuất!");
-    })
-    .catch((e) => { alert("Lỗi đăng xuất!"); });
-});
+
 
 function toggleSIDE() {
   document.querySelector(".sidebar").classList.toggle("cc");
