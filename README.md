@@ -27,7 +27,7 @@
 | ... | ...      | :trollface: | mana  |
 | ... | ...      | :trollface: | norm  |
 
-## Stru
+## Structure
 
 
 Mô hình MVC: Ứng dụng được xây dựng theo kiến trúc MVC (Model-View-Controller).

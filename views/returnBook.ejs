@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>viEw</title>
+  <title>return</title>
   <link rel="stylesheet" href="/styles.css" />
   <style>
     body {
@@ -142,11 +142,12 @@
 <body>
   <div class="header">
     <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
-    <button id="sico" class="smbutt adroi" style="display: none;"onclick="toggleSIDE()"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+    <button id="sico" class="smbutt adroi" style="display: none;" onclick="toggleSIDE()"><span
+        class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
     </button>
     <nav>
-      <form method="POST" action="/search">
-        <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên sách" />
+      <form method="POST" action="/search-borrow">
+        <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên người mượn" />
         <button type="submit">Tìm kiếm</button>
       </form>
       <!-- <a href="#" id="logoutButton"><b>Đăng Xuất</b></a> -->
@@ -156,64 +157,61 @@
     <div class="sidebar">
       <h2>Danh Mục</h2>
       <a target="_top" href="/home">🏠 Trang Chủ</a>
-      <a target="_top" href="#" class="achive">📖 Xem Sách</a>
+      <a target="_top" href="/view">📖 Xem Sách</a>
       <a target="_top" href="/borrow">📚 Mượn Sách</a>
       <% if (manachr) { %>
-        <a target="_top" href="/returnBook">🗃️ Trả Sách</a>
+        <a target="_top" href="/returntBook" class="achive">🗃️ Trả Sách</a>
         <% } %>
-      <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
+          <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
     </div>
     <div class="article">
-      <h1 class="t">Danh sách sách</h1>
+      <h1 class="t">Danh sách mượn sách</h1>
       <table id="bookTable">
         <thead>
           <tr>
-            <th>Tiêu Đề</th>
-            <th>Tác Giả</th>
-            <th>Thể Loại</th>
-            <th class="sl">Bìa</th>
-            <th class="sl">Vị trí</th>
-            <th class="sl">Số lượng</th>
-            <% if (manachr) { %>
-              <th class="sl">Chỉnh Sửa</th>
-              <% } %>
-                <% if (manachr) { %>
-                  <th class="sl">NSFW BUTTON</th>
-                  <% } %>
+            <th>Tên</th>
+            <th>Mã Số</th>
+            <th>Tên Sách</th>
+            <th>Ngày mượn</th>
+            <th>Ngày trả</th>
+            <th class="sl">Chỉnh Sửa</th>
+            <th class="sl">NSFW BUTTON</th>
           </tr>
         </thead>
         <tbody>
-          <% books.forEach(book=> { %>
+          <% chr.forEach(chraux=> { %>
             <tr>
               <td>
-                <%= book.title %>
+                <%= chraux.nameS %>
               </td>
               <td>
-                <%= book.author %>
+                <%= chraux.MS %>
               </td>
               <td>
-                <%= book.genre %>
+                <%= chraux.nameB %>
               </td>
               <td>
-                <img src="img/bookic/<%= book.cover_image %>" onerror="this.src='img/bookic/empty.jpg'"
-                  alt="<%= book.cover_image %>" />
+                <%= new Date(chraux.dayM).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
+                  year: 'numeric' }) %>
               </td>
               <td>
-                <%= book.location %>
-              </td>
-              <td>
-                <%= book.available %>
+                <% if (chraux.dayT) { %>
+                  <%= new Date(chraux.dayT).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
+                    , year: 'numeric' }) %>
+                    <% } else { %>
+                      Chưa Trả
+                      <% } %>
               </td>
               <% if (manachr) { %>
                 <td>
-                  <form id="ed" action="/edit/<%= book.id %>" method="POST">
+                  <form id="ed" action="/edit-chr/<%= chraux.id %>" method="POST">
                     <button type="submit">Edit</button>
                   </form>
                 </td>
                 <% } %>
                   <% if (manachr) { %>
                     <td>
-                      <form action="/delete-book/<%= book.id %>" method="POST">
+                      <form action="/delete-chr/<%= chraux.id %>" method="POST">
                         <button class="r" type="submit">Xóa</button>
                       </form>
                     </td>
@@ -226,42 +224,20 @@
     <div id="registration-popup" class="popup-BG f-add">
       <div class="container">
         <div class="register-form">
-          <h1>Thêm sách</h1>
-          <form action="/add-book" method="POST" enctype="multipart/form-data">
+          <h1>Thêm Người Mượn</h1>
+          <form action="/add-chr" method="POST">
             <div class="form-container">
               <div class="form-column">
-                <label for="title">Tiêu đề:</label>
-                <input type="text" id="title" name="title" required />
-                <label for="author">Tác giả:</label>
-                <input type="text" id="author" name="author" required />
-                <label for="genre">Thể loại:</label>
-                <input type="text" id="genre" name="genre" required />
-                <label for="available">Số lượng:</label>
-                <input type="number" id="available" name="available" />
-                <label for="location">Vị trí:</label>
-                <input type="text" id="location" name="location" />
-              </div>
-              <div class="form-column">
-                <label for="cover_image">Ảnh...:</label>
-                <select name="image-source" id="image-source">
-                  <option value="upload">Tải lên</option>
-                  <option value="web">Dùng ảnh có sẵn</option>
-                </select>
-                <div id="image-upload" style="display: block">
-                  <input type="file" name="image-upload" accept="image/*" />
-                </div>
-                <div id="image-web" style="display: none">
-                  <select name="image-web" id="imageweb">
-                    <% images.forEach(image=> { %>
-                      <option value="<%= image %>">
-                        <%= image %>
-                      </option>
-                      <% }); %>
-                  </select>
-                </div>
-                <div id="preview-image">
-                  <img src="" id="preview-image-src" alt="Xem trước ảnh" style="max-width: 200px" />
-                </div>
+                <label for="nameS">Tên:</label>
+                <input type="text" id="nameS" name="nameS" required />
+                <label for="MS">Mã Số:</label>
+                <input type="text" id="MS" name="MS" required />
+                <label for="nameB">Tên Sách:</label>
+                <input type="text" id="nameB" name="nameB" required />
+                <label for="dayM">Ngày mượn:</label>
+                <input type="date" id="dayM" name="dayM" required />
+                <label for="dayT">Ngày trả:</label>
+                <input type="date" id="dayT" name="dayT" value="NULL" />
               </div>
             </div>
             <button type="submit">Thêm</button>
@@ -271,25 +247,15 @@
       </div>
     </div>
   </div>
-  <a href="/download">
-    <img src="img/excel.png" class="floating-button dow" title="Tải bảng này về..."a lt="DOWNLOAD">
+  <a href="/downBor">
+    <img src="img/excel.png" class="floating-button dow" title="Tải bảng này về..." a lt="DOWNLOAD">
   </a>
   <% if (manachr) { %>
-    <button id="openPopup" class="floating-button" title="Thêm Sách..." onclick="toggleForms()">+</button>
+    <button id="openPopup" class="floating-button" title="Thêm Người mượn..." onclick="toggleForms()">+</button>
     <% } %>
-    
+
       <script src="/scrIco.js"></script>
-      <script>
-        // document.getElementById("logoutButton").addEventListener("click", () => {
-        //   fetch("/logout", { method: "POST" })
-        //     .then((response) => {
-        //       if (response.ok) window.location.href = "/";
-        //       else alert("Lỗi đăng xuất!");
-        //     })
-        //     .catch((error) => {
-        //       alert("Lỗi đăng xuất!");
-        //     });
-        // });
+      <script> 
         window.onload = function () {
           document.querySelector(".article").classList.add("show");
         };
