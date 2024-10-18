@@ -102,6 +102,15 @@
   transform: rotate(180deg);
 }
 
+button.r {
+  background-color: #af4c4c;
+}
+
+button:hover.r {
+  transform: scale(1.1);
+  background-color: #944040;
+}
+
 .thebox {
   width: 95%;
   margin: 0 auto;

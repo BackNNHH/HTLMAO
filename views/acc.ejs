@@ -98,19 +98,12 @@
       transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
-    button.r {
-      background-color: #af4c4c;
-    }
 
     button:hover {
       transform: scale(1.1);
       background-color: #414094;
     }
 
-    button:hover.r {
-      transform: scale(1.1);
-      background-color: #944040;
-    }
     .showc {
       display: block;
       opacity: 1;
@@ -163,6 +156,7 @@
             <th>users</th>
             <th>password</th>
             <th>role</th>
+            <th class="sl">Edit</th>
             <th class="sl">Action</th>
           </tr>
         </thead>
@@ -178,6 +172,11 @@
               </td>
               <td>
                 <%= _.role %>
+              </td>
+              <td>
+                <form id="ed" action="/edit-user/<%= _.id %>" method="POST">
+                  <button type="submit">Edit</button>
+                </form>
               </td>
               <td>
                 <form id="de" action="/delete-user/" method="POST">

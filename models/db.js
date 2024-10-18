@@ -140,10 +140,10 @@ const getBooksForExcel = () => {
 //USERS
 //--------------------------------------------------------
 // Hàm lấy danh sách người dùng
-const getUsers = (role) => {
+const getUsers = (_) => {
   return new Promise((resolve, reject) => {
-    const query = role !== "aDmIn"
-      ? `SELECT * FROM users WHERE id = ${role}`
+    const query = _.role !== "aDmIn"
+      ? `SELECT * FROM users WHERE id = ${_.id}`
       : `SELECT * FROM users`;
     connection.query(query, (e, r) => {
       if (e) {
@@ -166,6 +166,21 @@ const checkUsernameExists = (username) => {
           reject(e);
         } else {
           resolve(r.length > 0);
+        }
+      }
+    );
+  });
+};
+// xóa người dùng
+const updateUser = (id, name, password) => {
+  return new Promise((resolve, reject) => {
+    connection.query("UPDATE users SET name = ?, password = ? WHERE id = ?",
+      [name, password, id],
+      (e, r) => {
+        if (e) {
+          reject(e);
+        } else {
+          resolve(r);
         }
       }
     );
@@ -283,7 +298,7 @@ const getBorrowById = (id) => {
 };
 
 // Hàm cập nhật thông tin người mượn
-const updateBorrow = (nameS, MS, nameB, dayM, dayT,id) => {
+const updateBorrow = (nameS, MS, nameB, dayM, dayT, id) => {
   return new Promise((resolve, reject) => {
     connection.beginTransaction((e) => {
       if (e) reject(e);
@@ -411,6 +426,7 @@ module.exports = {
   registerUser,
   getUserByUsernameAndPassword,
   getUserRoleById,
+  updateUser,
   deleteUser,
 
   getBorrows,

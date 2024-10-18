@@ -1,0 +1,55 @@
+
+.container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 80%;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-60%, 0);
+}
+
+.container:hover {
+  box-shadow: 0 5px 10px rgba(110, 170, 255, 0.5);
+}
+
+.container button {
+  padding: 12px 25px;
+  font-family: "Times New Roman", sans-serif;
+  font-size: medium;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  display: inline-block;
+  margin: 10px 4.8%;
+  width: 40%;
+}
+
+.container input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 0px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.container input:focus,
+select:focus,
+textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}

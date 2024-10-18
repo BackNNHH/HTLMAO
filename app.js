@@ -63,22 +63,24 @@ app.post("/edit/:id", bookController.editBook); // Chỉnh sửa sách
 app.post("/update-book/:id", upload.single("image-upload"), bookController.updateBook); // Cập nhật sách
 app.post("/delete-book/:id", bookController.deleteBook); // Xóa sách
 
+// Routes cho mượn sách
+app.get("/borrow", borrowController.getBorrow); // Danh sách mượn
+app.post("/search-borrow", borrowController.searchBorrow);  // Tìm
+app.post("/add-chr", borrowController.addBorrow); // Danh sách sách
+app.post("/edit-chr/:id", borrowController.editBorrow); // Chỉnh sửa người mượn
+app.post("/update-chr/:id", borrowController.updateBorrow); // Cập nhật người mượn
+app.post("/delete-chr/:id", borrowController.deleteBorrow); // Xóa
+app.get("/borrowhis", borrowController.getBorrowHis); // Danh sách mượn lịch sử
+
 // Routes cho người dùng
 app.get("/acc", userController.getAcc); // Danh sách người dùng
 app.post("/register", userController.register); // Đăng ký tài khoản
+app.post("/edit-user/:id", userController.editUser); // Chỉnh sửa 
 app.post("/login", userController.login); // Đăng nhập tài khoản
 app.post("/scrU", userController.searchUser); // Tìm kiếm
 app.post("/logout", userController.logout); // Đăng xuất
+app.post("/update-user/:id", userController.updateUser); // Đăng xuất
 app.post("/delete-user/:id", userController.deleteUser); // Xóa người dùng
-
-// Routes cho mượn sách
-app.get("/borrow", borrowController.getBorrow); // Danh sách mượn
-app.post("/add-chr", borrowController.addBorrow); // Danh sách sách
-app.post("/search-borrow", borrowController.searchBorrow);  // Tìm
-app.post("/edit-chr/:id", borrowController.editBorrow); // Chỉnh sửa người mượn
-app.post("/update-chr/:id", borrowController.updateBorrow); // Cập nhật người mượn
-app.get("/borrowhis", borrowController.getBorrowHis); // Danh sách mượn lịch sử
-app.post("/delete-chr/:id", borrowController.deleteBorrow); // Xóa
 
 // Routes cho export Excel
 app.get("/download", bookController.downloadExcel); // Export sách

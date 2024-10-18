@@ -4,7 +4,7 @@ const getAcc = async (req, res) => {
   const currentUser = req.session.user;
   if (currentUser) {
     try {
-      const result = await db.getUsers(currentUser.role);
+      const result = await db.getUsers(currentUser);
       console.log(">>acc");
       const users = result.map((user) => ({ ...user, password: " ͡° ͜ʖ ͡°" }));
       res.render("acc", {
@@ -31,15 +31,11 @@ const register = async (req, res) => {
       return;
     }
     if (role === "mana" && ur !== "aDmIn" && ur !== "mana") {
-      res
-        .status(403)
-        .json({ message: "Bạn không có quyền tạo tài khoản manager." });
+      res.status(403).json({ message: "Bạn không có quyền tạo tài khoản manager." });
       return;
     }
     await db.registerUser(username, password, role);
-    res
-      .status(201)
-      .json({ success: true, message: "Đăng ký thành công!" });
+    res.status(201).json({ success: true, message: "Đăng ký thành công!" });
   } catch (e) {
     console.error("Lỗi đăng ký:", e);
     res.status(500).json("Lỗi máy chủ");
@@ -55,9 +51,7 @@ const login = async (req, res) => {
       console.log("welcome..." + req.session.user.username);
       res.redirect("/home");
     } else {
-      res
-        .status(409)
-        .json({ message: "Tên người dùng hoặc mật khẩu không chính xác!" });
+      res.status(409).json({ message: "Tên người dùng hoặc mật khẩu không chính xác!" });
     }
   } catch (e) {
     console.error("Lỗi đăng nhập:", e);
@@ -75,6 +69,46 @@ const logout = (req, res) => {
     }
   });
 };
+
+
+const editUser = async (req, res) => {
+  const currentUser = req.session.user;
+  const id = req.params.id;
+  console.log("SAYGEX "+id);  if (currentUser) {
+    console.log(currentUser.id != id && !isTypeChar(currentUser));
+    if (currentUser.id != id && !isTypeChar(currentUser)) {
+      res.status(403).json({ message: "Bạn không thể chỉnh sửa." });
+      console.log(403);
+      return;
+    }
+    try {
+      const chraux = await db.getUsers(currentUser);
+      console.log(chraux[0]);
+      res.render("editUser", {
+        user:chraux[0],
+        manachr: isTypeChar(currentUser),
+      });
+    } catch (e) {
+      console.error("Lỗi lấy thông tin người dùng:", e);
+      res.send("Lỗi xảy ra!");
+    }
+  } else {
+    res.redirect("/");
+  }
+};
+
+const updateUser = async (req, res) => {
+  const id = req.params.id;
+  const { name, password } = req.body;
+  try {
+    await db.updateUser(id, name, password );
+    res.redirect("/acc");
+  } catch (e) {
+    console.error("Lỗi cập người mượn:", e);
+    res.status(500).send("Lỗi server");
+  }
+};
+
 
 const deleteUser = async (req, res) => {
   const userId = req.params.id;
@@ -118,6 +152,8 @@ const isTypeChar = (user) => {
 module.exports = {
   getAcc,
   register,
+  editUser,
+  updateUser,
   login,
   logout,
   searchUser,

@@ -67,10 +67,10 @@ const addBook = async (req, res) => {
   const coverImage = req.file
     ? req.file.filename
     : req.body["image-source"] === "web"
-    ? req.body["image-web"]
-    : "empty.jpg";
-    console.log(coverImage);
-    console.log(req.body);
+      ? req.body["image-web"]
+      : "empty.jpg";
+  console.log(coverImage);
+  console.log(req.body);
   try {
     await db.addBook(title, author, genre, location, coverImage, available);
     res.redirect("/view");
@@ -95,7 +95,7 @@ const editBook = async (req, res) => {
     try {
       const book = await db.getBookById(AxuId);
       console.log(book);
-      res.render("EDIT", {
+      res.render("bookEdit", {
         book,
         AxuId,
         images,
@@ -116,8 +116,8 @@ const updateBook = async (req, res) => {
   const coverImage = req.file
     ? req.file.filename
     : req.body["image-source"] === "web"
-    ? req.body["image-web"]
-    : req.body["image-source"];
+      ? req.body["image-web"]
+      : req.body["image-source"];
   try {
     await db.updateBook(
       bookId,
