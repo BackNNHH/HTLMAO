@@ -13,6 +13,7 @@
 | author      | varchar(255) | NO   |     | NULL    |                |
 | genre       | varchar(255) | NO   |     | NULL    |                |
 | cover_image | varchar(255) | YES  |     | empty   |                |
+| location    | varchar(255) | YES   |     | NULL    |                |
 | available   | tinyint(1)   | YES  |     | 1       |                |
 
 ### desc Borrower
@@ -122,6 +123,7 @@ CREATE TABLE books (
   author VARCHAR(255) NOT NULL,
   genre VARCHAR(255) NOT NULL,
   cover_image VARCHAR(255) DEFAULT 'empty',
+  location VARCHAR(255),
   available TINYINT(1) DEFAULT 1
 );
 ```

@@ -52,7 +52,19 @@ const getBooksName = () => {
 // Hàm tìm kiếm sách
 const searchBooks = (searchTerm) => {
   return new Promise((resolve, reject) => {
-    connection.query(`SELECT * FROM books WHERE title LIKE '%${searchTerm}%'`, (e, r) => {
+    let query;
+    if (searchTerm.startsWith('auth:')) {
+      const name = searchTerm.slice(5).trim();
+      query = `SELECT * FROM books WHERE author LIKE '%${name}%'`;
+    } else {
+      if (searchTerm.startsWith('genr:')) {
+        const name = searchTerm.slice(5).trim();
+        query = `SELECT * FROM books WHERE genre LIKE '%${name}%'`;
+      } else {
+        query = `SELECT * FROM books WHERE title LIKE '%${searchTerm}%'`;
+      }
+    }
+    connection.query(query, (e, r) => {
       if (e) {
         reject(e);
       } else {
@@ -125,7 +137,7 @@ const deleteBook = (bookId) => {
 // Hàm lấy danh sách sách cho export Excel
 const getBooksForExcel = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT id, title AS Name, genre, available AS Quatity FROM books", (e, r) => {
+    connection.query("SELECT id, title AS Name, genre, location, available AS Quatity FROM books", (e, r) => {
       if (e) {
         reject(e);
       } else {
@@ -141,7 +153,6 @@ const getBooksForExcel = () => {
 //--------------------------------------------------------
 // Hàm lấy danh sách người dùng
 const getUsers = (_) => {
-  console.log(_.id);
   return new Promise((resolve, reject) => {
     const query = _.role !== "aDmIn"
       ? `SELECT * FROM users WHERE id = ${_.id}`
@@ -157,7 +168,6 @@ const getUsers = (_) => {
 };
 // Hàm lasy user bằng id
 const getUserByID = (id) => {
-  console.log(id);
   return new Promise((resolve, reject) => {
     connection.query(`SELECT * FROM users WHERE id = ${id}`, (e, r) => {
       if (e) {
@@ -185,11 +195,11 @@ const checkUsernameExists = (username) => {
     );
   });
 };
-// xóa người dùng
+// Hàm sửa người dùng
 const updateUser = (id, name, password) => {
   return new Promise((resolve, reject) => {
     connection.query("UPDATE users SET name = ? WHERE id = ?",
-      [name,  id],
+      [name, id],
       (e, r) => {
         if (e) {
           reject(e);
@@ -317,38 +327,51 @@ const getBorrowById = (id) => {
   });
 };
 
-// Hàm cập nhật thông tin người mượn
-const updateBorrow = (nameS, MS, nameB, dayM, dayT, id) => {
+// Duyệt
+const updateBorrow = (id) => {
   return new Promise((resolve, reject) => {
-    connection.beginTransaction((e) => {
-      if (e) reject(e);
-      connection.query(
-        "UPDATE borrow SET nameS= ?, MS= ?, nameB= ?, dayM= ?, dayT= ? WHERE id = ?",
-        [nameS, MS, nameB, dayM, dayT, id],
-        (e, r) => {
-          if (e) reject(e);
-          connection.query(
-            "UPDATE borrowhis SET nameS= ?, MS= ?, nameB= ?, dayM= ?, dayT= ? WHERE id = ?",
-            [nameS, MS, nameB, dayM, dayT, id],
-            (e, r) => {
-              if (e) reject(e);
-              connection.commit((e) => {
-                if (e) {
-                  connection.rollback(() => {
-                    reject(e)
-                  });
-                } resolve(r)
-              });
-            }
-          );
-        }
-      );
-    });
+    connection.query(`UPDATE borrower SET borrowB = 1, returnB = 0 WHERE id = ${id}`, (e, r) => {
+      if (e) {
+        reject(e);
+      } else {
+        resolve(r);
+      }
+    }
+    );
   });
 };
+// Hàm cập nhật thông tin người mượn
+// const updateBorrow = (nameS, MS, nameB, dayM, dayT, id) => {
+//   return new Promise((resolve, reject) => {
+//     connection.beginTransaction((e) => {
+//       if (e) reject(e);
+//       connection.query(
+//         "UPDATE borrow SET nameS= ?, MS= ?, nameB= ?, dayM= ?, dayT= ? WHERE id = ?",
+//         [nameS, MS, nameB, dayM, dayT, id],
+//         (e, r) => {
+//           if (e) reject(e);
+//           connection.query(
+//             "UPDATE borrowhis SET nameS= ?, MS= ?, nameB= ?, dayM= ?, dayT= ? WHERE id = ?",
+//             [nameS, MS, nameB, dayM, dayT, id],
+//             (e, r) => {
+//               if (e) reject(e);
+//               connection.commit((e) => {
+//                 if (e) {
+//                   connection.rollback(() => {
+//                     reject(e)
+//                   });
+//                 } resolve(r)
+//               });
+//             }
+//           );
+//         }
+//       );
+//     });
+//   });
+// };
 
 // Hàm thêm mượn sách
-const addBorrower = ( idUser, idBook, DayBorrow, DayReturn, borrowB) => {
+const addBorrower = (idUser, idBook, DayBorrow, DayReturn, borrowB) => {
   return new Promise((resolve, reject) => {
     connection.query(
       "INSERT INTO borrower (idUser, idBook, DayBorrow, DayReturn) VALUES (?, ?, ?, ?)",
@@ -432,8 +455,8 @@ const searchBorrow = (searchTerm) => {
 };
 // Hàm lấy danh sách mượn sách cho export Excel
 const getBorrowsForExcel = () => {
-  return new Promise((resolve, reject) => {
-    connection.query("SELECT id, nameS AS 'Tên Người Mượn', MS AS Mã, dayM AS 'Ngày Mượn', dayT AS 'Ngày Trả' FROM borrow", (e, r) => {
+  return new Promise((resolve, reject) => {//id, nameS AS 'Tên Người Mượn', MS AS Mã, dayM AS 'Ngày Mượn', dayT AS 'Ngày Trả'
+    connection.query("SELECT borrower.id, name, title, DayBorrow, DayReturn, borrowB, returnB FROM borrower LEFT JOIN users ON borrower.idUser = users.id LEFT JOIN books ON borrower.idBook = books.id", (e, r) => {
       if (e) {
         reject(e);
       } else {

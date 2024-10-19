@@ -1,4 +1,5 @@
 const db = require("../models/db");
+const xlsx = require("xlsx");
 
 const searchBorrow = async (req, res) => {
   const currentUser = req.session.user;
@@ -35,7 +36,7 @@ const getBorrow = async (req, res) => {
         book.returnB = parseInt(book.returnB.toString('hex'), 16) === 1;
       });
       const result = await db.getUsers(currentUser);
-      res.render("borrow", { chr: borrows, BookList,currentID: result[0].id, manachr: isTypeChar(currentUser) });
+      res.render("borrow", { chr: borrows, BookList, currentID: result[0].id, manachr: isTypeChar(currentUser) });
     } catch (e) {
       console.error("Lỗi lấy danh sách mượn:", e);
       res.send("Lỗi xảy ra!");
@@ -155,6 +156,7 @@ const downloadExcel = async (req, res) => {
 };
 
 const isTypeChar = (user) => {
+  if (user == null) return;
   return user.role === "mana" || user.role === "aDmIn";
 };
 
