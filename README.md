@@ -6,7 +6,6 @@
 
 ### desc Books
 
-
 | Field       | Type         | Null | Key | Default | Extra          |
 | ----------- | ------------ | ---- | --- | ------- | -------------- |
 | id          | int          | NO   | PRI | NULL    | auto_increment |
@@ -16,9 +15,6 @@
 | cover_image | varchar(255) | YES  |     | empty   |                |
 | available   | tinyint(1)   | YES  |     | 1       |                |
 
-
-
-
 ### Users databases
 
 | id  | username | password    | role  |
@@ -27,16 +23,20 @@
 | ... | ...      | :trollface: | mana  |
 | ... | ...      | :trollface: | norm  |
 
-## Structure
+- aDmIn: là Admin, Quản trị viên
+- mana: là Manager, quản lý
+- norm: là Normal, tức là User bình thường
 
+## Structure
 
 Mô hình MVC: Ứng dụng được xây dựng theo kiến trúc MVC (Model-View-Controller).
 
 Model: Xử lý tương tác với cơ sở dữ liệu (model/db.js, bookModel.js).
 
-View: Hiển thị giao diện người dùng (views/*.ejs).
+View: Hiển thị giao diện người dùng (views/\*.ejs).
 
 Controller: Xử lý logic nghiệp vụ và tương tác với model và view (app.js).
+
 ```
 HTLMAO/:
 ├─CACHE/
@@ -60,12 +60,14 @@ HTLMAO/:
 │ └─styles.css
 ├─views/
 │ ├─acc.ejs
+│ ├─bookEdit.ejs
 │ ├─borrow.ejs
 │ ├─borrowEdit.ejs
-│ ├─borrowhis.ejs
+│ ├─editUser.ejs
 │ ├─EDIT.ejs
 │ ├─home.ejs
 │ ├─login.ejs
+│ ├─returnBook.ejs
 │ └─view.ejs
 ├─.env
 ├─.gitignore
@@ -98,6 +100,7 @@ CREATE TABLE books (
 CREATE TABLE users (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) NOT NULL UNIQUE,
+  name VARCHAR(255)
   password VARCHAR(255) NOT NULL,
   role VARCHAR(255) DEFAULT 'normal'
 );
