@@ -23,9 +23,9 @@ const getBorrow = async (req, res) => {
   if (currentUser) {
     if (!isTypeChar(currentUser)) res.redirect("/view");
     try {
-      const borrows = await db.getBorrows(); 
-    const BookList = await db.getBooksName();
-      res.render("borrow", { chr: borrows,BookList, manachr: isTypeChar(currentUser) });
+      const borrows = await db.getBorrows();
+      const BookList = await db.getBooksName();
+      res.render("borrow", { chr: borrows, BookList, manachr: isTypeChar(currentUser) });
     } catch (e) {
       console.error("Lỗi lấy danh sách mượn:", e);
       res.send("Lỗi xảy ra!");
@@ -39,7 +39,7 @@ const addBorrow = async (req, res) => {
   const { nameS, MS, nameB, dayM, dayT } = req.body;
   const dayTr = dayT ? dayT : null;
   try {
-    await db.addBorrow(nameS, MS, nameB, dayM, dayTr);    
+    await db.addBorrow(nameS, MS, nameB, dayM, dayTr);
     const BookList = await db.getBooksName();
     res.redirect("/borrow");
   } catch (e) {
@@ -88,14 +88,14 @@ const updateBorrow = async (req, res) => {
     res.status(500).send("Lỗi server");
   }
 };
-const getBorrowHis = async (req, res) => {
+const getReturnBook = async (req, res) => {
   const currentUser = req.session.user;
   if (currentUser) {
     try {
-      const borrows = await db.getBorrowHis();
-      res.render("borrowhis", { chr: borrows, manachr: isTypeChar(currentUser) });
+      const list = await db.returnBook();
+      res.render("returnBook", { chr: list, manachr: isTypeChar(currentUser) });
     } catch (e) {
-      console.error("Lỗi lấy danh sách mượn lịch sử:", e);
+      console.error("Lỗi lấy danh sách getReturnBook:", e);
       res.send("Lỗi xảy ra!");
     }
   } else {
@@ -147,7 +147,7 @@ module.exports = {
   searchBorrow,
   getBorrow,
   addBorrow,
-  getBorrowHis,
+  getReturnBook,
   updateBorrow,
   editBorrow,
   deleteBorrow,

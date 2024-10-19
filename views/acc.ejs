@@ -129,11 +129,13 @@
     </button>
     <nav>
       <form method="POST" action="/scrU">
-        <input type="text" name="searchU" placeholder="Tìm kiếm tên người dùng" />
+        <input type="text" name="searchTerm" value="<% if (searchTerm) { %><%= searchTerm %> <% } %>" placeholder="Tìm kiếm tên người dùng" />
         <button type="submit">Tìm kiếm</button>
       </form>
+      <% if (manachr) { %>
       <button type="button" onclick="toggleForms()">Đăng ký...</button>
-      <!-- <a href="#" id="logoutButton"><b>Đăng Xuất</b></a> -->
+      <% } %>
+      <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
     </nav>
   </div>
   <div class="main-content">
@@ -153,8 +155,8 @@
         <thead>
           <tr>
             <th class="sl">ID</th>
-            <th>users</th>
-            <th>password</th>
+            <th class="sl">users</th>
+            <th>Tên</th>
             <th>role</th>
             <th class="sl">Edit</th>
             <th class="sl">Action</th>
@@ -163,16 +165,10 @@
         <tbody>
           <% users.forEach(_=> { %>
             <tr>
-              <td>
-                <%= _.id %>
-              </td>
+              <td><%= _.id %></td>
               <td><%= _.username %></td>
-              <td>
-                <%= _.password %>
-              </td>
-              <td>
-                <%= _.role %>
-              </td>
+              <td><%= _.name %></td>
+              <td><%= _.role %></td>
               <td>
                 <form id="ed" action="/edit-user/<%= _.id %>" method="POST">
                   <button type="submit">Edit</button>
@@ -191,13 +187,17 @@
   </div>
   <div class="container">
     <div class="register-form">
-      <h1>Đăng Ký ( ͡° ͜ʖ ͡°)</h1>
+      <h1>Đăng Ký ⭐</h1>
       <form id="registerForm" action="/register" method="POST">
         <label for="username">Tên đăng nhập:</label>
         <input type="text" id="username" name="username" required />
+        <label for="name">Tên người dùng:</label>
+        <input type="text" id="name" name="name" required />
         <br />
         <label for="password">Mật khẩu:</label>
         <input type="password" id="password" name="password" required />
+        <label for="confirm_password">Xác nhận mật khẩu:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required />
         <br />
         <label for="role">Vai trò:</label>
         <select id="role" name="role">
@@ -222,16 +222,28 @@
   </div>
   <script src="/scrIco.js"></script>
   <script>
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      fetch("/logout", { method: "POST" })
+        .then((response) => {
+          if (response.ok) window.location.href = "/";
+          else alert("Lỗi đăng xuất!");
+        })
+        .catch((error) => {
+          alert("Lỗi đăng xuất!");
+        });
+    });
     window.onload = function () { document.querySelector(".article").classList.add("show"); };
     function toggleForms() { document.querySelector(".container").classList.toggle("showc"); }
-    function showpanelpopup(r) {
-      r.json().then((data) => {
+    function showpanelpopup(response) {
+      response.json().then((data) => {
+        if(response.status === 201)F5button = true;
         $("#registration-message").text(data.message);
         $("#registration-popup").show();
       });
     }
     //=--------------------------------------------------------ADD
     const deleteForms = document.querySelectorAll("form#de");
+    let F5button = false;
     deleteForms.forEach((form) => {
       form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -242,7 +254,7 @@
             method: "POST",
             headers: { "Content-Type": "application/json" },
           })
-            .then((r) => { showpanelpopup(r); })
+            .then((r) => { showpanelpopup(r);})
             .catch((e) => {
               console.error("Lỗi khi xóa:", error);
               $("#registration-message").text("Lỗi máy chủ. Vui lòng thử lại sau.");
@@ -255,12 +267,16 @@
     formB.addEventListener("submit", (event) => {
       event.preventDefault();
       const username = formB.querySelector("#username").value;
+      const name = formB.querySelector("#name").value;
       const password = formB.querySelector("#password").value;
       const role = formB.querySelector("#role").value;
+      if (password !== formB.querySelector("#confirm_password").value) {
+        alert('Hai mật khẩu không trùng khớp!');
+      } else {
       fetch("/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, role }),
+        body: JSON.stringify({ username, name, password, role }),
       })
         .then((r) => { showpanelpopup(r); })
         .catch((error) => {
@@ -268,8 +284,12 @@
           $("#registration-message").text("Lỗi máy chủ. Vui lòng thử lại sau.");
           $("#registration-popup").show();
         });
+      }
     });
-    function closePopup() { $("#registration-popup").hide(); }
+    function closePopup() {
+      $("#registration-popup").hide();
+      if (F5button) location.reload();
+    }
   </script>
 </body>
 

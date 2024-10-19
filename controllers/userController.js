@@ -9,6 +9,7 @@ const getAcc = async (req, res) => {
       const users = result.map((user) => ({ ...user, password: " ͡° ͜ʖ ͡°" }));
       res.render("acc", {
         users,
+        searchTerm:"",
         typechr: currentUser.role === "aDmIn" ? true : false,
         manachr: isTypeChar(currentUser),
       });
@@ -22,7 +23,7 @@ const getAcc = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, name, password, role } = req.body;
   const ur = req.session.user?.role || undefined;
   try {
     const isUsernameExists = await db.checkUsernameExists(username);
@@ -34,7 +35,7 @@ const register = async (req, res) => {
       res.status(403).json({ message: "Bạn không có quyền tạo tài khoản manager." });
       return;
     }
-    await db.registerUser(username, password, role);
+    await db.registerUser(username, name, password, role);
     res.status(201).json({ success: true, message: "Đăng ký thành công!" });
   } catch (e) {
     console.error("Lỗi đăng ký:", e);
@@ -74,7 +75,7 @@ const logout = (req, res) => {
 const editUser = async (req, res) => {
   const currentUser = req.session.user;
   const id = req.params.id;
-  console.log("SAYGEX "+id);  if (currentUser) {
+  console.log("EDIT: "+id);  if (currentUser) {
     console.log(currentUser.id != id && !isTypeChar(currentUser));
     if (currentUser.id != id && !isTypeChar(currentUser)) {
       res.status(403).json({ message: "Bạn không thể chỉnh sửa." });
@@ -82,7 +83,7 @@ const editUser = async (req, res) => {
       return;
     }
     try {
-      const chraux = await db.getUsers(currentUser);
+      const chraux = await db.getUserByID(id);
       console.log(chraux[0]);
       res.render("editUser", {
         user:chraux[0],
@@ -120,7 +121,7 @@ const deleteUser = async (req, res) => {
       return;
     }
     await db.deleteUser(userId);
-    res.send({ message: "Đã xóa người dùng thành công" });
+    res.status(201).send({ message: "Đã xóa người dùng thành công" });
     if (currentUser.id === userId) req.session.destroy();
   } catch (e) {
     console.error("Lỗi xóa người dùng:", e);
@@ -130,11 +131,13 @@ const deleteUser = async (req, res) => {
 const searchUser = async (req, res) => {
   const currentUser = req.session.user;
   const searchTerm = req.body.searchTerm;
+  console.log(searchTerm);
   if (currentUser) {
     try {
-      const chr = await db.searchBorrow(searchTerm);
-      res.render("borrow", {
-        chr,
+      const users = await db.searchUser(searchTerm);
+      res.render("acc", {
+        users,
+        searchTerm,
         manachr: isTypeChar(currentUser),
       });
     } catch (e) {

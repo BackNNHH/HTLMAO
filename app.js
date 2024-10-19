@@ -70,7 +70,8 @@ app.post("/add-chr", borrowController.addBorrow); // Danh sách sách
 app.post("/edit-chr/:id", borrowController.editBorrow); // Chỉnh sửa người mượn
 app.post("/update-chr/:id", borrowController.updateBorrow); // Cập nhật người mượn
 app.post("/delete-chr/:id", borrowController.deleteBorrow); // Xóa
-app.get("/borrowhis", borrowController.getBorrowHis); // Danh sách mượn lịch sử
+// Routes cho trả sách
+app.get("/returnBook", borrowController.getReturnBook); // Danh sách trar
 
 // Routes cho người dùng
 app.get("/acc", userController.getAcc); // Danh sách người dùng

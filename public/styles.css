@@ -173,6 +173,11 @@ tr {
 tr:nth-child(even) {
   background-color: #f5fff3;
 }
+tr:hover{
+  transform: scale(1.01);
+  background-color: #d4ffcb;
+  border: 2px solid #000;
+}
 .smbutt {
   /* display: inline-block; */
   position: absolute;
