@@ -165,17 +165,16 @@
             <th>Tên Sách</th>
             <th>Ngày mượn</th>
             <th>Ngày trả</th>
-            <th>BIT</th>
-            <th>BIT</th>
-            <th class="sl">Chỉnh Sửa</th>
+            <th>Trạng Thái</th>
+            <th class="sl">Duyệt</th>
           </tr>
         </thead>
         <tbody>
           <% chr.forEach(_=> { %>
             <tr>
               <td><%= _.id %></td>
-              <td><%= _.idUser %></td>
-              <td><%= _.idBook %></td>
+              <td><%= _.name %></td>
+              <td><%= _.title %></td>
               <td>
                 <%= new Date(_.DayBorrow).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
                   year: 'numeric' }) %>
@@ -188,8 +187,7 @@
                       Chưa Trả
                       <% } %>
               </td>
-              <td><%= _.borrowB %></td>
-              <td><%= _.returnB %></td>
+              <td><%= _.borrowB ? 'Chưa trả' : _.returnB ?'Đã trả': 'Chưa mượn'  %></td>
               <% if (manachr) { %>
                 <td>
                   <form id="ed" action="/edit-chr/<%= _.id %>" method="POST">

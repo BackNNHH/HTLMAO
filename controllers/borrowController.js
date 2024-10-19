@@ -23,8 +23,13 @@ const getBorrow = async (req, res) => {
   if (currentUser) {
     if (!isTypeChar(currentUser)) res.redirect("/view");
     try {
-      const borrows = await db.getBorrows();
+      const borrows = await db.returnBook();
+      // const borrows = await db.getBorrows();
       const BookList = await db.getBooksName();
+      borrows.forEach(book => {
+        book.borrowB = parseInt(book.borrowB.toString('hex'), 16) === 1;
+        book.returnB = parseInt(book.returnB.toString('hex'), 16) === 1; 
+      });
       console.log(borrows);
       res.render("borrow", { chr: borrows, BookList, manachr: isTypeChar(currentUser) });
     } catch (e) {
