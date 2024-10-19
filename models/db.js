@@ -342,7 +342,7 @@ const editBorrow = (id) => {
 };
 const updateBorrow = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(`UPDATE borrower SET borrowB = 0, returnB = 1 WHERE id = ${id}`, (e, r) => {
+    connection.query(`UPDATE borrower SET borrowB = 1, returnB = 1 WHERE id = ${id}`, (e, r) => {
       if (e) {
         reject(e);
       } else {
@@ -455,7 +455,7 @@ const returnBook = () => {
 
 const searchBorrow = (searchTerm) => {
   return new Promise((resolve, reject) => {
-    connection.query(`SELECT * FROM borrower WHERE name LIKE '%${searchTerm}%'`, (e, r) => {
+    connection.query(`SELECT borrower.id, name, title, DayBorrow, DayReturn, borrowB, returnB FROM borrower LEFT JOIN users ON borrower.idUser = users.id LEFT JOIN books ON borrower.idBook = books.id WHERE name LIKE '%${searchTerm}%'`, (e, r) => {
       if (e) {
         reject(e);
       } else {

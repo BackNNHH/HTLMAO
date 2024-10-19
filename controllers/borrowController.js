@@ -4,18 +4,16 @@ const xlsx = require("xlsx");
 const searchBorrow = async (req, res) => {
   const currentUser = req.session.user;
   const searchTerm = req.body.searchTerm;
+  if (!isTypeChar(currentUser)) res.redirect("/view");
   if (currentUser) {
     try {
-      const chr = await db.searchBorrow(searchTerm);
-      chr.forEach(book => {
+      const list = await db.searchBorrow(searchTerm);
+      list.forEach(book => {
         book.borrowB = parseInt(book.borrowB.toString('hex'), 16) === 1;
         book.returnB = parseInt(book.returnB.toString('hex'), 16) === 1;
       });
-      const BookList = await db.getBooksName();
-      res.render("borrow", {
-        chr, BookList,
-        manachr: isTypeChar(currentUser),
-      });
+      // console.log(list);
+      res.render("returnBook", { chr: list, manachr: isTypeChar(currentUser) });
     } catch (e) {
       console.error("Lỗi tìm kiếm người mượn:", e);
       res.send("Lỗi xảy ra!");
@@ -92,24 +90,37 @@ const editBorrow = async (req, res) => {
     res.redirect("/");
   }
 };
-
 const updateBorrow = async (req, res) => {
-  const bookId = req.params.id;
-  const { nameS, MS, nameB, dayM, dayT } = req.body;
-  const dayTr = dayT ? dayT : null;
-  try {
-    await db.updateBorrow(nameS, MS, nameB, dayM, dayTr, bookId);
-    res.redirect("/borrow");
-  } catch (e) {
-    console.error("Lỗi cập người mượn:", e);
-    res.status(500).send("Lỗi server");
+  const currentUser = req.session.user;
+  const id = req.params.id;
+  if (currentUser) {
+    if (!(currentUser.role === "mana" || currentUser.role === "aDmIn")) {
+      res.status(403).json({ message: "Bạn không có quyền duyệt." });
+      return;
+    }
+    try {
+      await db.updateBorrow(id);
+      const borrows = await db.returnBook();
+      borrows.forEach(book => {
+        book.borrowB = parseInt(book.borrowB.toString('hex'), 16) === 1;
+        book.returnB = parseInt(book.returnB.toString('hex'), 16) === 1;
+      });
+      res.render("returnBook", { chr: borrows, manachr: isTypeChar(currentUser) });
+
+    } catch (e) {
+      console.error("Lỗi lấy thông tin người mượn:", e);
+      res.send("Lỗi xảy ra!");
+    }
+  } else {
+    res.redirect("/");
   }
 };
 
+
 const getReturnBook = async (req, res) => {
   const currentUser = req.session.user;
-  if (!isTypeChar(currentUser)) res.redirect("/view");
   if (currentUser) {
+    if (!isTypeChar(currentUser)) res.redirect("/view");
     try {
       const list = await db.returnBook();
       list.forEach(book => {
