@@ -173,7 +173,7 @@
         </thead>
         <tbody>
           <% chr.forEach(_=> { %>
-            <% if (_.borrowB) { %>
+            <% if (_.borrowB&&!_.returnB) { %>
               <tr>
                 <td><%= _.id %></td>
                 <td><%= _.name %></td>
@@ -194,7 +194,7 @@
                 <% if (manachr) { %>
                   <td>
                     <form id="ed" action="/update-chr/<%= _.id %>" method="POST">
-                      <button type="submit">Edit</button>
+                      <button type="submit">Duyệt</button>
                     </form>
                   </td>
                     <td>
@@ -240,7 +240,7 @@
                       Chưa Trả
                       <% } %>
               </td>
-              <td><%= _.borrowB ? 'Chưa trả' : _.returnB ?'Đã trả': 'Chưa mượn'  %></td>
+              <td><%= _.borrowB ? _.returnB ?'Đã trả': 'Chưa trả' : 'Chưa mượn'  %></td>
               <% if (manachr) { %>
                 <td>
                 </td>
