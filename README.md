@@ -15,6 +15,28 @@
 | cover_image | varchar(255) | YES  |     | empty   |                |
 | available   | tinyint(1)   | YES  |     | 1       |                |
 
+### desc Borrower
+
+| Field     | Type         | Null | Key | Default | Extra          |
+| --------- | ------------ | ---- | --- | ------- | -------------- |
+| id        | int          | NO   | PRI | NULL    | auto_increment |
+| idUser    | int unsigned | YES  | MUL | NULL    |                |
+| idBook    | int unsigned | YES  | MUL | NULL    |                |
+| DayBorrow | date         | YES  |     | NULL    |                |
+| DayReturn | date         | YES  |     | NULL    |                |
+| borrowB   | bit(1)       | YES  |     | b'0'    |                |
+| returnB   | bit(1)       | YES  |     | b'0'    |                |
+
+### desc Users
+
+| Field    | Type         | Null | Key | Default | Extra          |
+| -------- | ------------ | ---- | --- | ------- | -------------- |
+| id       | int unsigned | NO   | PRI | NULL    | auto_increment |
+| username | varchar(255) | NO   | UNI | NULL    |                |
+| password | varchar(255) | NO   |     | NULL    |                |
+| role     | varchar(255) | YES  |     | normal  |                |
+| name     | varchar(255) | YES  |     | NULL    |                |
+
 ### Users databases
 
 | id  | username | password    | role  |
