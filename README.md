@@ -10,9 +10,17 @@
 - "auth:" để tìm theo tên tác giả
 - "genr:" để tìm kiếm theo thể loại
 
-
 > auth:Mojang<br>
 > genr:Tiểu
+
+### Quản lý tài khoảng
+
+- Mặc định tìm kiếm theo tên user.
+- "name:" để tìm theo tên người dùng
+
+>
+> name:Nguyễn
+>
 
 ## Databases
 
