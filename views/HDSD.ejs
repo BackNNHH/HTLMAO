@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HDSD</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    body {
+      font-family: "Times New Roman", "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #e3f2fd;
+      /* background-color: rgb(32, 32, 32); */
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: double;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    h1.t {
+      margin-left: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">Ứng dụng quản lý thư viện trực tuyến</div>
+    <button id="sico" class="smbutt adroi" style="display: none;" onclick="toggleSIDE()"><span
+        class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+    </button>
+    <nav>
+      <form method="POST" action="/search">
+        <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên sách" />
+        <button type="submit">Tìm kiếm</button>
+      </form>
+      <a href="#" id="logoutButton"><b>Đăng Xuất</b></a>
+    </nav>
+  </div>
+  <div class="main-content">
+    <div class="sidebar">
+      <h2>Danh Mục</h2>
+      <a target="_top" href="/home">🏠 Trang Chủ</a>
+      <a target="_top" href="/view">📖 Xem Sách</a>
+      <a target="_top" href="/borrow">📚 Mượn Sách</a>
+      <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
+      <a target="_top" href="#" class="achive">🔎 Hướng dẫn use</a>
+    </div>
+    <div class="article">
+      <h1 class="t">Hướng dẫn sử dụng tìm kiếm...</h1>
+      <div class="thebox">
+        <h2>Xem Sách</h2>
+        <p>- Mặc định sẽ tìm kiếm theo tên.</p>
+        <p>- "<strong>auth:</strong>" để tìm theo tên tác giả</p>
+        <p>- "<strong>genr:</strong>" để tìm kiếm theo thể loại</p>
+        VÍ DỤ:
+        <div class="thebox">
+          <p><strong>auth:Mojang</strong></p>
+          <p><strong>genr:Tiểu</strong></p>
+        </div>
+        </p>
+      </div>
+      <div class="thebox">
+        <h2> Quản lý tài khoảng</h2>
+        <p>- Mặc định tìm kiếm theo tên user.</p>
+        <p>- "<strong>name:</strong>" để tìm theo tên người dùng</p>
+        VÍ DỤ:
+        <div class="thebox">
+          <p><strong>name:Nguyễn</strong></p>
+        </div>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/scrIco.js"></script>
+  <script>
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      fetch("/logout", { method: "POST" })
+        .then((response) => {
+          if (response.ok) window.location.href = "/";
+          else alert("Lỗi đăng xuất!");
+        })
+        .catch((error) => {
+          alert("Lỗi đăng xuất!");
+        });
+    });
+    window.onload = function () {
+      document.querySelector(".article").classList.add("show");
+    };
+  </script>
+</body>
+
+</html>

@@ -54,6 +54,7 @@ const borrowController = require("./controllers/borrowController");
 
 // Routes cho sách
 app.get("/", (req, res) => { res.render("login"); });
+app.get("/hdsd", (req, res) => { res.render("HDSD"); });
 app.get("/home", bookController.getHomePage); // Trang chủ
 app.get("/view", bookController.getViewBooks); // Danh sách sách
 app.post("/search", bookController.searchBooks); // Tìm kiếm sách
