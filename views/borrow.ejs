@@ -179,11 +179,15 @@
               <td><%= _.name %></td>
               <td><%= _.title %></td>
               <td>
+                <% if (_.DayBorrow) { %>
                 <%= new Date(_.DayBorrow).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
                   year: 'numeric' }) %>
+                  <% } else { %>
+                    Chưa Mượn
+                    <% } %>
               </td>
               <td>
-                <% if (_.dayT) { %>
+                <% if (_.DayReturn) { %>
                   <%= new Date(_.DayReturn).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
                     , year: 'numeric' }) %>
                     <% } else { %>

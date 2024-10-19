@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
+const moment = require('moment');
 dotenv.config();
 
 const connection = mysql.createConnection({
@@ -342,7 +343,7 @@ const editBorrow = (id) => {
 };
 const updateBorrow = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(`UPDATE borrower SET borrowB = 1, returnB = 1 WHERE id = ${id}`, (e, r) => {
+    connection.query(`UPDATE borrower SET borrowB = 1, returnB = 1,dayReturn = '${moment().format('YYYY-MM-DD')}' WHERE id = ${id}`, (e, r) => {
       if (e) {
         reject(e);
       } else {

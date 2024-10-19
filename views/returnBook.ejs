@@ -233,7 +233,7 @@
                   year: 'numeric' }) %>
               </td>
               <td>
-                <% if (_.dayT) { %>
+                <% if (_.DayReturn) { %>
                   <%= new Date(_.DayReturn).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
                     , year: 'numeric' }) %>
                     <% } else { %>
