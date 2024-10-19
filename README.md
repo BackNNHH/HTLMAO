@@ -103,27 +103,40 @@ HTLMAO/:
 
 `CREATE DATABASE web_login;`
 
-`use web_login`
+`use web_login;`
+
 
 ```
+CREATE TABLE users (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(255) DEFAULT 'normal',
+  name VARCHAR(255) 
+);
+```
+```
 CREATE TABLE books (
-  id INT AUTO_INCREMENT
-  PRIMARY KEY,
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   author VARCHAR(255) NOT NULL,
   genre VARCHAR(255) NOT NULL,
-  description TEXT,
   cover_image VARCHAR(255) DEFAULT 'empty',
   available TINYINT(1) DEFAULT 1
 );
 ```
-
 ```
-CREATE TABLE users (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(255) NOT NULL UNIQUE,
-  name VARCHAR(255)
-  password VARCHAR(255) NOT NULL,
-  role VARCHAR(255) DEFAULT 'normal'
+CREATE TABLE borrower (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  idUser INT UNSIGNED,
+  idBook INT UNSIGNED,
+  DayBorrow DATE,
+  DayReturn DATE,
+  borrowB BIT(1) DEFAULT b'0',
+  returnB BIT(1) DEFAULT b'0',
+  FOREIGN KEY (idUser) REFERENCES Users(id),
+  FOREIGN KEY (idBook) REFERENCES Books(id)
 );
 ```
+`INSERT INTO users (username, name, password, role) 
+VALUES ('admin', 'Admin User', 'password123', 'aDmIn');`
