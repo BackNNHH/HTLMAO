@@ -420,7 +420,7 @@ const returnBook = () => {
 
 const searchBorrow = (searchTerm) => {
   return new Promise((resolve, reject) => {
-    connection.query(`SELECT * FROM borrow WHERE nameS LIKE '%${searchTerm}%'`, (e, r) => {
+    connection.query(`SELECT * FROM borrower WHERE name LIKE '%${searchTerm}%'`, (e, r) => {
       if (e) {
         reject(e);
       } else {

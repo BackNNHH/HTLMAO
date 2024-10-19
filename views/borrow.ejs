@@ -137,10 +137,10 @@
         class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
     </button>
     <nav>
-      <form method="POST" action="/search-borrow">
+      <!-- <form method="POST" action="/search-borrow">
         <input type="text" name="searchTerm" placeholder="Tìm kiếm theo tên người mượn" />
         <button type="submit">Tìm kiếm</button>
-      </form>
+      </form> -->
       <!-- <a href="#" id="logoutButton"><b>Đăng Xuất</b></a> -->
     </nav>
   </div>
@@ -217,7 +217,7 @@
             <div class="form-container">
               <div class="form-column">
                 <label for="idUser">ID người mượn:</label>
-                <input type="number" id="idUser" name="idUser" required />
+                <input type="number" id="idUser" name="idUser" value="<%= currentID %>" required />
                 <label for="idBook">Tên Sách:</label>
                 <!-- <input type="text" id="nameB" name="nameB" required /> -->
                 <select name="idBook" id="idBook">
@@ -243,9 +243,7 @@
   <!-- <a href="/downBor">
     <img src="img/excel.png" class="floating-button dow" title="Tải bảng này về..." a lt="DOWNLOAD">
   </a> -->
-  <% if (manachr) { %>
     <button id="openPopup" class="floating-button" title="Thêm Người mượn..." onclick="toggleForms()">+</button>
-    <% } %>
 
       <script src="/scrIco.js"></script>
       <script>

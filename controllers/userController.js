@@ -9,7 +9,7 @@ const getAcc = async (req, res) => {
       const users = result.map((user) => ({ ...user, password: " ͡° ͜ʖ ͡°" }));
       res.render("acc", {
         users,
-        searchTerm:"",
+        searchTerm: "",
         typechr: currentUser.role === "aDmIn" ? true : false,
         manachr: isTypeChar(currentUser),
       });
@@ -75,7 +75,7 @@ const logout = (req, res) => {
 const editUser = async (req, res) => {
   const currentUser = req.session.user;
   const id = req.params.id;
-  console.log("EDIT: "+id);  if (currentUser) {
+  console.log("EDIT: " + id); if (currentUser) {
     console.log(currentUser.id != id && !isTypeChar(currentUser));
     if (currentUser.id != id && !isTypeChar(currentUser)) {
       res.status(403).json({ message: "Bạn không thể chỉnh sửa." });
@@ -86,7 +86,7 @@ const editUser = async (req, res) => {
       const chraux = await db.getUserByID(id);
       console.log(chraux[0]);
       res.render("editUser", {
-        user:chraux[0],
+        user: chraux[0],
         manachr: isTypeChar(currentUser),
       });
     } catch (e) {
@@ -102,7 +102,7 @@ const updateUser = async (req, res) => {
   const id = req.params.id;
   const { name, password } = req.body;
   try {
-    await db.updateUser(id, name, password );
+    await db.updateUser(id, name, password);
     res.redirect("/acc");
   } catch (e) {
     console.error("Lỗi cập người mượn:", e);
