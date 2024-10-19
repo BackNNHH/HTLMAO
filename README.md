@@ -53,11 +53,11 @@
 
 Mô hình MVC: Ứng dụng được xây dựng theo kiến trúc MVC (Model-View-Controller).
 
-Model: Xử lý tương tác với cơ sở dữ liệu (model/db.js, bookModel.js).
+- Model: Xử lý tương tác với cơ sở dữ liệu (model/db.js, bookModel.js).
 
-View: Hiển thị giao diện người dùng (views/\*.ejs).
+- View: Hiển thị giao diện người dùng (views/\*.ejs).
 
-Controller: Xử lý logic nghiệp vụ và tương tác với model và view (app.js).
+- Controller: Xử lý logic nghiệp vụ và tương tác với model và view (app.js).
 
 ```
 HTLMAO/:
@@ -105,16 +105,16 @@ HTLMAO/:
 
 `use web_login;`
 
-
 ```
 CREATE TABLE users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   role VARCHAR(255) DEFAULT 'normal',
-  name VARCHAR(255) 
+  name VARCHAR(255)
 );
 ```
+
 ```
 CREATE TABLE books (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -125,6 +125,7 @@ CREATE TABLE books (
   available TINYINT(1) DEFAULT 1
 );
 ```
+
 ```
 CREATE TABLE borrower (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -138,5 +139,6 @@ CREATE TABLE borrower (
   FOREIGN KEY (idBook) REFERENCES Books(id)
 );
 ```
+
 `INSERT INTO users (username, name, password, role) 
 VALUES ('admin', 'Admin User', 'password123', 'aDmIn');`
