@@ -188,8 +188,8 @@ const checkUsernameExists = (username) => {
 // xóa người dùng
 const updateUser = (id, name, password) => {
   return new Promise((resolve, reject) => {
-    connection.query("UPDATE users SET name = ?, password = ? WHERE id = ?",
-      [name, password, id],
+    connection.query("UPDATE users SET name = ? WHERE id = ?",
+      [name,  id],
       (e, r) => {
         if (e) {
           reject(e);
@@ -351,7 +351,7 @@ const updateBorrow = (nameS, MS, nameB, dayM, dayT, id) => {
 const addBorrower = ( idUser, idBook, DayBorrow, DayReturn, borrowB) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      "INSERT INTO books (idUser, idBook, DayBorrow, DayReturn, borrowB) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO borrower (idUser, idBook, DayBorrow, DayReturn) VALUES (?, ?, ?, ?)",
       [idUser, idBook, DayBorrow, DayReturn, borrowB],
       (e, r) => {
         if (e) {
@@ -393,9 +393,9 @@ const addBorrow = (nameS, MS, nameB, dayM, dayT) => {
   });
 };
 // Hàm xóa mượn sách
-const deleteBorrow = (bookId) => {
+const deleteBorrow = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query("DELETE FROM borrow WHERE id = ?", [bookId], (e, r) => {
+    connection.query("DELETE FROM borrower WHERE id = ?", [id], (e, r) => {
       if (e) {
         reject(e);
       } else {
@@ -408,7 +408,7 @@ const deleteBorrow = (bookId) => {
 // Hàm lấy danh sách trả
 const returnBook = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM borrower", (e, r) => {
+    connection.query("SELECT borrower.id, name, title, DayBorrow, DayReturn, borrowB, returnB FROM borrower LEFT JOIN users ON borrower.idUser = users.id LEFT JOIN books ON borrower.idBook = books.id", (e, r) => {
       if (e) {
         reject(e);
       } else {

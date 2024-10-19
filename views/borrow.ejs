@@ -152,7 +152,6 @@
         <a target="_top" href="#" class="achive">📚 Mượn Sách</a>
       <% if (manachr) { %>
         <a target="_top" href="/returnBook">🗃️ Trả Sách</a>
-        <a target="_top" href="/borrowhis">🕒Lịch Sử Mượn Sách</a>
         <% } %>
           <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
     </div>
@@ -161,52 +160,50 @@
       <table id="bookTable">
         <thead>
           <tr>
-            <th>Tên</th>
-            <th>Mã Số</th>
+            <th>id</th>
+            <th>Tên Người Mượn</th>
             <th>Tên Sách</th>
             <th>Ngày mượn</th>
             <th>Ngày trả</th>
+            <th>BIT</th>
+            <th>BIT</th>
             <th class="sl">Chỉnh Sửa</th>
           </tr>
         </thead>
         <tbody>
-          <% chr.forEach(chraux=> { %>
+          <% chr.forEach(_=> { %>
             <tr>
+              <td><%= _.id %></td>
+              <td><%= _.idUser %></td>
+              <td><%= _.idBook %></td>
               <td>
-                <%= chraux.nameS %>
-              </td>
-              <td>
-                <%= chraux.MS %>
-              </td>
-              <td>
-                <%= chraux.nameB %>
-              </td>
-              <td>
-                <%= new Date(chraux.dayM).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
+                <%= new Date(_.DayBorrow).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
                   year: 'numeric' }) %>
               </td>
               <td>
-                <% if (chraux.dayT) { %>
-                  <%= new Date(chraux.dayT).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
+                <% if (_.dayT) { %>
+                  <%= new Date(_.DayReturn).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
                     , year: 'numeric' }) %>
                     <% } else { %>
                       Chưa Trả
                       <% } %>
               </td>
+              <td><%= _.borrowB %></td>
+              <td><%= _.returnB %></td>
               <% if (manachr) { %>
                 <td>
-                  <form id="ed" action="/edit-chr/<%= chraux.id %>" method="POST">
+                  <form id="ed" action="/edit-chr/<%= _.id %>" method="POST">
                     <button type="submit">Edit</button>
                   </form>
                 </td>
                 <% } %>
-                  <% if (manachr) { %>
+                  <!-- <% if (manachr) { %>
                     <td>
-                      <form action="/delete-chr/<%= chraux.id %>" method="POST">
+                      <form action="/delete-chr/<%= _.id %>" method="POST">
                         <button class="r" type="submit">Xóa</button>
                       </form>
                     </td>
-                    <% } %>
+                    <% } %> -->
             </tr>
             <% }); %>
         </tbody>
@@ -219,24 +216,22 @@
           <form action="/add-chr" method="POST">
             <div class="form-container">
               <div class="form-column">
-                <label for="nameS">Tên:</label>
-                <input type="text" id="nameS" name="nameS" required />
-                <label for="MS">Mã Số:</label>
-                <input type="text" id="MS" name="MS" required />
-                <label for="nameB">Tên Sách:</label>
+                <label for="idUser">ID người mượn:</label>
+                <input type="number" id="idUser" name="idUser" required />
+                <label for="idBook">Tên Sách:</label>
                 <!-- <input type="text" id="nameB" name="nameB" required /> -->
                 
-                <select name="image-web" id="imageweb">
-                  <% images.forEach(image=> { %>
-                    <option value="<%= image %>">
-                      <%= image %>
+                <select name="idBook" id="idBook">
+                  <% BookList.forEach(b=> { %>
+                    <option value="<%= b.id %>">
+                      <%= b.title %>
                     </option>
                     <% }); %>
                 </select>
-                <label for="dayM">Ngày mượn:</label>
-                <input type="date" id="dayM" name="dayM" value="<%= new Date().toISOString().split('T')[0] %>" required />
-                <label for="dayT">Ngày trả:</label>
-                <input type="date" id="dayT" name="dayT" value="NULL" />
+                <label for="DayBorrow">Ngày mượn:</label>
+                <input type="date" id="DayBorrow" name="DayBorrow" value="<%= new Date().toISOString().split('T')[0] %>" required />
+                <!-- <label for="dayT">Ngày trả:</label>
+                <input type="date" id="dayT" name="dayT" value="NULL" /> -->
               </div>
             </div>
             <button type="submit">Thêm</button>
@@ -246,9 +241,9 @@
       </div>
     </div>
   </div>
-  <a href="/downBor">
+  <!-- <a href="/downBor">
     <img src="img/excel.png" class="floating-button dow" title="Tải bảng này về..." a lt="DOWNLOAD">
-  </a>
+  </a> -->
   <% if (manachr) { %>
     <button id="openPopup" class="floating-button" title="Thêm Người mượn..." onclick="toggleForms()">+</button>
     <% } %>

@@ -157,57 +157,102 @@
           <a target="_top" href="/acc">🗣️ Quản lý tài khoản</a>
     </div>
     <div class="article">
-      <h1 class="t">Danh sách mượn sách</h1>
+      <h1 class="t">Danh sách chờ trả</h1>
       <table id="bookTable">
         <thead>
           <tr>
-            <th>Tên</th>
-            <th>Mã Số</th>
+            <th>id</th>
+            <th>Tên Người Mượn</th>
             <th>Tên Sách</th>
             <th>Ngày mượn</th>
             <th>Ngày trả</th>
+            <th>Trạng Thái</th>
+            <th class="sl">Duyệt</th>
             <th class="sl">Chỉnh Sửa</th>
-            <th class="sl">NSFW BUTTON</th>
           </tr>
         </thead>
         <tbody>
-          <% chr.forEach(chraux=> { %>
+          <% chr.forEach(_=> { %>
+            <% if (_.borrowB) { %>
+              <tr>
+                <td><%= _.id %></td>
+                <td><%= _.name %></td>
+                <td><%= _.title %></td>
+                <td>
+                  <%= new Date(_.DayBorrow).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
+                    year: 'numeric' }) %>
+                </td>
+                <td>
+                  <% if (_.dayT) { %>
+                    <%= new Date(_.DayReturn).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
+                      , year: 'numeric' }) %>
+                      <% } else { %>
+                        Chưa Trả
+                        <% } %>
+                </td>
+                <td><%= _.borrowB %></td>
+                <% if (manachr) { %>
+                  <td>
+                    <form id="ed" action="/edit-chr/<%= _.id %>" method="POST">
+                      <button type="submit">Edit</button>
+                    </form>
+                  </td>
+                    <td>
+                      <form action="/delete-chr/<%= _.id %>" method="POST">
+                        <button class="r" type="submit">Xóa</button>
+                      </form>
+                    </td>
+                  <% } %>
+              </tr>
+              <% } %>                                      
+            <% }); %>
+        </tbody>
+      </table>
+      <h1 class="t">Danh sách mượn, trả sách</h1>
+      <table id="bookTable">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>Tên Người Mượn</th>
+            <th>Tên Sách</th>
+            <th>Ngày mượn</th>
+            <th>Ngày trả</th>
+            <th>Trạng Thái</th>
+            <th class="sl">Duyệt</th>
+            <th class="sl">Chỉnh Sửa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% chr.forEach(_=> { %>
             <tr>
+              <td><%= _.id %></td>
+              <td><%= _.name %></td>
+              <td><%= _.title %></td>
               <td>
-                <%= chraux.nameS %>
-              </td>
-              <td>
-                <%= chraux.MS %>
-              </td>
-              <td>
-                <%= chraux.nameB %>
-              </td>
-              <td>
-                <%= new Date(chraux.dayM).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
+                <%= new Date(_.DayBorrow).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short' ,
                   year: 'numeric' }) %>
               </td>
               <td>
-                <% if (chraux.dayT) { %>
-                  <%= new Date(chraux.dayT).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
+                <% if (_.dayT) { %>
+                  <%= new Date(_.DayReturn).toLocaleString('vi-VN', { weekday: 'short' , day: 'numeric' , month: 'short'
                     , year: 'numeric' }) %>
                     <% } else { %>
                       Chưa Trả
                       <% } %>
               </td>
+              <td><%= _.returnB %></td>
               <% if (manachr) { %>
                 <td>
-                  <form id="ed" action="/edit-chr/<%= chraux.id %>" method="POST">
+                  <form id="ed" action="/edit-chr/<%= _.id %>" method="POST">
                     <button type="submit">Edit</button>
                   </form>
                 </td>
+                  <td>
+                    <form action="/delete-chr/<%= _.id %>" method="POST">
+                      <button class="r" type="submit">Xóa</button>
+                    </form>
+                  </td>
                 <% } %>
-                  <% if (manachr) { %>
-                    <td>
-                      <form action="/delete-chr/<%= chraux.id %>" method="POST">
-                        <button class="r" type="submit">Xóa</button>
-                      </form>
-                    </td>
-                    <% } %>
             </tr>
             <% }); %>
         </tbody>
@@ -242,9 +287,6 @@
   <a href="/downBor">
     <img src="img/excel.png" class="floating-button dow" title="Tải bảng này về..." a lt="DOWNLOAD">
   </a>
-  <% if (manachr) { %>
-    <button id="openPopup" class="floating-button" title="Thêm Người mượn..." onclick="toggleForms()">+</button>
-    <% } %>
 
       <script src="/scrIco.js"></script>
       <script> 

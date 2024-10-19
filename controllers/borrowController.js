@@ -25,6 +25,7 @@ const getBorrow = async (req, res) => {
     try {
       const borrows = await db.getBorrows();
       const BookList = await db.getBooksName();
+      console.log(borrows);
       res.render("borrow", { chr: borrows, BookList, manachr: isTypeChar(currentUser) });
     } catch (e) {
       console.error("Lỗi lấy danh sách mượn:", e);
@@ -36,10 +37,10 @@ const getBorrow = async (req, res) => {
 };
 
 const addBorrow = async (req, res) => {
-  const { nameS, MS, nameB, dayM, dayT } = req.body;
-  const dayTr = dayT ? dayT : null;
+  const { idUser, idBook, DayBorrow, DayReturn, borrowB } = req.body;
+  console.log(req.body)
   try {
-    await db.addBorrow(nameS, MS, nameB, dayM, dayTr);
+    await db.addBorrower( idUser, idBook, DayBorrow, DayReturn, borrowB);
     const BookList = await db.getBooksName();
     res.redirect("/borrow");
   } catch (e) {
@@ -88,11 +89,17 @@ const updateBorrow = async (req, res) => {
     res.status(500).send("Lỗi server");
   }
 };
+
 const getReturnBook = async (req, res) => {
   const currentUser = req.session.user;
   if (currentUser) {
     try {
       const list = await db.returnBook();
+      list.forEach(book => {
+        book.borrowB = parseInt(book.borrowB.toString('hex'), 16) === 1;
+        book.returnB = parseInt(book.returnB.toString('hex'), 16) === 1; 
+      });
+      console.log(list);
       res.render("returnBook", { chr: list, manachr: isTypeChar(currentUser) });
     } catch (e) {
       console.error("Lỗi lấy danh sách getReturnBook:", e);
