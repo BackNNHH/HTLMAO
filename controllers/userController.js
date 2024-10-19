@@ -50,7 +50,8 @@ const login = async (req, res) => {
     if (user) {
       req.session.user = user;
       console.log("welcome..." + req.session.user.username);
-      res.redirect("/home");
+      // res.redirect("/home");
+      res.status(200).json({ message: 'Đăng nhập thành công' });
     } else {
       res.status(409).json({ message: "Tên người dùng hoặc mật khẩu không chính xác!" });
     }
@@ -59,7 +60,6 @@ const login = async (req, res) => {
     res.send("Lỗi xảy ra!");
   }
 };
-
 const logout = (req, res) => {
   req.session.destroy((e) => {
     if (e) {

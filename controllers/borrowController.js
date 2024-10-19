@@ -21,7 +21,6 @@ const searchBorrow = async (req, res) => {
 const getBorrow = async (req, res) => {
   const currentUser = req.session.user;
   if (currentUser) {
-    if (!isTypeChar(currentUser)) res.redirect("/view");
     try {
       const borrows = await db.returnBook();
       // const borrows = await db.getBorrows();
@@ -30,7 +29,6 @@ const getBorrow = async (req, res) => {
         book.borrowB = parseInt(book.borrowB.toString('hex'), 16) === 1;
         book.returnB = parseInt(book.returnB.toString('hex'), 16) === 1; 
       });
-      console.log(borrows);
       res.render("borrow", { chr: borrows, BookList, manachr: isTypeChar(currentUser) });
     } catch (e) {
       console.error("Lỗi lấy danh sách mượn:", e);
@@ -97,6 +95,7 @@ const updateBorrow = async (req, res) => {
 
 const getReturnBook = async (req, res) => {
   const currentUser = req.session.user;
+  if (!isTypeChar(currentUser)) res.redirect("/view");
   if (currentUser) {
     try {
       const list = await db.returnBook();

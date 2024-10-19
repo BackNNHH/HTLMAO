@@ -149,7 +149,7 @@
       <h2>Danh Mục</h2>
       <a target="_top" href="/home">🏠 Trang Chủ</a>
       <a target="_top" href="/view">📖 Xem Sách</a>
-        <a target="_top" href="#" class="achive">📚 Mượn Sách</a>
+      <a target="_top" href="#" class="achive">📚 Mượn Sách</a>
       <% if (manachr) { %>
         <a target="_top" href="/returnBook">🗃️ Trả Sách</a>
         <% } %>
@@ -166,7 +166,9 @@
             <th>Ngày mượn</th>
             <th>Ngày trả</th>
             <th>Trạng Thái</th>
-            <th class="sl">Duyệt</th>
+            <% if (manachr) { %>
+              <th class="sl">Duyệt</th>
+              <% } %>
           </tr>
         </thead>
         <tbody>
@@ -187,7 +189,7 @@
                       Chưa Trả
                       <% } %>
               </td>
-              <td><%= _.borrowB ? 'Chưa trả' : _.returnB ?'Đã trả': 'Chưa mượn'  %></td>
+              <td><%= _.borrowB ? 'Chưa trả' : _.returnB ?'Đã trả': 'Chưa mượn' %></td>
               <% if (manachr) { %>
                 <td>
                   <form id="ed" action="/edit-chr/<%= _.id %>" method="POST">
@@ -218,7 +220,6 @@
                 <input type="number" id="idUser" name="idUser" required />
                 <label for="idBook">Tên Sách:</label>
                 <!-- <input type="text" id="nameB" name="nameB" required /> -->
-                
                 <select name="idBook" id="idBook">
                   <% BookList.forEach(b=> { %>
                     <option value="<%= b.id %>">

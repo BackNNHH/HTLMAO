@@ -235,7 +235,7 @@
   <div class="container">
     <div class="login-form show">
       <h1>Đăng Nhập</h1>
-      <form action="/login" method="POST">
+      <form id="registerForm" action="/login" method="POST">
         <label for="username">Tên đăng nhập:</label>
         <input type="text" id="username" name="username" required />
         <br />
@@ -246,7 +246,7 @@
       </form>
     </div>
 
-    
+
   </div>
   <div id="registration-popup" class="popup-BG" style="display: none">
     <div class="popup">
@@ -277,38 +277,64 @@
     function RGBbg() { document.querySelector(".bgtitle").classList.toggle("bg-hidden"); }
     //=--------------------------------------------------------ADD
 
-    const formB = document.getElementById("registerForm");
-    formB.addEventListener("submit", (event) => {
+    const formA = document.getElementById("registerForm");
+    formA.addEventListener("submit", (event) => {
       event.preventDefault();
-      const username = formB.querySelector("#username").value;
-      const password = formB.querySelector("#password").value;
-      const role = formB.querySelector("#role").value;
-      if (password !== formB.querySelector("#confirm_password").value) {
-        alert('Hai mật khẩu không trùng khớp!');
-      } else {
-        fetch("/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password, role }),
-        })
+      const username = formA.querySelector("#username").value;
+      const password = formA.querySelector("#password").value;
+      fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      })
         .then((response) => {
-          // if (response.status === 201) {
-          // $("#registration-message").text("Đăng ký thành công!");
-          // $("#registration-popup").show();
-          // } else {
-          response.json().then((data) => {
-            $("#registration-message").text(data.message);
-            $("#registration-popup").show();
-          });
-          // }
+          if (response.ok) {
+            window.location.href = "/home";
+          } else {
+            response.json().then((data) => {
+              $("#registration-message").text(data.message);
+              $("#registration-popup").show();
+            });
+          }
         })
         .catch((error) => {
           console.error("Lỗi khi đăng ký:", error);
           $("#registration-message").text("Lỗi máy chủ. Vui lòng thử lại sau.");
           $("#registration-popup").show();
         });
-      }
     });
+    // const formB = document.getElementById("registerForm");
+    // formB.addEventListener("submit", (event) => {
+    //   event.preventDefault();
+    //   const username = formB.querySelector("#username").value;
+    //   const password = formB.querySelector("#password").value;
+    //   const role = formB.querySelector("#role").value;
+    //   if (password !== formB.querySelector("#confirm_password").value) {
+    //     alert('Hai mật khẩu không trùng khớp!');
+    //   } else {
+    //     fetch("/register", {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify({ username, password, role }),
+    //     })
+    //     .then((response) => {
+    //       // if (response.status === 201) {
+    //       // $("#registration-message").text("Đăng ký thành công!");
+    //       // $("#registration-popup").show();
+    //       // } else {
+    //       response.json().then((data) => {
+    //         $("#registration-message").text(data.message);
+    //         $("#registration-popup").show();
+    //       });
+    //       // }
+    //     })
+    //     .catch((error) => {
+    //       console.error("Lỗi khi đăng ký:", error);
+    //       $("#registration-message").text("Lỗi máy chủ. Vui lòng thử lại sau.");
+    //       $("#registration-popup").show();
+    //     });
+    //   }
+    // });
     function closePopup() { $("#registration-popup").hide(); }
   </script>
 </body>
