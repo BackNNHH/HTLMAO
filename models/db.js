@@ -305,7 +305,7 @@ const deleteUser = (userId) => {
 // Hàm lấy danh sách mượn sách
 const getBorrows = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM borrower", (e, r) => {
+    connection.query("SELECT borrower.id, name, title, DayBorrow, DayReturn, borrowB, returnB FROM borrower LEFT JOIN users ON borrower.idUser = users.id LEFT JOIN books ON borrower.idBook = books.id WHERE borrowB = 0", (e, r) => {
       if (e) {
         reject(e);
       } else {
@@ -328,9 +328,21 @@ const getBorrowById = (id) => {
 };
 
 // Duyệt
-const updateBorrow = (id) => {
+const editBorrow = (id) => {
   return new Promise((resolve, reject) => {
     connection.query(`UPDATE borrower SET borrowB = 1, returnB = 0 WHERE id = ${id}`, (e, r) => {
+      if (e) {
+        reject(e);
+      } else {
+        resolve(r);
+      }
+    }
+    );
+  });
+};
+const updateBorrow = (id) => {
+  return new Promise((resolve, reject) => {
+    connection.query(`UPDATE borrower SET borrowB = 0, returnB = 1 WHERE id = ${id}`, (e, r) => {
       if (e) {
         reject(e);
       } else {
@@ -491,6 +503,7 @@ module.exports = {
   getBorrows,
   addBorrower,
   getBorrowById,
+  editBorrow,
   updateBorrow,
   deleteBorrow,
   returnBook,

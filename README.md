@@ -2,6 +2,18 @@
 
 Ứng dụng được thiết kế để quản lý sách, người dùng và mượn sách trong một thư viện.
 
+## Mẹo tìm kiếm
+
+### Xem Sách
+
+- Mặc định tìm kiếm theo tên.
+- "auth:" để tìm theo tên tác giả
+- "genr:" để tìm kiếm theo thể loại
+
+
+> auth:Mojang<br>
+> genr:Tiểu
+
 ## Databases
 
 ### desc Books
@@ -13,7 +25,7 @@
 | author      | varchar(255) | NO   |     | NULL    |                |
 | genre       | varchar(255) | NO   |     | NULL    |                |
 | cover_image | varchar(255) | YES  |     | empty   |                |
-| location    | varchar(255) | YES   |     | NULL    |                |
+| location    | varchar(255) | YES  |     | NULL    |                |
 | available   | tinyint(1)   | YES  |     | 1       |                |
 
 ### desc Borrower

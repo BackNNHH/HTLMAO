@@ -28,7 +28,7 @@ const getBorrow = async (req, res) => {
   const currentUser = req.session.user;
   if (currentUser) {
     try {
-      const borrows = await db.returnBook();
+      const borrows = await db.getBorrows();
       // const borrows = await db.getBorrows();
       const BookList = await db.getBooksName();
       borrows.forEach(book => {
@@ -62,20 +62,23 @@ const addBorrow = async (req, res) => {
 
 const editBorrow = async (req, res) => {
   const currentUser = req.session.user;
-  const AxuId = req.params.id;
+  const id = req.params.id;
   if (currentUser) {
     if (!(currentUser.role === "mana" || currentUser.role === "aDmIn")) {
-      res.status(403).json({ message: "Bạn không có quyền chỉnh sửa." });
-      console.log(403);
+      res.status(403).json({ message: "Bạn không có quyền duyệt." });
       return;
     }
     try {
-      const chraux = await db.getBorrowById(AxuId);
-      // console.log(chraux);
-      res.render("borrowEdit", {
-        chraux,
-        manachr: isTypeChar(currentUser),
+      await db.editBorrow(id);
+      const borrows = await db.getBorrows();
+      const BookList = await db.getBooksName();
+      borrows.forEach(book => {
+        book.borrowB = parseInt(book.borrowB.toString('hex'), 16) === 1;
+        book.returnB = parseInt(book.returnB.toString('hex'), 16) === 1;
       });
+      const result = await db.getUsers(currentUser);
+      res.render("borrow", { chr: borrows, BookList, currentID: result[0].id, manachr: isTypeChar(currentUser) });
+
     } catch (e) {
       console.error("Lỗi lấy thông tin người mượn:", e);
       res.send("Lỗi xảy ra!");

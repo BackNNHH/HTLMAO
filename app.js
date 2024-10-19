@@ -67,7 +67,8 @@ app.post("/delete-book/:id", bookController.deleteBook); // Xóa sách
 app.get("/borrow", borrowController.getBorrow); // Danh sách mượn
 app.post("/search-borrow", borrowController.searchBorrow);  // Tìm
 app.post("/add-chr", borrowController.addBorrow); // Danh sách sách
-app.post("/edit-chr/:id", borrowController.editBorrow); // Chỉnh sửa người mượn
+// app.post("/edit-chr/:id", borrowController.editBorrow); // Chỉnh sửa người mượn
+app.post("/edit-chr/:id", borrowController.editBorrow); // duyệt người mượn
 app.post("/update-chr/:id", borrowController.updateBorrow); // Cập nhật người mượn
 app.post("/delete-chr/:id", borrowController.deleteBorrow); // Xóa
 // Routes cho trả sách
