@@ -190,7 +190,7 @@
                         Chưa Trả
                         <% } %>
                 </td>
-                <td><%= _.borrowB %></td>
+                <td><%= _.returnB ? 'Đã trả' : 'Chờ trả' %></td>
                 <% if (manachr) { %>
                   <td>
                     <form id="ed" action="/edit-chr/<%= _.id %>" method="POST">
@@ -240,7 +240,7 @@
                       Chưa Trả
                       <% } %>
               </td>
-              <td><%= _.returnB %></td>
+              <td><%= _.returnB ? 'Đã trả' : _.borrowB ? 'Chưa mượn' :'Chưa trả' %></td>
               <% if (manachr) { %>
                 <td>
                   <form id="ed" action="/edit-chr/<%= _.id %>" method="POST">
