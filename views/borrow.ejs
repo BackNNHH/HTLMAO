@@ -168,6 +168,7 @@
             <th>Trạng Thái</th>
             <% if (manachr) { %>
               <th class="sl">Duyệt</th>
+            <th class="sl">Xóa</th>
               <% } %>
           </tr>
         </thead>
@@ -196,6 +197,11 @@
                     <button type="submit">Duyệt</button>
                   </form>
                 </td>
+                  <td>
+                    <form action="/delete-chr/<%= _.id %>" method="POST">
+                      <button class="r" type="submit">Xóa</button>
+                    </form>
+                  </td>
                 <% } %>
                   <!-- <% if (manachr) { %>
                     <td>

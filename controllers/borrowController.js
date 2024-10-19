@@ -50,7 +50,12 @@ const addBorrow = async (req, res) => {
   const { idUser, idBook, DayBorrow, DayReturn, borrowB } = req.body;
   console.log(req.body)
   try {
-    await db.addBorrower(idUser, idBook, DayBorrow, DayReturn, borrowB);
+    const test = await db.getUserByID(idUser);
+    if (test < 1) {
+      res.status(403).json({ message: "ID người dùng không tồn tại" });
+      return;
+    }
+    db.addBorrower(idUser, idBook, DayBorrow, DayReturn, borrowB);
     const BookList = await db.getBooksName();
     res.redirect("/borrow");
   } catch (e) {

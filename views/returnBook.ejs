@@ -243,7 +243,7 @@
               <td><%= _.borrowB ? 'Chưa trả' : _.returnB ?'Đã trả': 'Chưa mượn'  %></td>
               <% if (manachr) { %>
                 <td>
-                  <form id="ed" action="/edit-chr/<%= _.id %>" method="POST">
+                  <form id="ed" action="/update-chr/<%= _.id %>" method="POST">
                     <button type="submit">Edit</button>
                   </form>
                 </td>
